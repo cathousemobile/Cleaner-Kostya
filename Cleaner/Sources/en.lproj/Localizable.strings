@@ -1,0 +1,224 @@
+
+// MARK: - Common
+
+"common.continue" = "Continue";
+"common.noAccess" = "No access";
+"common.search" = "Search";
+"common.cancel" = "Cancel";
+"common.delete" = "Delete";
+"common.deleted" = "Deleted";
+"common.clean" = "Clean";
+"common.restore" = "Restore";
+
+// MARK: - Onboarding
+
+"onboarding.firstDescriptionFirstPartSelected" = "Clean up ";
+"onboarding.firstDescriptionSecondPart" = "your iPhone & iCloud ";
+"onboarding.firstDescriptionThirdPartSelected" = "with one touch";
+
+"onboarding.secondDescriptionFirstPart" = "Create ";
+"onboarding.secondDescriptionSecondPartSelected" = "strong passwords ";
+"onboarding.secondDescriptionThirdPart" = "for your accounts";
+
+"onboarding.thirdDescriptionFirstPart" = "Hide ";
+"onboarding.thirdDescriptionSecondPartSelected" = "your contacts and photos ";
+"onboarding.thirdDescriptionThirdPart" = "in a secret folder";
+
+"onboarding.fourthDescriptionFirstPart" = "Test ";
+"onboarding.fourthDescriptionSecondPartSelected" = "your download and upload ";
+"onboarding.fourthDescriptionThirdPart" = "internet speed";
+
+// MARK: - TabBar
+
+"tabBar.home" = "Home";
+"tabBar.folder" = "Secret folder";
+
+// MARK: - Main
+
+"main.home" = "Home";
+"main.systemLoad" = "System load";
+"main.calculating" = "Calculating category sizes...";
+"main.usedMemory" = "%@ GB of %@ GB Used";
+"main.smartCleaning" = "Smart Cleaning";
+"main.moreOptions" = "More options";
+"main.speedTest" = "Speed test";
+"main.contactsCleaner" = "Contacts cleaner";
+"main.galleryCleaner" = "Gallery cleaner";
+"main.systemInfo" = "System info";
+"main.settings" = "Settings";
+
+// MARK: - Smart Cleaning
+
+"smartCleaning.cleanupTitle" = "CLEAN-UP FILES";
+"smartCleaning.screenshots" = "Screenshots";
+"smartCleaning.duplicatePhotos" = "Duplicate photos";
+"smartCleaning.similarPhotos" = "Similar photos";
+"smartCleaning.similarVideos" = "Similar videos";
+"smartCleaning.duplicateContacts" = "Duplicate contacts";
+"smartCleaning.mb" = "%@ MB";
+
+
+// MARK: - Settings
+
+"settings.title" = "Settings";
+"settings.notifications" = "Allow Notifications";
+"settings.rate" = "Rate Us";
+"settings.contact" = "Contact Us";
+"settings.license" = "License Agreement";
+"settings.privacy" = "Privacy Policy";
+"settings.terms" = "Terms of Use";
+
+// MARK: - Speed Test
+
+"speedTest.title" = "Speed Test";
+"speedTest.testNetwork" = "Test Network";
+"speedTest.testing" = "Testing...";
+"speedTest.download" = "Download";
+"speedTest.upload" = "Upload";
+
+// MARK: - System Info
+
+"systemInfo.title" = "System Info";
+"systemInfo.deviceTitle" = "Device";
+"systemInfo.deviceSubtitle" = "Basic properties";
+"systemInfo.screenTitle" = "Screen test";
+"systemInfo.screenSubtitle" = "Check for bad pixels";
+"systemInfo.memoryTitle" = "Memory";
+"systemInfo.memorySubtitle" = "Storage & RAM";
+"systemInfo.displayTitle" = "Display";
+"systemInfo.displaySubtitle" = "Size & More details";
+"systemInfo.networkTitle" = "Network";
+"systemInfo.networkSubtitle" = "Cellular & Wi-Fi";
+"systemInfo.batteryTitle" = "Battery";
+"systemInfo.batterySubtitle" = "Status & Level";
+"systemInfo.osTitle" = "Operating system";
+"systemInfo.osSubtitle" = "Installed OS & Current session";
+"systemInfo.sensorTitle" = "Sensor";
+"systemInfo.sensorSubtitle" = "Rotation & Acceleration";
+
+// MARK: - Device
+
+"device.basicTitle" = "BASIC PROPERTIES";
+"device.basicDevice" = "Device";
+"device.basicDeviceId" = "Device ID";
+"device.basicOs" = "Operating system";
+"device.generalTitle" = "GENERAL INFO";
+"device.generalModel" = "Model name";
+"device.generalOs" = "iOS version";
+"device.generalDisplay" = "Display";
+"device.generalBattery" = "Battery";
+
+// MARK: - Screen Test
+
+"screen.colorTest" = "Color Test";
+
+// MARK: - Memory
+
+"memory.storageTitle" = "STORAGE INFORMATION";
+"memory.storageAvailable" = "Available storage";
+"memory.storageTotal" = "Total storage";
+"memory.ramTitle" = "RAM INFORMATION";
+"memory.ramAvailable" = "Available RAM";
+"memory.ramTotal" = "Total RAM";
+
+// MARK: - Display
+
+"display.screenSize" = "Screen size";
+"display.pixelDensity" = "Pixel density";
+"display.informationTitle" = "SCREEN INFORMATION";
+"display.vertical" = "Vertical resolution";
+"display.horizontal" = "Horizontal resolution";
+
+// MARK: - Network
+
+"network.wifiTitle" = "WI-FI DETAILS";
+"network.conectedWifi" = "Connected to Wi-Fi";
+"network.wifiIP" = "WiFi IP address";
+"network.wifiNetmask" = "WiFi netmask address";
+"network.wifiBroadcast" = "WiFi broadcast address";
+"network.wifiRouter" = "WiFi router address";
+"network.ipTitle" = "ASSIGNED IP ADDRESSES";
+"network.currentIp" = "Current IP address";
+"network.externalIp" = "External IP address";
+"network.cellIp" = "Cell IP address";
+"network.cellNetmask" = "Cell netmask address";
+"network.cellBroadcast" = "Cell broadcast address";
+"network.celluarTitle" = "CELLULAR";
+"network.carrierName" = "Carrier name";
+"network.carrierCountry" = "Carrier country";
+"network.carrierMobileCountryCode" = "Carrier mobile country code";
+"network.carrierIsoCountryCode" = "Carrier ISO country code";
+"network.carrierMobileNetworkCode" = "Carrier mobile network code";
+
+// MARK: - Battery
+
+"battery.status" = "Status";
+"battery.level" = "Level";
+"battery.savingMode" = "Power saving mode";
+
+// MARK: - OS
+
+"os.osTitle" = "INSTALLED OS";
+"os.os" = "Operating system";
+"os.osVersion" = "Version";
+"os.buildNumber" = "Build number";
+"os.sessionTitle" = "CURRENT SESSION";
+"os.activeTime" = "Active time";
+
+// MARK: - Sensor
+
+"sensor.orientationTitle" = "ORIENTATION";
+"sensor.roll" = "Roll";
+"sensor.pitch" = "Pitch";
+"sensor.yaw" = "Yaw";
+"sensor.accelerationTitle" = "ACCELERATION";
+"sensor.xAxis" = "X axis";
+"sensor.yAxis" = "Y axis";
+"sensor.zAxis" = "Z axis";
+"sensor.magneticTitle" = "MAGNETIC FIELD";
+"sensor.barometer" = "BAROMETER";
+"sensor.pressure" = "Pressure";
+
+// MARK: - ContactCleaner
+
+"contactCleaner.cleanAll" = "Clean All";
+"contactCleaner.cleanTitle" = "Clean-up items";
+"contactCleaner.contactsTitle" = "Your contacts";
+"contactCleaner.duplicateNames" = "Duplicate names";
+"contactCleaner.duplicateNumbers" = "Duplicate numbers";
+"contactCleaner.merge" = "Merge";
+"contactCleaner.deleteContact" = "Delete contact?";
+"contactCleaner.sureDeleteContact" = "Are you sure you want to delete all contacts?";
+"contactCleaner.deleteAllContacts" = "Delete All Contacts (%@)";
+"contactCleaner.noContacts" = "You have no contacts";
+"contactCleaner.deleteAllNames" = "Delete Duplicate Names  (%@)";
+"contactCleaner.sureDeleteNames" = "Are you sure you want to delete duplicate names?";
+"contactCleaner.sureMerge" = "Are you sure you want to merge all contacts?";
+"contactCleaner.noNames" = "No duplicate names";
+"contactCleaner.mergeAllFunc" = "Merge All (%@)";
+"contactCleaner.mergeAll" = "Merge All";
+"contactCleaner.noMerge" = "No contacts to merge";
+"contactCleaner.merged" = "Merged";
+"contactCleaner.mergedContact" = "Merged contact";
+"contactCleaner.mergeContacts" = "Merge Contacts";
+
+// MARK: - Paywall
+
+"paywall.squareAndOvalTitle" = "Get Premium";
+"paywall.squareSubtitle" = "Choose your plan and get all these
+great features ";
+"paywall.allFirstFeature" = "Use Smart Cleaning to free up
+space";
+"paywall.allSecondFeature" = "Create strong passwords to keep
+your accounts safe";
+"paywall.allThirdFeature" = "Hide important files in a secret
+folder";
+"paywall.allFourthFeature" = "Test the speed of your Internet
+connection";
+"paywall.allTrial" = "Start 3-Day Trial";
+"paywall.noneTitle" = "Clean your iPhone
+with ";
+"paywall.noneTrialDescriptionPt1" = "Get full experience with ";
+"paywall.noneTrialDescriptionPt2" = "3-day trial";
+"paywall.noneTrialDescriptionPt3" = ",
+then just $3.99/week. Cancel anytime.";

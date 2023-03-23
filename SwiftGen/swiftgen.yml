@@ -1,0 +1,26 @@
+strings:
+    - inputs: ../Cleaner/Sources/en.lproj/Localizable.strings
+      outputs:
+          - templatePath: generated-text-template.stencil
+            output: ../Cleaner/Sources/Generated/Text.swift
+
+xcassets:
+  - inputs: ../Cleaner/Sources/Assets.xcassets
+    outputs:
+      - templatePath: generated-images-template.stencil
+        output: ../Cleaner/Sources/Generated/Image.swift
+  - inputs: ../Cleaner/Sources/Assets.xcassets
+    outputs:
+      - templatePath: generated-colors-template.stencil
+        output: ../Cleaner/Sources/Generated/Color.swift
+
+files:
+  inputs:
+    - ../Cleaner/Sources/Animations
+    - ../Cleaner/Sources/Content
+  filter: (?<!Contents)\.(json)
+  outputs:
+    templateName: structured-swift5
+    output: ../Cleaner/Sources/Generated/Files.swift
+    params:
+      useExtension: false
