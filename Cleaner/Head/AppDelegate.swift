@@ -14,12 +14,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow()
         window?.overrideUserInterfaceStyle = .light
         window?.rootViewController = AppCoordiator()
-//        window?.rootViewController = PaywallViewController(paywallType: .oval)
+//        window?.rootViewController = PaywallViewController(paywallType: .rect)
         window?.makeKeyAndVisible()
+        
         configureNavBar()
+        
+        startAllServices()
+        
         return true
     }
 
+}
+
+//MARK: - Start Services
+
+extension AppDelegate {
+    
+    func startAllServices() {
+        SFGalleryFinder.shared.start()
+    }
+    
 }
 
 extension AppDelegate {

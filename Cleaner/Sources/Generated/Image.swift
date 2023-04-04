@@ -6,6 +6,7 @@ import UIKit
 
 extension Generated.Image {
 
+    static var galleryRadio = UIImage(named: "galleryRadio")!
     static var launchscreenIcon = UIImage(named: "launchscreenIcon")!
     static var contactIcon = UIImage(named: "contactIcon")!
     static var contactsDot = UIImage(named: "contactsDot")!

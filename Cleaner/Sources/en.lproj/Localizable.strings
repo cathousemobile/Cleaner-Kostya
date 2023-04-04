@@ -1,4 +1,5 @@
 
+
 // MARK: - Common
 
 "common.continue" = "Continue";
@@ -6,9 +7,16 @@
 "common.search" = "Search";
 "common.cancel" = "Cancel";
 "common.delete" = "Delete";
+"common.deleteSelectedContent" = "Are you sure you want to delete selected content?";
 "common.deleted" = "Deleted";
+"common.deleteAllContentWithCount" = "Delete All Content (%@)";
+"common.deleteWithCount" = "Delete (%@)";
 "common.clean" = "Clean";
+"common.cleanWithCount" = "Clean (%@)";
 "common.restore" = "Restore";
+"common.select" = "Select";
+"common.selectAll" = "Select All";
+"common.deselectAll" = "Deselect All";
 
 // MARK: - Onboarding
 
@@ -222,3 +230,16 @@ with ";
 "paywall.noneTrialDescriptionPt2" = "3-day trial";
 "paywall.noneTrialDescriptionPt3" = ",
 then just $3.99/week. Cancel anytime.";
+
+// MARK: - Common
+
+"galleryCleaner.allContentTag" = "All content";
+"galleryCleaner.similarPhotosTag" = "Similar photos";
+"galleryCleaner.similarVideosTag" = "Similar videos";
+"galleryCleaner.blurryPhotosTag" = "Blurry photos";
+"galleryCleaner.screenshotsTag" = "Screenshots";
+"galleryCleaner.livePhotosTag" = "Live photos";
+"galleryCleaner.selfiesTag" = "Selfies";
+"galleryCleaner.emptyContentTitle" = "You have no photos & videos";
+"galleryCleaner.bestPhoto" = "Best photo";
+"galleryCleaner.photosCount" = "Photos: %@";

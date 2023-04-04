@@ -13,6 +13,7 @@ final class HeaderWithTagsView: UIView {
     // MARK: - Subviews
     
     private lazy var stackView = UIStackView()
+    private lazy var secondStackView = UIStackView()
     
     private lazy var scrollView = UIScrollView()
     private lazy var insideScrollView = UIStackView()
@@ -76,6 +77,7 @@ private extension HeaderWithTagsView {
         
         stackView.axis = .horizontal
         stackView.spacing = ThisSize.is16/2
+        
     }
     
 }

@@ -15,12 +15,28 @@ extension Generated.Text {
     enum Common {
         static var cancel: String { NSLocalizedString("common.cancel", comment: "Cancel") }
         static var clean: String { NSLocalizedString("common.clean", comment: "Clean") }
+        static func cleanWithCount(_ p1: String) -> String {
+            let text =  NSLocalizedString("common.cleanWithCount", comment: "Clean (%@)") 
+            return String.localizedStringWithFormat(text, p1)
+        }
         static var `continue`: String { NSLocalizedString("common.continue", comment: "Continue") }
         static var delete: String { NSLocalizedString("common.delete", comment: "Delete") }
+        static func deleteAllContentWithCount(_ p1: String) -> String {
+            let text =  NSLocalizedString("common.deleteAllContentWithCount", comment: "Delete All Content (%@)") 
+            return String.localizedStringWithFormat(text, p1)
+        }
         static var deleted: String { NSLocalizedString("common.deleted", comment: "Deleted") }
+        static var deleteSelectedContent: String { NSLocalizedString("common.deleteSelectedContent", comment: "Are you sure you want to delete selected content?") }
+        static func deleteWithCount(_ p1: String) -> String {
+            let text =  NSLocalizedString("common.deleteWithCount", comment: "Delete (%@)") 
+            return String.localizedStringWithFormat(text, p1)
+        }
+        static var deselectAll: String { NSLocalizedString("common.deselectAll", comment: "Deselect All") }
         static var noAccess: String { NSLocalizedString("common.noAccess", comment: "No access") }
         static var restore: String { NSLocalizedString("common.restore", comment: "Restore") }
         static var search: String { NSLocalizedString("common.search", comment: "Search") }
+        static var select: String { NSLocalizedString("common.select", comment: "Select") }
+        static var selectAll: String { NSLocalizedString("common.selectAll", comment: "Select All") }
     }
 
     enum ContactCleaner {
@@ -73,6 +89,22 @@ extension Generated.Text {
         static var pixelDensity: String { NSLocalizedString("display.pixelDensity", comment: "Pixel density") }
         static var screenSize: String { NSLocalizedString("display.screenSize", comment: "Screen size") }
         static var vertical: String { NSLocalizedString("display.vertical", comment: "Vertical resolution") }
+    }
+
+    enum GalleryCleaner {
+        static var allContentTag: String { NSLocalizedString("galleryCleaner.allContentTag", comment: "All content") }
+        static var bestPhoto: String { NSLocalizedString("galleryCleaner.bestPhoto", comment: "Best photo") }
+        static var blurryPhotosTag: String { NSLocalizedString("galleryCleaner.blurryPhotosTag", comment: "Blurry photos") }
+        static var emptyContentTitle: String { NSLocalizedString("galleryCleaner.emptyContentTitle", comment: "You have no photos & videos") }
+        static var livePhotosTag: String { NSLocalizedString("galleryCleaner.livePhotosTag", comment: "Live photos") }
+        static func photosCount(_ p1: String) -> String {
+            let text =  NSLocalizedString("galleryCleaner.photosCount", comment: "Photos: %@") 
+            return String.localizedStringWithFormat(text, p1)
+        }
+        static var screenshotsTag: String { NSLocalizedString("galleryCleaner.screenshotsTag", comment: "Screenshots") }
+        static var selfiesTag: String { NSLocalizedString("galleryCleaner.selfiesTag", comment: "Selfies") }
+        static var similarPhotosTag: String { NSLocalizedString("galleryCleaner.similarPhotosTag", comment: "Similar photos") }
+        static var similarVideosTag: String { NSLocalizedString("galleryCleaner.similarVideosTag", comment: "Similar videos") }
     }
 
     enum Main {

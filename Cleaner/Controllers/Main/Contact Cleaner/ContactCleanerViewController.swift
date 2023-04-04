@@ -31,9 +31,8 @@ final class ContactCleanerViewController: UIViewController {
     
     // MARK: - Private Proporties
     
-    private let dispatchGroup = DispatchGroup()
-    
     private var dataArrayType: ContactsArrayType = .name
+    
     private var tableCellType: TableCellType = .duplicate {
         didSet {
             guard oldValue != tableCellType else {return}

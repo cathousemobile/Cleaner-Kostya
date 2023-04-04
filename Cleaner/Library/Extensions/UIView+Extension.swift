@@ -8,10 +8,6 @@ import UIKit
 
 extension UIView {
     
-    public func addSubviews(_ subviews: [UIView]) {
-        subviews.forEach { addSubview($0) }
-    }
-    
     func setupGradient(_ colorSet: [CGColor],
                        startPoint: CGPoint = CGPoint(x: 0.5, y: 0.0), endPoint: CGPoint = CGPoint(x: 0.5, y: 1.0),
                        cornerRadius: CGFloat? = nil) {
@@ -45,17 +41,17 @@ extension UIView {
         
     }
     
-    public func roundCorners(_ corners: CACornerMask = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner], radius: CGFloat, continuous: Bool = false) {
-        layer.cornerRadius = radius
-        layer.maskedCorners = corners
-        
-        if #available(iOS 13, *), continuous {
-            layer.cornerCurve = .continuous
-        }
-    }
+//    public func roundCorners(_ corners: CACornerMask = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner], radius: CGFloat, continuous: Bool = false) {
+//        layer.cornerRadius = radius
+//        layer.maskedCorners = corners
+//        
+//        if #available(iOS 13, *), continuous {
+//            layer.cornerCurve = .continuous
+//        }
+//    }
     
-    public func roundCorners() {
-        layer.cornerRadius = min(frame.width, frame.height) / 2
-    }
+//    public func roundCorners() {
+//        layer.cornerRadius = min(frame.width, frame.height) / 2
+//    }
     
 }

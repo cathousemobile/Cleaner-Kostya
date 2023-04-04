@@ -43,7 +43,7 @@ final class SpeedTestViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        SpeedTestChecker.stop()
+        SFSpeedTest.stop()
     }
     
 }
@@ -57,18 +57,18 @@ private extension SpeedTestViewController {
         contentView.changeProgressStyle(.download)
         contentView.playAnimation()
         
-        SpeedTestChecker.downloadSpeedUpdated = { [weak self] speed in
+        SFSpeedTest.downloadSpeedUpdated = { [weak self] speed in
             guard let self = self else {
-                SpeedTestChecker.resetData()
+                SFSpeedTest.resetData()
                 return
             }
             self.contentView.setDownloadSpeed(String(format: "%.1f", speed.speedInMbps))
             self.contentView.updateCurrentSpeed(String(format: "%.1f", speed.speedInMbps))
         }
         
-        SpeedTestChecker.uploadSpeedUpdated = { [weak self] speed in
+        SFSpeedTest.uploadSpeedUpdated = { [weak self] speed in
             guard let self = self else {
-                SpeedTestChecker.resetData()
+                SFSpeedTest.resetData()
                 return
             }
             self.contentView.setUploadSpeed(String(format: "%.1f", speed.speedInMbps))
@@ -77,7 +77,7 @@ private extension SpeedTestViewController {
         
         contentView.speedTestButtonShouldBeEnabled(false)
         
-        SpeedTestChecker.startFullTest(pauseBetweenTest: {
+        SFSpeedTest.startFullTest(pauseBetweenTest: {
             self.contentView.changeProgressStyle(.upload)
             self.contentView.playAnimation()
         }, completion: { [weak self] in

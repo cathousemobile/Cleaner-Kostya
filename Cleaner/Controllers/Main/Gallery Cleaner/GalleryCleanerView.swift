@@ -12,6 +12,16 @@ final class GalleryCleanerView: UIView {
     
     // MARK: - Subviews
     
+    public lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+    
+    private lazy var emptyDataLabel = UILabel()
+    
+    private lazy var tagsHeaderView = GalleryCleanerHeaderView()
+    
+    private lazy var cleanButton = CustomButtonView()
+    
+    private lazy var blurView = UIView()
+    
     // MARK: - Lifecycle
     
     override init(frame: CGRect = .zero) {
@@ -30,11 +40,36 @@ final class GalleryCleanerView: UIView {
         configureConstraints()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        collectionView.setHeaderView(headerView: tagsHeaderView)
+        collectionView.updateHeaderViewFrame()
+        blurView.setupGradient([UIColor.clear.cgColor, UIColor(hex: "0D0D0D").alpha(0.92).cgColor])
+    }
+    
 }
 
 // MARK: - Public Methods
 
 extension GalleryCleanerView {
+    
+    func setEmptyDataTitle(_ text: String) {
+        emptyDataLabel.text = text
+    }
+    
+    func hideEmptyDataTitle(_ isHidden: Bool) {
+        blurView.isHidden = !isHidden
+        cleanButton.isHidden = !isHidden
+        emptyDataLabel.isHidden = isHidden
+    }
+    
+    func setItemsForCleanCount(_ count: Int) {
+        cleanButton.setTitle(text: count == 0 ? Generated.Text.Common.clean : Generated.Text.Common.cleanWithCount(String(count)))
+    }
+    
+    func setCleanAction(_ action: @escaping EmptyBlock) {
+        cleanButton.setAction(action)
+    }
     
 }
 
@@ -58,6 +93,25 @@ private extension GalleryCleanerView {
     
     func configureSubviews() {
         
+        emptyDataLabel.do {
+            $0.text = Generated.Text.GalleryCleaner.emptyContentTitle
+            $0.textColor = Generated.Color.primaryText
+            $0.font = .systemFont(ofSize: 16, weight: .regular)
+            $0.isHidden = true
+            $0.textAlignment = .center
+        }
+        
+        cleanButton.setTitle(text: Generated.Text.Common.clean)
+        
+        collectionView.backgroundColor = .clear
+        collectionView.delaysContentTouches = false
+        collectionView.allowsMultipleSelection = true
+        
+        if #available(iOS 14.0, *) {
+            collectionView.isEditing = true
+            collectionView.allowsMultipleSelectionDuringEditing = true
+        }
+        
     }
     
 }
@@ -68,14 +122,33 @@ private extension GalleryCleanerView {
 private extension GalleryCleanerView {
     
     func addSubviewsBefore() {
-        
+        addSubviews([collectionView, emptyDataLabel, blurView, cleanButton])
     }
     
     func configureConstraints() {
         
         addSubviewsBefore()
         
+        collectionView.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
         
+        emptyDataLabel.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.trailing.leading.equalToSuperview()
+        }
+        
+        cleanButton.snp.makeConstraints { make in
+            make.bottom.equalTo(safeAreaLayoutGuide).offset(ThisSize.is16/2)
+            make.leading.trailing.equalToSuperview().inset(ThisSize.is16)
+        }
+        
+        blurView.snp.makeConstraints { make in
+            make.top.equalTo(cleanButton).offset(-ThisSize.is64)
+            make.bottom.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+        }
         
     }
     
