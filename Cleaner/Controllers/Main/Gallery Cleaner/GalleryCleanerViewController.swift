@@ -89,6 +89,7 @@ final class GalleryCleanerViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setupHeaderActions()
+        contentView.showBlur()
     }
     
 }
@@ -218,9 +219,10 @@ extension GalleryCleanerViewController {
     
 }
 
+// MARK: - CollectionView Deleagate
+
 extension GalleryCleanerViewController: UICollectionViewDelegate {
     
-
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
         if let cell = cell as? GalleryDefaultCollectionCell, let isContained = dataSource.selectedItemsDictionary[indexPath.section]?.contains(cell.phAsset), isContained {
@@ -496,6 +498,7 @@ private extension GalleryCleanerViewController {
         configureRightButton()
         
         contentView.setItemsForCleanCount(dataSource.selectedItemsCount())
+        contentView.showBlur()
         
     }
     
@@ -521,12 +524,12 @@ private extension GalleryCleanerViewController {
     @objc func clearAllAction() {
         
         let alertVC = UIAlertController(title: Generated.Text.Common.deleteSelectedContent, message: nil, preferredStyle: .actionSheet)
-
-        let deleteAction = UIAlertAction(title: Generated.Text.Common.deleteWithCount(String(dataSource.selectedItemsCount())), style: .destructive) { [weak self] _ in
+        let deleteItemsCount = dataSource.selectedItemsCount() == 0 ? dataSource.snapshot().numberOfItems : dataSource.selectedItemsCount()
+        let deleteAction = UIAlertAction(title: Generated.Text.Common.deleteWithCount(String(deleteItemsCount)), style: .destructive) { [weak self] _ in
             
             guard let self = self else { return }
             
-            if !SFPurchaseManager.shared.isUserPremium {
+            if !SFPurchaseManager.shared.isUserPremium, self.dataArrayType == .screenshots || self.dataArrayType == .similarPhotos || self.dataArrayType == .similarVideos {
                 self.routeToPaywall()
                 return
             }
@@ -534,12 +537,12 @@ private extension GalleryCleanerViewController {
             self.dataSource.removeSelectedItems()
             
         }
-
+        
         alertVC.addAction(deleteAction)
         alertVC.addAction(.init(title: Generated.Text.Common.cancel, style: .cancel))
-
+        
         present(alertVC, animated: true)
-
+        
     }
     
 }

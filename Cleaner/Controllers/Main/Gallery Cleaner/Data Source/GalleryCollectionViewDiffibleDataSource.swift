@@ -131,13 +131,25 @@ extension GalleryCollectionViewDiffibleDataSource {
                     
                     self.contentView?.setItemsForCleanCount(self.selectedItemsCount())
                     self.apply(snapshot, animatingDifferences: true)
+                    self.contentView?.showBlur()
                     
                 }
                 
             }
             
         } else {
-            snapshot.deleteAllItems()
+            
+            SFGalleryFinder.shared.deleteAssets(snapshot.itemIdentifiers) { [weak self] error in
+                
+                guard let self = self else { return }
+                guard error == nil else { return }
+                
+                snapshot.deleteAllItems()
+                self.apply(snapshot, animatingDifferences: true)
+                self.contentView?.showBlur()
+                
+            }
+
         }
         
     }

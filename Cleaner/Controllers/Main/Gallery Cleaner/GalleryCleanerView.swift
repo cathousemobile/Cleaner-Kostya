@@ -58,7 +58,6 @@ extension GalleryCleanerView {
     }
     
     func hideEmptyDataTitle(_ isHidden: Bool) {
-        blurView.isHidden = !isHidden
         cleanButton.isHidden = !isHidden
         emptyDataLabel.isHidden = isHidden
     }
@@ -69,6 +68,20 @@ extension GalleryCleanerView {
     
     func setCleanAction(_ action: @escaping EmptyBlock) {
         cleanButton.setAction(action)
+    }
+    
+    func showBlur() {
+        
+        var cellsHeight = CGFloat()
+        
+        for i in 0..<collectionView.visibleCells.count {
+            if i % 3 == 0 {
+                cellsHeight += collectionView.visibleCells[i].frame.height
+            }
+        }
+        
+        blurView.isHidden = !(cellsHeight >= self.frame.height/1.4)
+        
     }
     
 }
@@ -102,6 +115,8 @@ private extension GalleryCleanerView {
         }
         
         cleanButton.setTitle(text: Generated.Text.Common.clean)
+        
+        blurView.isHidden = true
         
         collectionView.backgroundColor = .clear
         collectionView.delaysContentTouches = false
