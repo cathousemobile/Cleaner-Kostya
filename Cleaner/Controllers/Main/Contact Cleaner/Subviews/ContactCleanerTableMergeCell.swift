@@ -68,12 +68,12 @@ extension ContactCleanerTableMergeCell {
         mergeButton.setAction(action)
     }
     
-    func addContactsToMergeList(_ contactsCount: Int, contactName: String, contactPhone: String) {
+    func addContactsToMergeList(_ contacts: [SFContact]) {
         
-        while mergeListView.arrangedSubviews.count < contactsCount {
+        contacts.forEach {
             let mergeContact = ContactCleanerContactNameAndPhoneView()
-            mergeContact.setName(contactName)
-            mergeContact.setPhone(contactPhone)
+            mergeContact.setName($0.name ?? "No Name")
+            mergeContact.setPhone($0.numbers.first ?? "No Phones")
             mergeListView.addArrangedSubview(mergeContact)
         }
         

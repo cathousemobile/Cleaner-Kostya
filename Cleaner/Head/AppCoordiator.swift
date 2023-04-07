@@ -161,6 +161,31 @@ private extension AppCoordiator {
 
 extension AppCoordiator {
     
+    func routeToSettings(_ message: String, currentVC: UIViewController) {
+        
+        let alertVC = UIAlertController(title: Generated.Text.Common.accessDenied, message: message, preferredStyle: .alert)
+        
+        let routeToSettingsAction = UIAlertAction(title: "Settings", style: .default) { _ in
+            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+            
+            if UIApplication.shared.canOpenURL(settingsUrl) {
+                UIApplication.shared.open(settingsUrl, completionHandler: nil)
+            }
+            
+            currentVC.navigationController?.popToRootViewController(animated: true)
+        }
+        
+        let cancelAction = UIAlertAction(title: Generated.Text.Common.cancel, style: .cancel) { _ in
+            currentVC.navigationController?.popToRootViewController(animated: true)
+        }
+        
+        alertVC.addAction(cancelAction)
+        alertVC.addAction(routeToSettingsAction)
+        
+        currentVC.present(alertVC, animated: true)
+        
+    }
+    
     /// Открыть email для обратной связи
     public func openMail(_ mail: String) {
         let subject = AppConstants.appName + " Support"

@@ -9,13 +9,16 @@ import SPAlert
 final class ContactCleanerViewController: UIViewController {
     
     enum ContactsArrayType {
-        case name
-        case phones
-        case merge
+        case allContacts
+        case allDuplicates
+        case mergeNames
+        case mergePhones
+        case noName
+        case noPhones
     }
     
     enum TableCellType {
-        case duplicate
+        case simple
         case merge
     }
     
@@ -31,97 +34,43 @@ final class ContactCleanerViewController: UIViewController {
     
     // MARK: - Private Proporties
     
-    private var dataArrayType: ContactsArrayType = .name
+    private var isSearching = false
     
-    private var tableCellType: TableCellType = .duplicate {
+    private var dataArrayType: ContactsArrayType? {
+        didSet {
+            if oldValue != dataArrayType { fetchMedia() }
+        }
+    }
+    
+    private var tableCellType: TableCellType = .simple {
         didSet {
             guard oldValue != tableCellType else {return}
-            initDataSource()
             contentView.tableView.separatorStyle = tableCellType == .merge ? .none : .singleLine
             clearAllButton.title = tableCellType == .merge ? Generated.Text.ContactCleaner.mergeAll : Generated.Text.ContactCleaner.cleanAll
         }
     }
     
-    private var dataSource: ContactTableViewDiffibleDataSource!
+    private var simpleDataSource: SimpleContactsTableViewDiffibleDataSource!
+    private var mergeDataSource: MergeContactsTableViewDiffibleDataSource!
     
-    private var contactsSearch = [MyContact]()
+    private var simpleContactsArray = [[SFContact]]() {
+        didSet { checkData() }
+    }
+    private var currentMergeContactsDictionary = [SFContact : [SFContact]]() {
+        didSet { checkData() }
+    }
     
-    private var currentContacts: [MyContact]  {
-        get {
-            switch dataArrayType {
-            case .name:
-                return contactsNames
-            case .phones:
-                return contactsPhones
-            case .merge:
-                return contactsMerge
-            }
-        }
-        set {
-            switch dataArrayType {
-            case .name:
-                contactsNames = newValue
-            case .phones:
-                contactsPhones = newValue
-            case .merge:
-                contactsMerge = newValue
-            }
+    private var simpleContactSearchArray = [[SFContact]]() {
+        didSet {
+            if oldValue != simpleContactSearchArray { initDataAndSnap() }
         }
     }
     
-    private var contactsNames: [MyContact] = [MyContact(id: "asdad", name: "Aasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "aasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Basya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Basya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Casya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Casya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Dasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Dasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Easya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Easya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Fasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Fasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Gasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Gasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Hasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Hasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Jasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Jasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Kasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Kasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Lasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Lasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Masya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: ".asya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "!asya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "#asya", stringPhoneNumber: ["88889999888"])]
-    
-    private var contactsPhones: [MyContact] = [MyContact(id: "asdad", name: "Aasya", stringPhoneNumber: ["88889999888"]),
-                                               MyContact(id: "asdad", name: "aasya", stringPhoneNumber: ["88889999888"]),
-                                               MyContact(id: "asdad", name: "Basya", stringPhoneNumber: ["88889999888"]),
-                                               MyContact(id: "asdad", name: "Basya", stringPhoneNumber: ["88889999888"]),
-                                               MyContact(id: "asdad", name: "Kasya", stringPhoneNumber: ["88889999888"]),
-                                               MyContact(id: "asdad", name: "Lasya", stringPhoneNumber: ["88889999888"]),
-                                               MyContact(id: "asdad", name: "Lasya", stringPhoneNumber: ["88889999888"]),
-                                               MyContact(id: "asdad", name: "Masya", stringPhoneNumber: ["88889999888"]),
-                                               MyContact(id: "asdad", name: ".asya", stringPhoneNumber: ["88889999888"]),
-                                               MyContact(id: "asdad", name: "!asya", stringPhoneNumber: ["88889999888"]),
-                                               MyContact(id: "asdad", name: "#asya", stringPhoneNumber: ["88889999888"])]
-    
-    private var contactsMerge: [MyContact] = [MyContact(id: "asdad", name: "Aasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: ".asya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "!asya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "#asya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Gasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Gasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Hasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Hasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Jasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Jasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Kasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Kasya", stringPhoneNumber: ["88889999888"]),
-                                              MyContact(id: "asdad", name: "Lasya", stringPhoneNumber: ["88889999888"])]
-    
+    private var mergeContactsSearchDictionary = [SFContact : [SFContact]]() {
+        didSet {
+            if oldValue != mergeContactsSearchDictionary { initDataAndSnap() }
+        }
+    }
     
     // MARK: - Life cycle
     
@@ -139,25 +88,38 @@ final class ContactCleanerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         title = Generated.Text.Main.contactsCleaner
-        
-        setupActions()
-        configureTableView()
-        configureSearchController()
-        initNotifications()
-        initNavigationBarItems()
-        
-        //        DispatchQueue.global(qos: .background).async {
-        //            self.contacts = ContactsService.getAllContacts().sorted(by: { $0.name.lowercased() < $1.name.lowercased() } )
-        
-        DispatchQueue.main.async {
-            self.initDataSource()
-            self.initSnapshot(self.currentContacts)
+        initData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        checkAccess()
+    }
+    
+}
+
+// MARK: - Init
+
+extension ContactCleanerViewController {
+    
+    func checkAccess() {
+        SFContactFinder.shared.requestAccess { [weak self] accessGranted in
+            guard let self = self else { return }
+            
+            DispatchQueue.main.async {
+                accessGranted ? self.dataArrayType = .allContacts : AppCoordiator.shared.routeToSettings(Generated.Text.ContactCleaner.permissionRequared, currentVC: self)
+            }
+            
         }
-        
-        //        }
-        
+    }
+    
+    func initData() {
+        configureSearchController()
+        configureTableView()
+        initNavigationBarItems()
+        setupActions()
+        initNotifications()
     }
     
 }
@@ -179,6 +141,7 @@ extension ContactCleanerViewController {
         clearAllButton.tintColor = Generated.Color.redWarning
         
         self.navigationItem.rightBarButtonItem = clearAllButton
+        
     }
     
 }
@@ -197,6 +160,7 @@ extension ContactCleanerViewController: UISearchBarDelegate {
         navigationItem.hidesSearchBarWhenScrolling = false
         
         definesPresentationContext = true
+        
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)  {
@@ -205,11 +169,26 @@ extension ContactCleanerViewController: UISearchBarDelegate {
     
     func filterItems(text: String?) {
         
-        guard let text = text else { return }
+        guard let text = text, !text.isEmpty else {
+            isSearching = false
+            initSnapshot()
+            return
+        }
         
-        contactsSearch = text.isEmpty ? currentContacts : currentContacts.filter({ $0.name.lowercased().contains(text.lowercased()) })
+        isSearching = true
         
-        initSnapshot(contactsSearch)
+        switch tableCellType {
+        case .simple:
+            
+            simpleContactSearchArray.removeAll()
+            
+            let filteredContatsArray = simpleContactsArray.reduce([], +).filter({ $0.name?.lowercased().contains(text.lowercased()) ?? false })
+            filteredContatsArray.isEmpty ? simpleContactSearchArray = [] : simpleContactSearchArray.append(filteredContatsArray)
+            
+        case .merge:
+            mergeContactsSearchDictionary = currentMergeContactsDictionary.filter({ $0.key.name?.lowercased().contains(text.lowercased()) ?? false })
+        }
+        
     }
     
 }
@@ -220,7 +199,7 @@ private extension ContactCleanerViewController {
     
     func configureTableView() {
         contentView.tableView.delegate = self
-        contentView.tableView.register(ContactCleanerTableDuplicateCell.self, forCellReuseIdentifier: "cellDuplicate")
+        contentView.tableView.register(ContactCleanerTableSimpleCell.self, forCellReuseIdentifier: "cellDuplicate")
         contentView.tableView.register(ContactCleanerTableMergeCell.self, forCellReuseIdentifier: "cellMerge")
     }
     
@@ -236,67 +215,111 @@ extension ContactCleanerViewController: UITableViewDelegate {
 
 extension ContactCleanerViewController {
     
+    func initDataAndSnap() {
+        initDataSource()
+        initSnapshot()
+    }
+    
     func initDataSource() {
         
         switch tableCellType {
             
-        case .duplicate:
+        case .simple:
             
-            dataSource = ContactTableViewDiffibleDataSource(tableView: contentView.tableView, cellProvider: { [unowned self] tableView, indexPath, contactModel in
-                let cell = contentView.tableView.dequeueReusableCell(withIdentifier: "cellDuplicate", for: indexPath) as! ContactCleanerTableDuplicateCell
+            simpleDataSource = SimpleContactsTableViewDiffibleDataSource(tableView: contentView.tableView, cellProvider: { [weak self] tableView, indexPath, contactModel in
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "cellDuplicate", for: indexPath) as! ContactCleanerTableSimpleCell
+                
                 cell.setContactName(contactModel.name)
-                cell.setContactNumber(contactModel.stringPhoneNumber[0])
+                cell.setContactNumber(contactModel.numbers.first)
+                
+                cell.setAction {
+                    guard let self = self else { return }
+                    self.simpleCellAction(contactModel)
+                }
                 
                 return cell
+                
             })
-            
-            dataSource.dataStyle = .duplicate
             
         case .merge:
             
-            dataSource = ContactTableViewDiffibleDataSource(tableView: contentView.tableView, cellProvider: { [unowned self] tableView, indexPath, contactModel in
-                let cell = contentView.tableView.dequeueReusableCell(withIdentifier: "cellMerge", for: indexPath) as! ContactCleanerTableMergeCell
-                cell.setContactName(contactModel.name)
-                cell.addContactsToMergeList(2, contactName: contactModel.name, contactPhone: contactModel.stringPhoneNumber[0])
-                cell.setAction { [unowned self] in
-                    mergeContacts(indexPath)
+            mergeDataSource = MergeContactsTableViewDiffibleDataSource(tableView: contentView.tableView, cellProvider: { [weak self] tableView, indexPath, contactsArray in
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "cellMerge", for: indexPath) as! ContactCleanerTableMergeCell
+                cell.setContactName(contactsArray.first?.name)
+                cell.addContactsToMergeList(contactsArray.filter({ $0 != contactsArray.first }))
+                
+                cell.setAction {
+                    guard let self = self else { return }
+                    self.mergeCellAction(contactsArray)
                 }
                 
                 return cell
             })
-            
-            dataSource.dataStyle = .merge
             
         }
         
     }
     
-    func initSnapshot(_ dataArray: [MyContact]) {
-        
-        var snapshot = NSDiffableDataSourceSnapshot<String, MyContact>()
+    func initSnapshot() {
         
         switch tableCellType {
             
-        case .duplicate:
-            let dic = Dictionary(grouping: dataArray) { $0.name.uppercased().first }
+        case .simple:
             
-            let sections = Array(String(dic.compactMap( {$0.key } )).uppercased()).compactMap {"\($0)"}.sorted(by: { $0 < $1 })
+            var snapshot = NSDiffableDataSourceSnapshot<String, SFContact>()
+            
+            var dataArray = [SFContact]()
+            
+            if isSearching {
+                dataArray = simpleContactSearchArray.reduce([], +)
+            } else {
+                dataArray = simpleContactsArray.reduce([], +)
+            }
+            
+            let dataDictionary = Dictionary(grouping: dataArray) { $0.name?.uppercased().first?.description ?? " " }
+            
+            let sections = dataDictionary.keys.compactMap( {$0} ).sorted(by: { $0 < $1 })
             
             snapshot.appendSections(sections)
             
             sections.forEach { section in
-                if let items = dic[Character(section)] {
+                if let items = dataDictionary[section] {
                     snapshot.appendItems(items, toSection: section)
                 }
             }
             
+            simpleDataSource.apply(snapshot, animatingDifferences: true)
+            
         case .merge:
+            
+            var snapshot = NSDiffableDataSourceSnapshot<String, [SFContact]>()
+            
+            var dataArray = [[SFContact]]()
+            
+            if isSearching {
+                for (key, value) in mergeContactsSearchDictionary {
+                    var resultArray = value
+                    resultArray.insert(key, at: 0)
+                    dataArray.append(resultArray)
+                }
+                
+            } else {
+                for (key, value) in currentMergeContactsDictionary {
+                    var resultArray = value
+                    resultArray.insert(key, at: 0)
+                    dataArray.append(resultArray)
+                }
+                
+            }
+            
             snapshot.appendSections(["main"])
-            snapshot.appendItems(dataArray.sorted(by: { $0.name.first! < $1.name.first! }), toSection: "main")
+            snapshot.appendItems(dataArray, toSection: "main")
+            
+            mergeDataSource.apply(snapshot, animatingDifferences: true)
             
         }
-        
-        dataSource.apply(snapshot, animatingDifferences: true)
         
     }
     
@@ -306,37 +329,175 @@ extension ContactCleanerViewController {
 
 private extension ContactCleanerViewController {
     
+    // MARK: - Fetch Handlers
+    
+    func fetchMedia() {
+        
+        guard let dataArrayType = dataArrayType else { return }
+        
+        switch dataArrayType {
+            
+        case .allContacts:
+            fetchAllContacts(SFContactFinder.shared.getAll)
+        case .allDuplicates:
+            fetchDuplicateContent(SFContactFinder.shared.getFullDuplicates)
+        case .mergeNames:
+            fetchMergeContent(SFContactFinder.shared.getNameDuplicates)
+        case .mergePhones:
+            fetchMergeContent(SFContactFinder.shared.getPhoneDuplicates)
+        case .noName:
+            fetchAllContacts(SFContactFinder.shared.getWithoutName)
+        case .noPhones:
+            fetchAllContacts(SFContactFinder.shared.getWithoutPhone)
+        }
+        
+    }
+    
+    func fetchAllContacts(_ fetchFunc: () throws -> [SFContact]) {
+        
+        do {
+            
+            let assetsArray = try fetchFunc()
+            
+            if assetsArray.isEmpty {
+                simpleContactsArray = []
+                initDataAndSnap()
+                return
+            }
+            
+            simpleContactsArray.removeAll()
+            simpleContactsArray.append(assetsArray)
+            
+            initDataAndSnap()
+            
+        } catch {
+            print(error.localizedDescription)
+            simpleContactsArray = []
+            initDataAndSnap()
+        }
+        
+    }
+    
+    func fetchDuplicateContent(_ fetchFunc: () throws -> [[SFContact]]) {
+        
+        do {
+            
+            let assetsArray = try fetchFunc()
+            
+            if assetsArray.isEmpty {
+                simpleContactsArray = []
+                initDataAndSnap()
+                return
+            }
+            
+            simpleContactsArray = assetsArray
+            
+            initDataAndSnap()
+            
+        } catch {
+            print(error.localizedDescription)
+            simpleContactsArray = []
+            initDataAndSnap()
+        }
+        
+    }
+    
+    func fetchMergeContent(_ fetchFunc: () throws -> [SFContact : [SFContact]]) {
+        
+        do {
+            
+            let assetsDictionary = try fetchFunc()
+            
+            if assetsDictionary.isEmpty {
+                currentMergeContactsDictionary = [:]
+                initDataAndSnap()
+                return
+            }
+            
+            currentMergeContactsDictionary = assetsDictionary
+            
+            initDataAndSnap()
+            
+        } catch {
+            print(error.localizedDescription)
+            currentMergeContactsDictionary = [:]
+            initDataAndSnap()
+        }
+        
+    }
+    
+    //MARK: - Notifications
+    
     func initNotifications() {
         
-        AppNotificationService.observe(event: .contactDeleted) { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.currentContacts = strongSelf.currentContacts.filter({ $0.name != strongSelf.dataSource.lastDeletedItem?.name })
-            strongSelf.checkData()
+        SFNotificationSystem.observe(event: .contactFinderUpdated) { [weak self] in
+            guard let self = self else { return }
+            self.checkData()
+        }
+        
+        SFNotificationSystem.observe(event: .custom(name: "contactDeleted")) { [weak self] in
+            guard let self = self else { return }
+            
+            switch self.dataArrayType {
+                case .allContacts, .allDuplicates, .noName, .noPhones:
+                    self.simpleContactsArray.removeAll()
+                    self.simpleContactsArray.append(self.simpleDataSource.snapshot().itemIdentifiers)
+                
+                case .mergeNames, .mergePhones:
+                    self.currentMergeContactsDictionary = Dictionary(grouping: self.mergeDataSource.snapshot().itemIdentifiers.reduce([], +)) {$0}
+                
+                case .none:
+                    print("None contacts")
+                
+            }
+            
         }
         
     }
     
     func checkData() {
+        switch tableCellType {
+        case .merge:
+            contentView.setEmptyDataTitle(Generated.Text.ContactCleaner.noMerge)
+            contentView.hideEmptyDataTitle(!currentMergeContactsDictionary.isEmpty)
+        case .simple:
+            contentView.setEmptyDataTitle(Generated.Text.ContactCleaner.noContacts)
+            contentView.hideEmptyDataTitle(!simpleContactsArray.isEmpty)
+        }
+    }
+    
+    //MARK: - Contacts Actions
+    
+    func simpleCellAction(_ contact: SFContact) {
         
-        if currentContacts.isEmpty {
+        do {
+            let contactVC = try SFContactFinder.shared.getNativeContactController(for: contact, allowEditing: false)
+            self.navigationController?.pushViewController(contactVC, animated: true)
+        } catch {
+            return
+        }
+        
+    }
+    
+    func mergeCellAction(_ contacts: [SFContact]) {
+        guard let contact = contacts.first else { return }
+        
+//        if !SFPurchaseManager.shared.isUserPremium {
+//            routeToPaywall()
+//            return
+//        }
+        
+        do {
+            try SFContactFinder.shared.saveMergeContactAndDeleteOthers(contact)
+            var snap = self.mergeDataSource.snapshot()
+            snap.deleteItems([contacts])
+            self.mergeDataSource.apply(snap)
+            self.mergeContactsSearchDictionary.removeValue(forKey: contact)
+            SFNotificationSystem.send(event: .custom(name: "contactDeleted"))
+            SPAlert.present(title: Generated.Text.ContactCleaner.merged, preset: .done)
             
-            switch dataArrayType {
-                
-            case .name:
-                contentView.setEmptyDataTitle(Generated.Text.ContactCleaner.noNames)
-                
-            case .phones:
-                contentView.setEmptyDataTitle(Generated.Text.ContactCleaner.noContacts)
-                
-            case .merge:
-                contentView.setEmptyDataTitle(Generated.Text.ContactCleaner.noMerge)
-                
-            }
-            
-            contentView.hideEmptyDataTitle(false)
-            
-        } else {
-            contentView.hideEmptyDataTitle(true)
+        } catch {
+            SPAlert.present(title: error.localizedDescription, preset: .error)
         }
     }
     
@@ -344,21 +505,23 @@ private extension ContactCleanerViewController {
         
         let alertStringData: [String] = {
             
+            guard let dataArrayType = dataArrayType else { return [] }
+            
             switch dataArrayType {
                 
-            case .name:
+            case .allContacts, .noPhones, .noName:
                 return [Generated.Text.ContactCleaner.sureDeleteContact,
-                        Generated.Text.ContactCleaner.deleteAllContacts(String(currentContacts.count)),
+                        Generated.Text.ContactCleaner.deleteAllContacts(String(simpleContactsArray.reduce([], +).count)),
                         Generated.Text.Common.deleted]
                 
-            case .phones:
+            case .allDuplicates:
                 return [Generated.Text.ContactCleaner.sureDeleteNames,
-                        Generated.Text.ContactCleaner.deleteAllNames(String(currentContacts.count)),
+                        Generated.Text.ContactCleaner.deleteAllNames(String(simpleContactsArray.reduce([], +).count)),
                         Generated.Text.Common.deleted]
                 
-            case .merge:
+            case .mergeNames, .mergePhones:
                 return [Generated.Text.ContactCleaner.sureMerge,
-                        Generated.Text.ContactCleaner.mergeAllFunc(String(currentContacts.count)),
+                        Generated.Text.ContactCleaner.mergeAllFunc(String(currentMergeContactsDictionary.count)),
                         Generated.Text.ContactCleaner.merged]
                 
             }
@@ -367,19 +530,58 @@ private extension ContactCleanerViewController {
         
         let alertVC = UIAlertController(title: alertStringData[0], message: nil, preferredStyle: .actionSheet)
         
-        let deleteAction = UIAlertAction(title: alertStringData[1], style: .destructive) { [unowned self] _ in
+        let deleteAction = UIAlertAction(title: alertStringData[1], style: .destructive) { [weak self] _ in
             
-            if !LocaleStorage.isPremium {
-                routeToPaywall()
-                return
+            guard let self = self else { return }
+            
+//            if !SFPurchaseManager.shared.isUserPremium {
+//                AppCoordiator.shared.routeToPaywall(self)
+//                return
+//            }
+            
+            switch self.tableCellType {
+                
+            case .simple:
+                do {
+                    var snap = self.simpleDataSource.snapshot()
+                    
+                    try SFContactFinder.shared.deleteContacts(snap.itemIdentifiers)
+                    
+                    snap.deleteAllItems()
+                    
+                    self.simpleContactsArray.removeAll()
+                    self.simpleDataSource.apply(snap)
+                    
+                    SPAlert.present(title: alertStringData[2], preset: .done)
+                    SFNotificationSystem.send(event: .custom(name: "contactDeleted"))
+                    
+                } catch {
+                    SPAlert.present(title: error.localizedDescription, preset: .error)
+                }
+                
+            case .merge:
+                
+                do {
+                    var snap = self.mergeDataSource.snapshot()
+                    
+                    let contactsToMergeArray = snap.itemIdentifiers.compactMap({$0.first})
+                    
+                    try SFContactFinder.shared.saveMergeContactsAndDeleteOthers(contactsToMergeArray)
+
+                    snap.deleteAllItems()
+
+                    self.currentMergeContactsDictionary.removeAll()
+                    self.mergeDataSource.apply(snap)
+
+                    SPAlert.present(title: alertStringData[2], preset: .done)
+                    SFNotificationSystem.send(event: .custom(name: "contactDeleted"))
+
+                } catch {
+                    SPAlert.present(title: error.localizedDescription, preset: .error)
+                }
+                
             }
             
-            var snap = dataSource.snapshot()
-            snap.deleteAllItems()
-            currentContacts = snap.itemIdentifiers
-            dataSource.apply(snap)
-            SPAlert.present(title: alertStringData[2], preset: .done)
-            checkData()
         }
         
         alertVC.addAction(deleteAction)
@@ -388,56 +590,51 @@ private extension ContactCleanerViewController {
         present(alertVC, animated: true)
         
     }
-    // MARK: - ToDo
-    func mergeContacts(_ indexPath: IndexPath) {
+    
+    //MARK: - Tag Actions
+    
+    func setupTagsActions() {
         
-        if let id = self.dataSource.itemIdentifier(for: indexPath) {
-            self.dataSource.lastDeletedItem = id
-            var snap = self.dataSource.snapshot()
-            snap.deleteItems([id])
-            
-            dataSource.apply(snap, animatingDifferences: true)
-            
-//            DispatchQueue.main.async { [weak self] in
-//                self?.dataSource.apply(snap, animatingDifferences: true) {
-////                    self?.contentView.tableView.reloadData()
-//                    self?.dataSource.apply(snap, animatingDifferences: false)
-//                }
-//            }
-
-            
+        contentView.setAllContactsTagViewAction { [weak self] in
+            guard let self = self else { return }
+            self.tagAction(.simple, .allContacts, Generated.Text.ContactCleaner.allContacts)
+        }
+        
+        contentView.setFullDuplicateTagViewAction { [weak self] in
+            guard let self = self else { return }
+            self.tagAction(.simple, .allDuplicates, Generated.Text.ContactCleaner.fullDuplicates)
+        }
+        
+        contentView.setDuplicateNamesTagViewAction { [weak self] in
+            guard let self = self else { return }
+            self.tagAction(.merge, .mergeNames, Generated.Text.ContactCleaner.duplicateNames)
+        }
+        
+        contentView.setDuplicatePhonesTagViewAction { [weak self] in
+            guard let self = self else { return }
+            self.tagAction(.merge, .mergePhones, Generated.Text.ContactCleaner.duplicateNumbers)
+        }
+        
+        contentView.setNoNamesTagViewAction { [weak self] in
+            guard let self = self else { return }
+            self.tagAction(.simple, .noName, Generated.Text.ContactCleaner.noNamesTag)
+        }
+        
+        contentView.setNoPhonesTagViewAction { [weak self] in
+            guard let self = self else { return }
+            self.tagAction(.simple, .noPhones, Generated.Text.ContactCleaner.noNumbers)
         }
         
     }
     
-    func setupTagsActions() {
+    func tagAction(_ tableCellType: TableCellType, _ dataArrayType: ContactsArrayType, _ tagName: String) {
         
-        contentView.setNameTagViewAction { [unowned self] in
-            dataArrayType = .name
-            checkData()
-            tableCellType = .duplicate
-            initSnapshot(currentContacts)
-            contentView.getAllTags().forEach { $0.isSelected = $0.cellId == Generated.Text.ContactCleaner.duplicateNames }
-            filterItems(text: searchController.searchBar.text)
-        }
+        self.tableCellType = tableCellType
+        self.dataArrayType = dataArrayType
         
-        contentView.setPhoneTagViewAction { [unowned self] in
-            dataArrayType = .phones
-            checkData()
-            tableCellType = .duplicate
-            initSnapshot(currentContacts)
-            contentView.getAllTags().forEach { $0.isSelected = $0.cellId == Generated.Text.ContactCleaner.duplicateNumbers }
-            filterItems(text: searchController.searchBar.text)
-        }
+        self.contentView.getAllTags().forEach { $0.isSelected = $0.cellId == tagName }
         
-        contentView.setMergeTagViewAction { [unowned self] in
-            dataArrayType = .merge
-            checkData()
-            tableCellType = .merge
-            initSnapshot(currentContacts)
-            contentView.getAllTags().forEach { $0.isSelected = $0.cellId == Generated.Text.ContactCleaner.merge }
-            filterItems(text: searchController.searchBar.text)
-        }
+        if isSearching { self.filterItems(text: self.searchController.searchBar.text) }
         
     }
     
@@ -474,14 +671,5 @@ private extension ContactCleanerViewController {
 // MARK: - Layout Setup
 
 private extension ContactCleanerViewController {
-    
-}
-
-extension ContactCleanerViewController: CNContactPickerDelegate {
-    
-    func contactPicker(_ picker: CNContactPickerViewController,
-                       didSelect contacts: [CNContact]) {
-        
-    }
     
 }

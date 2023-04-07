@@ -17,6 +17,7 @@
 "common.select" = "Select";
 "common.selectAll" = "Select All";
 "common.deselectAll" = "Deselect All";
+"common.accessDenied" = "Access denied";
 
 // MARK: - Onboarding
 
@@ -194,21 +195,24 @@
 "contactCleaner.contactsTitle" = "Your contacts";
 "contactCleaner.duplicateNames" = "Duplicate names";
 "contactCleaner.duplicateNumbers" = "Duplicate numbers";
-"contactCleaner.merge" = "Merge";
+"contactCleaner.allContacts" = "All contacts";
+"contactCleaner.fullDuplicates" = "Duplicate contacts";
+"contactCleaner.noNamesTag" = "Without names";
+"contactCleaner.noNumbers" = "Without numbers";
 "contactCleaner.deleteContact" = "Delete contact?";
 "contactCleaner.sureDeleteContact" = "Are you sure you want to delete all contacts?";
 "contactCleaner.deleteAllContacts" = "Delete All Contacts (%@)";
 "contactCleaner.noContacts" = "You have no contacts";
 "contactCleaner.deleteAllNames" = "Delete Duplicate Names  (%@)";
-"contactCleaner.sureDeleteNames" = "Are you sure you want to delete duplicate names?";
+"contactCleaner.sureDeleteNames" = "Are you sure you want to delete duplicate contacts?";
 "contactCleaner.sureMerge" = "Are you sure you want to merge all contacts?";
-"contactCleaner.noNames" = "No duplicate names";
 "contactCleaner.mergeAllFunc" = "Merge All (%@)";
 "contactCleaner.mergeAll" = "Merge All";
 "contactCleaner.noMerge" = "No contacts to merge";
 "contactCleaner.merged" = "Merged";
 "contactCleaner.mergedContact" = "Merged contact";
 "contactCleaner.mergeContacts" = "Merge Contacts";
+"contactCleaner.permissionRequared" = "“Contacts” permission required";
 
 // MARK: - Paywall
 
@@ -231,7 +235,7 @@ with ";
 "paywall.noneTrialDescriptionPt3" = ",
 then just $3.99/week. Cancel anytime.";
 
-// MARK: - Common
+// MARK: - Gallery Cleaner
 
 "galleryCleaner.allContentTag" = "All content";
 "galleryCleaner.similarPhotosTag" = "Similar photos";
@@ -243,3 +247,4 @@ then just $3.99/week. Cancel anytime.";
 "galleryCleaner.emptyContentTitle" = "You have no photos & videos";
 "galleryCleaner.bestPhoto" = "Best photo";
 "galleryCleaner.photosCount" = "Photos: %@";
+"galleryCleaner.permissionRequared" = "“Photos” permission required";

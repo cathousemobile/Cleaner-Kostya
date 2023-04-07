@@ -95,8 +95,9 @@ private extension MainViewController {
                 $0.setTitleIcon(option.icon)
                 $0.setTitleText(option.titleText)
                 $0.hideDivider(option == MainOptionsModel.allCases.last ? true : false)
-                $0.setAction { [unowned self] in
-                    navigationController?.pushViewController(option.viewControllerToRoute, animated: true)
+                $0.setAction { [weak self] in
+                    guard let self = self else { return }
+                    self.navigationController?.pushViewController(option.viewControllerToRoute, animated: true)
                 }
             }
             

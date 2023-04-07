@@ -4,7 +4,7 @@
 
 import UIKit
 
-final class ContactCleanerTableDuplicateCell: UITableViewCell {
+final class ContactCleanerTableSimpleCell: UITableViewCell {
     
     // MARK: - Public Properties
     
@@ -46,7 +46,7 @@ final class ContactCleanerTableDuplicateCell: UITableViewCell {
 
 // MARK: - Public Methods
 
-extension ContactCleanerTableDuplicateCell {
+extension ContactCleanerTableSimpleCell {
     
     func setContactName(_ text: String?) {
         titleLabel.text = text
@@ -64,7 +64,7 @@ extension ContactCleanerTableDuplicateCell {
 
 // MARK: - Private Methods
 
-private extension ContactCleanerTableDuplicateCell {
+private extension ContactCleanerTableSimpleCell {
     
     func configureView() {
         backgroundColor = .clear
@@ -112,7 +112,7 @@ private extension ContactCleanerTableDuplicateCell {
 
 //MARK: - Action
 
-private extension ContactCleanerTableDuplicateCell {
+private extension ContactCleanerTableSimpleCell {
     
     @objc func onTapped() {
         tapped?()

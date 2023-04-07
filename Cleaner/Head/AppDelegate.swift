@@ -32,6 +32,7 @@ extension AppDelegate {
     
     func startAllServices() {
         SFGalleryFinder.shared.start()
+        SFContactFinder.shared.start()
     }
     
 }

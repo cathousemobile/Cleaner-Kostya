@@ -21,9 +21,12 @@ final class ContactCleanerView: UIView {
     
     private lazy var tagsHeaderView = HeaderWithTagsView()
     
-    private lazy var nameTagView = HeaderWithTagsCellView()
-    private lazy var phonesTagView = HeaderWithTagsCellView()
-    private lazy var mergeTagView = HeaderWithTagsCellView()
+    private lazy var allContactsTagView = HeaderWithTagsCellView()
+    private lazy var fullDuplicateTagView = HeaderWithTagsCellView()
+    private lazy var duplicateNamesTagView = HeaderWithTagsCellView()
+    private lazy var duplicatePhonesTagView = HeaderWithTagsCellView()
+    private lazy var noNamesTagView = HeaderWithTagsCellView()
+    private lazy var noPhonesTagView = HeaderWithTagsCellView()
     
     private lazy var emptyDataLabel = UILabel()
     
@@ -52,16 +55,28 @@ final class ContactCleanerView: UIView {
 
 extension ContactCleanerView {
     
-    func setNameTagViewAction(_ action: @escaping EmptyBlock) {
-        nameTagView.setAction(action)
+    func setAllContactsTagViewAction(_ action: @escaping EmptyBlock) {
+        allContactsTagView.setAction(action)
     }
     
-    func setPhoneTagViewAction(_ action: @escaping EmptyBlock) {
-        phonesTagView.setAction(action)
+    func setFullDuplicateTagViewAction(_ action: @escaping EmptyBlock) {
+        fullDuplicateTagView.setAction(action)
     }
     
-    func setMergeTagViewAction(_ action: @escaping EmptyBlock) {
-        mergeTagView.setAction(action)
+    func setDuplicateNamesTagViewAction(_ action: @escaping EmptyBlock) {
+        duplicateNamesTagView.setAction(action)
+    }
+    
+    func setDuplicatePhonesTagViewAction(_ action: @escaping EmptyBlock) {
+        duplicatePhonesTagView.setAction(action)
+    }
+    
+    func setNoNamesTagViewAction(_ action: @escaping EmptyBlock) {
+        noNamesTagView.setAction(action)
+    }
+    
+    func setNoPhonesTagViewAction(_ action: @escaping EmptyBlock) {
+        noPhonesTagView.setAction(action)
     }
     
     func getAllTags() -> [HeaderWithTagsCellView] {
@@ -73,7 +88,7 @@ extension ContactCleanerView {
     }
     
     func hideEmptyDataTitle(_ isHidden: Bool) {
-        tableView.isHidden = !isHidden
+//        tableView.isHidden = !isHidden
         emptyDataLabel.isHidden = isHidden
     }
     
@@ -115,13 +130,16 @@ private extension ContactCleanerView {
             $0.isHidden = true
         }
         
-        nameTagView.setTitleText(Generated.Text.ContactCleaner.duplicateNames)
-        phonesTagView.setTitleText(Generated.Text.ContactCleaner.duplicateNumbers)
-        mergeTagView.setTitleText(Generated.Text.ContactCleaner.merge)
+        allContactsTagView.setTitleText(Generated.Text.ContactCleaner.allContacts)
+        fullDuplicateTagView.setTitleText(Generated.Text.ContactCleaner.fullDuplicates)
+        duplicateNamesTagView.setTitleText(Generated.Text.ContactCleaner.duplicateNames)
+        duplicatePhonesTagView.setTitleText(Generated.Text.ContactCleaner.duplicateNumbers)
+        noNamesTagView.setTitleText(Generated.Text.ContactCleaner.noNamesTag)
+        noPhonesTagView.setTitleText(Generated.Text.ContactCleaner.noNumbers)
         
-        nameTagView.isSelected = true
+        allContactsTagView.isSelected = true
         
-        tagsHeaderView.addTags([nameTagView, phonesTagView, mergeTagView])
+        tagsHeaderView.addTags([allContactsTagView, fullDuplicateTagView, duplicateNamesTagView, duplicatePhonesTagView, noNamesTagView, noPhonesTagView])
         
         tableView.backgroundColor = .clear
         tableView.allowsSelection = false

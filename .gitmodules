@@ -1,0 +1,3 @@
+[submodule "CA_Library"]
+	path = CA_Library
+	url = https://github.com/cathousemobile/CA_Library

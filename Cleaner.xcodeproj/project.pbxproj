@@ -65,6 +65,7 @@
 		8446981529B5F8EE00A5490C /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446981429B5F8EE00A5490C /* MainViewController.swift */; };
 		8446981729B5F8F500A5490C /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446981629B5F8F500A5490C /* MainView.swift */; };
 		8446981A29B6040900A5490C /* MainSystemInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446981929B6040900A5490C /* MainSystemInfoView.swift */; };
+		847D081D29DEBCBB00B5C5D8 /* MergeContactsTableViewDiffibleDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847D081C29DEBCBB00B5C5D8 /* MergeContactsTableViewDiffibleDataSource.swift */; };
 		8498153529B9C929007F8206 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8498153429B9C929007F8206 /* SettingsModel.swift */; };
 		8498153729B9C972007F8206 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8498153629B9C972007F8206 /* AppConstants.swift */; };
 		8498153A29B9D7FD007F8206 /* SettingsCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8498153929B9D7FD007F8206 /* SettingsCellView.swift */; };
@@ -188,8 +189,8 @@
 		84B176E929D6D5DD00885758 /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = 84B176E829D6D5DD00885758 /* AppsFlyerLib */; };
 		84B176EB29D8505800885758 /* GalleryCleanerSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B176EA29D8505800885758 /* GalleryCleanerSectionHeaderView.swift */; };
 		84D210AD29C1F35F00CCCEA0 /* ContactsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D210AC29C1F35F00CCCEA0 /* ContactsService.swift */; };
-		84D210B029C3065100CCCEA0 /* ContactCleanerTableDuplicateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D210AF29C3065100CCCEA0 /* ContactCleanerTableDuplicateCell.swift */; };
-		84D210B629C34E3100CCCEA0 /* ContactTableViewDiffibleDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D210B529C34E3100CCCEA0 /* ContactTableViewDiffibleDataSource.swift */; };
+		84D210B029C3065100CCCEA0 /* ContactCleanerTableSimpleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D210AF29C3065100CCCEA0 /* ContactCleanerTableSimpleCell.swift */; };
+		84D210B629C34E3100CCCEA0 /* SimpleContactsTableViewDiffibleDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D210B529C34E3100CCCEA0 /* SimpleContactsTableViewDiffibleDataSource.swift */; };
 		84D210B829C47A5900CCCEA0 /* NSDiffableDataSourceSnapshot+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D210B729C47A5900CCCEA0 /* NSDiffableDataSourceSnapshot+Extension.swift */; };
 		84D210BB29C47AFF00CCCEA0 /* ContactModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D210BA29C47AFF00CCCEA0 /* ContactModel.swift */; };
 		84D210BD29C4921500CCCEA0 /* HeaderWithTagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D210BC29C4921500CCCEA0 /* HeaderWithTagsView.swift */; };
@@ -268,6 +269,7 @@
 		8446981429B5F8EE00A5490C /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		8446981629B5F8F500A5490C /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		8446981929B6040900A5490C /* MainSystemInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSystemInfoView.swift; sourceTree = "<group>"; };
+		847D081C29DEBCBB00B5C5D8 /* MergeContactsTableViewDiffibleDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MergeContactsTableViewDiffibleDataSource.swift; sourceTree = "<group>"; };
 		8498153429B9C929007F8206 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		8498153629B9C972007F8206 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		8498153929B9D7FD007F8206 /* SettingsCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCellView.swift; sourceTree = "<group>"; };
@@ -386,8 +388,8 @@
 		84B176D929D6D40E00885758 /* Do.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Do.swift; sourceTree = "<group>"; };
 		84B176EA29D8505800885758 /* GalleryCleanerSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCleanerSectionHeaderView.swift; sourceTree = "<group>"; };
 		84D210AC29C1F35F00CCCEA0 /* ContactsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsService.swift; sourceTree = "<group>"; };
-		84D210AF29C3065100CCCEA0 /* ContactCleanerTableDuplicateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCleanerTableDuplicateCell.swift; sourceTree = "<group>"; };
-		84D210B529C34E3100CCCEA0 /* ContactTableViewDiffibleDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewDiffibleDataSource.swift; sourceTree = "<group>"; };
+		84D210AF29C3065100CCCEA0 /* ContactCleanerTableSimpleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCleanerTableSimpleCell.swift; sourceTree = "<group>"; };
+		84D210B529C34E3100CCCEA0 /* SimpleContactsTableViewDiffibleDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleContactsTableViewDiffibleDataSource.swift; sourceTree = "<group>"; };
 		84D210B729C47A5900CCCEA0 /* NSDiffableDataSourceSnapshot+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSDiffableDataSourceSnapshot+Extension.swift"; sourceTree = "<group>"; };
 		84D210BA29C47AFF00CCCEA0 /* ContactModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactModel.swift; sourceTree = "<group>"; };
 		84D210BC29C4921500CCCEA0 /* HeaderWithTagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderWithTagsView.swift; sourceTree = "<group>"; };
@@ -1235,7 +1237,7 @@
 		84D210AE29C305F200CCCEA0 /* Subviews */ = {
 			isa = PBXGroup;
 			children = (
-				84D210AF29C3065100CCCEA0 /* ContactCleanerTableDuplicateCell.swift */,
+				84D210AF29C3065100CCCEA0 /* ContactCleanerTableSimpleCell.swift */,
 				84D210C629C877DA00CCCEA0 /* ContactCleanerTableMergeCell.swift */,
 				84D210C829C8824200CCCEA0 /* ContactCleanerContactNameAndPhoneView.swift */,
 			);
@@ -1245,7 +1247,8 @@
 		84D210B929C47A9100CCCEA0 /* Data Source */ = {
 			isa = PBXGroup;
 			children = (
-				84D210B529C34E3100CCCEA0 /* ContactTableViewDiffibleDataSource.swift */,
+				84D210B529C34E3100CCCEA0 /* SimpleContactsTableViewDiffibleDataSource.swift */,
+				847D081C29DEBCBB00B5C5D8 /* MergeContactsTableViewDiffibleDataSource.swift */,
 			);
 			path = "Data Source";
 			sourceTree = "<group>";
@@ -1468,8 +1471,9 @@
 				84D210DB29CAFF6100CCCEA0 /* PaywallRectOfferView.swift in Sources */,
 				84A42C6529B7E17C00407D2B /* MainCalculatingView.swift in Sources */,
 				84B176D829D6CFA100885758 /* SFGalleryFinderError.swift in Sources */,
-				84D210B629C34E3100CCCEA0 /* ContactTableViewDiffibleDataSource.swift in Sources */,
+				84D210B629C34E3100CCCEA0 /* SimpleContactsTableViewDiffibleDataSource.swift in Sources */,
 				84B176C029D6CFA100885758 /* SFStoreFeedback.swift in Sources */,
+				847D081D29DEBCBB00B5C5D8 /* MergeContactsTableViewDiffibleDataSource.swift in Sources */,
 				844697D529B203C300A5490C /* OnboardingView.swift in Sources */,
 				84B176C229D6CFA100885758 /* SFSystemInfo.swift in Sources */,
 				84315A9729C07ECE006A2F0D /* SmartCleaningView.swift in Sources */,
@@ -1526,7 +1530,7 @@
 				849815B629BF50E4007F8206 /* SystemInfoScreenTestModel.swift in Sources */,
 				84315A9E29C08657006A2F0D /* SmartCleaningModel.swift in Sources */,
 				8498156129B9E1B4007F8206 /* Logger.swift in Sources */,
-				84D210B029C3065100CCCEA0 /* ContactCleanerTableDuplicateCell.swift in Sources */,
+				84D210B029C3065100CCCEA0 /* ContactCleanerTableSimpleCell.swift in Sources */,
 				84A42C5529B7542600407D2B /* GalleryCleanerViewController.swift in Sources */,
 				8498158229BB7D3F007F8206 /* DeviceViewController.swift in Sources */,
 				8498157629BB75B7007F8206 /* UIImage+Extension.swift in Sources */,

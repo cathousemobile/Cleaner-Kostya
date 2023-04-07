@@ -13,6 +13,7 @@ extension Generated.Text {
     }
 
     enum Common {
+        static var accessDenied: String { NSLocalizedString("common.accessDenied", comment: "Access denied") }
         static var cancel: String { NSLocalizedString("common.cancel", comment: "Cancel") }
         static var clean: String { NSLocalizedString("common.clean", comment: "Clean") }
         static func cleanWithCount(_ p1: String) -> String {
@@ -40,6 +41,7 @@ extension Generated.Text {
     }
 
     enum ContactCleaner {
+        static var allContacts: String { NSLocalizedString("contactCleaner.allContacts", comment: "All contacts") }
         static var cleanAll: String { NSLocalizedString("contactCleaner.cleanAll", comment: "Clean All") }
         static var cleanTitle: String { NSLocalizedString("contactCleaner.cleanTitle", comment: "Clean-up items") }
         static var contactsTitle: String { NSLocalizedString("contactCleaner.contactsTitle", comment: "Your contacts") }
@@ -54,7 +56,7 @@ extension Generated.Text {
         static var deleteContact: String { NSLocalizedString("contactCleaner.deleteContact", comment: "Delete contact?") }
         static var duplicateNames: String { NSLocalizedString("contactCleaner.duplicateNames", comment: "Duplicate names") }
         static var duplicateNumbers: String { NSLocalizedString("contactCleaner.duplicateNumbers", comment: "Duplicate numbers") }
-        static var merge: String { NSLocalizedString("contactCleaner.merge", comment: "Merge") }
+        static var fullDuplicates: String { NSLocalizedString("contactCleaner.fullDuplicates", comment: "Duplicate contacts") }
         static var mergeAll: String { NSLocalizedString("contactCleaner.mergeAll", comment: "Merge All") }
         static func mergeAllFunc(_ p1: String) -> String {
             let text =  NSLocalizedString("contactCleaner.mergeAllFunc", comment: "Merge All (%@)") 
@@ -65,9 +67,11 @@ extension Generated.Text {
         static var mergedContact: String { NSLocalizedString("contactCleaner.mergedContact", comment: "Merged contact") }
         static var noContacts: String { NSLocalizedString("contactCleaner.noContacts", comment: "You have no contacts") }
         static var noMerge: String { NSLocalizedString("contactCleaner.noMerge", comment: "No contacts to merge") }
-        static var noNames: String { NSLocalizedString("contactCleaner.noNames", comment: "No duplicate names") }
+        static var noNamesTag: String { NSLocalizedString("contactCleaner.noNamesTag", comment: "Without names") }
+        static var noNumbers: String { NSLocalizedString("contactCleaner.noNumbers", comment: "Without numbers") }
+        static var permissionRequared: String { NSLocalizedString("contactCleaner.permissionRequared", comment: "“Contacts” permission required") }
         static var sureDeleteContact: String { NSLocalizedString("contactCleaner.sureDeleteContact", comment: "Are you sure you want to delete all contacts?") }
-        static var sureDeleteNames: String { NSLocalizedString("contactCleaner.sureDeleteNames", comment: "Are you sure you want to delete duplicate names?") }
+        static var sureDeleteNames: String { NSLocalizedString("contactCleaner.sureDeleteNames", comment: "Are you sure you want to delete duplicate contacts?") }
         static var sureMerge: String { NSLocalizedString("contactCleaner.sureMerge", comment: "Are you sure you want to merge all contacts?") }
     }
 
@@ -97,6 +101,7 @@ extension Generated.Text {
         static var blurryPhotosTag: String { NSLocalizedString("galleryCleaner.blurryPhotosTag", comment: "Blurry photos") }
         static var emptyContentTitle: String { NSLocalizedString("galleryCleaner.emptyContentTitle", comment: "You have no photos & videos") }
         static var livePhotosTag: String { NSLocalizedString("galleryCleaner.livePhotosTag", comment: "Live photos") }
+        static var permissionRequared: String { NSLocalizedString("galleryCleaner.permissionRequared", comment: "“Photos” permission required") }
         static func photosCount(_ p1: String) -> String {
             let text =  NSLocalizedString("galleryCleaner.photosCount", comment: "Photos: %@") 
             return String.localizedStringWithFormat(text, p1)
