@@ -62,12 +62,14 @@ private extension MemoryViewController {
         for storage in SystemInfoMemoryModel.Storage.allCases {
             let cell = SystemInfoDetailCell(id: storage.rawValue)
             cell.setTitleText(storage.titleText)
+            cell.setSubtitleText(storage.infoText)
             contentView.addCellToStorageList(cell)
         }
         
         for ram in SystemInfoMemoryModel.Ram.allCases {
             let cell = SystemInfoDetailCell(id: ram.rawValue)
             cell.setTitleText(ram.titleText)
+            cell.setSubtitleText(ram.infoText)
             contentView.addCellToRamList(cell)
         }
         

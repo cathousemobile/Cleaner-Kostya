@@ -15,12 +15,7 @@ final class NetworkView: UIView {
     
     // MARK: - Subviews
     
-    private lazy var wifiListView = SystemInfoDetailStackView()
-    private lazy var ipListView = SystemInfoDetailStackView()
-    private lazy var carrierListView = SystemInfoDetailStackView()
-    
-    private lazy var scrollView = UIScrollView()
-    private lazy var insideScrollView = UIView()
+    private lazy var listView = SystemInfoDetailStackView()
     
     // MARK: - Lifecycle
     
@@ -46,30 +41,8 @@ final class NetworkView: UIView {
 
 extension NetworkView {
     
-    func setInfoInCellById(_ stack: SystemInfoNetworkModel, id: String, info: String) {
-        
-        switch stack {
-            
-        case .wifi:
-            wifiListView.setInfoInCellById(id, info: info)
-        case .ip:
-            ipListView.setInfoInCellById(id, info: info)
-        case .cellular:
-            carrierListView.setInfoInCellById(id, info: info)
-        }
-        
-    }
-    
     func addCellToWifiList(_ cell: SystemInfoDetailCell) {
-        wifiListView.addCellToStack(cell)
-    }
-    
-    func addCellToIpList(_ cell: SystemInfoDetailCell) {
-        ipListView.addCellToStack(cell)
-    }
-    
-    func addCellToCarrierList(_ cell: SystemInfoDetailCell) {
-        carrierListView.addCellToStack(cell)
+        listView.addCellToStack(cell)
     }
     
 }
@@ -93,9 +66,7 @@ private extension NetworkView {
     }
     
     func configureSubviews() {
-        wifiListView.setTitleText(Text.wifiTitle)
-        ipListView.setTitleText(Text.ipTitle)
-        carrierListView.setTitleText(Text.celluarTitle)
+        listView.setTitleText(Text.ipTitle)
     }
     
 }
@@ -106,38 +77,15 @@ private extension NetworkView {
 private extension NetworkView {
     
     func addSubviewsBefore() {
-        insideScrollView.addSubviews([wifiListView, ipListView, carrierListView])
-        scrollView.addSubview(insideScrollView)
-        addSubview(scrollView)
+        addSubview(listView)
     }
     
     func configureConstraints() {
         
         addSubviewsBefore()
         
-        scrollView.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide)
-            make.leading.trailing.bottom.equalToSuperview()
-        }
-        
-        insideScrollView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(ThisSize.is48)
-            make.leading.trailing.bottom.equalToSuperview()
-            make.width.equalToSuperview()
-        }
-        
-        wifiListView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.leading.trailing.equalToSuperview().inset(ThisSize.is16)
-        }
-        
-        ipListView.snp.makeConstraints { make in
-            make.top.equalTo(wifiListView.snp.bottom).offset(ThisSize.is28)
-            make.leading.trailing.equalToSuperview().inset(ThisSize.is16)
-        }
-        
-        carrierListView.snp.makeConstraints { make in
-            make.top.equalTo(ipListView.snp.bottom).offset(ThisSize.is28)
+        listView.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide).offset(ThisSize.is48)
             make.leading.trailing.equalToSuperview().inset(ThisSize.is16)
             make.bottom.lessThanOrEqualToSuperview()
         }

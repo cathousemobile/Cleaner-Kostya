@@ -17,7 +17,7 @@ extension UICollectionView {
         let height = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
         let frame = self.bounds.inset(by: self.layoutMargins)
         headerView.frame = CGRect(x: frame.origin.x, y: -height, width: frame.width, height: height)
-        contentInset = UIEdgeInsets(top: height, left: self.contentInset.left, bottom: -height + 50, right: self.contentInset.right)
+        contentInset = UIEdgeInsets(top: height + 8, left: self.contentInset.left, bottom: -height + 58, right: self.contentInset.right)
     }
 
     func setHeaderView(headerView: UIView) {

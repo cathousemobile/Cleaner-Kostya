@@ -143,6 +143,10 @@ extension CustomButtonView {
         change(titleLabel)
     }
     
+    func changeTitleTextFont(_ font: UIFont) {
+        titleLabel.font = font
+    }
+    
     func changeTitleTextColor(_ color: UIColor) {
         titleTextColor = color
     }
@@ -193,9 +197,12 @@ private extension CustomButtonView {
         
         lockImage.image = Generated.Image.lock
         lockImage.isHidden = true
+        lockImage.contentMode = .scaleAspectFit
         
         titleLabel.textAlignment = .center
-        titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        titleLabel.font = .systemFont(ofSize: 20, weight: .semibold)
+        titleLabel.adjustsFontSizeToFitWidth = true
+        titleLabel.numberOfLines = 1
         
         chevronView.contentMode = .scaleAspectFit
         
@@ -209,10 +216,14 @@ private extension CustomButtonView {
     
     func configureConstraints() {
         
+        self.snp.makeConstraints { make in
+            make.height.equalTo(48)
+        }
+        
         titleLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.top.bottom.equalToSuperview()//.inset(ThisSize.is16)
-            make.height.equalTo(48)
+            make.leading.greaterThanOrEqualToSuperview().offset(ThisSize.is12)
+            make.trailing.lessThanOrEqualToSuperview().offset(-ThisSize.is12)
         }
         
         chevronView.snp.makeConstraints { make in
@@ -226,8 +237,9 @@ private extension CustomButtonView {
         }
         
         lockImage.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.leading.equalTo(titleLabel.snp.leading).offset(-ThisSize.is16)
+            make.centerY.equalToSuperview().offset(-1.5)
+            make.trailing.equalTo(titleLabel.snp.leading).offset(-ThisSize.is12/2)
+            make.size.equalTo(ThisSize.is20)
         }
         
     }

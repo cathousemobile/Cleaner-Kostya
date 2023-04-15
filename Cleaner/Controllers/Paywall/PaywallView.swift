@@ -34,6 +34,9 @@ final class PaywallView: UIView {
     
     private lazy var termsAndPrivacyView = TermsAndPrivacyView()
     
+    private lazy var scrollView = UIScrollView()
+    private lazy var insideScrollView = UIView()
+    
     // MARK: - Lifecycle
     
     init(frame: CGRect = .zero, paywallType: PaywallViewTypeModel) {
@@ -73,6 +76,10 @@ extension PaywallView {
         purchaseButton.setAction(action)
     }
     
+    func changePurchaseButtonTitleFont(_ font: UIFont) {
+        purchaseButton.changeTitleTextFont(font)
+    }
+    
     func setPrivacyAndTermsActions(privacyAction: @escaping EmptyBlock, termsAction: @escaping EmptyBlock) {
         termsAndPrivacyView.setupActions(presentPrivacy: privacyAction, presentTerms: termsAction)
     }
@@ -83,6 +90,10 @@ extension PaywallView {
     
     func setCloseButtonAction(_ action: @escaping EmptyBlock) {
         closeButton.setAction(action)
+    }
+    
+    func purchseButtonIsEnabled(_ isEnabled: Bool) {
+        purchaseButton.shouldBeEnabled(isEnabled)
     }
     
 }
@@ -107,9 +118,12 @@ private extension PaywallView {
     
     func configureSubviews() {
         
+        scrollView.showsVerticalScrollIndicator = false
+        
         restoreButton.setTitle(text: Generated.Text.Common.restore)
         
         closeButton.setImage(Generated.Image.closeButton)
+        closeButton.isUserInteractionEnabled = true
         
         titleLabel.do {
             $0.textColor = Generated.Color.primaryText
@@ -195,19 +209,23 @@ private extension PaywallView {
 private extension PaywallView {
     
     func addSubviewsBefore() {
-        
-        addSubviews([restoreButton, closeButton])
+        insideScrollView.addSubviews([restoreButton, closeButton])
+        scrollView.addSubview(insideScrollView)
+        addSubviews([scrollView])
         
         switch paywallType {
             
         case .rect:
-            addSubviews([animaticView, titleLabel, subtitleLabel, stackFeaturesView, stackOffersView!, purchaseButton, termsAndPrivacyView])
+            insideScrollView.addSubviews([animaticView, titleLabel, subtitleLabel, stackFeaturesView])
+            addSubviews([stackOffersView!, purchaseButton, termsAndPrivacyView])
             
         case .none:
-            addSubviews([titleLabel, stackFeaturesView, animaticView, subtitleLabel, purchaseButton, termsAndPrivacyView])
+            insideScrollView.addSubviews([titleLabel, animaticView, stackFeaturesView])
+            addSubviews([subtitleLabel, purchaseButton, termsAndPrivacyView])
             
         case .oval:
-            addSubviews([titleLabel, ovalTitleImageView, stackFeaturesView, stackOffersView!, purchaseButton, termsAndPrivacyView])
+            insideScrollView.addSubviews([titleLabel, ovalTitleImageView, stackFeaturesView])
+            addSubviews([stackOffersView!, purchaseButton, termsAndPrivacyView])
             
         }
         
@@ -223,7 +241,7 @@ private extension PaywallView {
         }
         
         closeButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide)
+            make.top.equalToSuperview()
             make.trailing.equalToSuperview().offset(-ThisSize.is16/2)
         }
         
@@ -245,7 +263,7 @@ private extension PaywallView {
     func configureRectSubviewsConstaraints() {
         
         animaticView.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide)
+            make.top.equalToSuperview()
             make.centerX.equalToSuperview()
             make.height.equalTo(ThisSize.is72*1.7)
         }
@@ -263,18 +281,29 @@ private extension PaywallView {
         stackFeaturesView.snp.makeConstraints { make in
             make.top.equalTo(subtitleLabel.snp.bottom).offset(ThisSize.is28)
             make.leading.trailing.equalToSuperview().inset(ThisSize.is24)
+            make.bottom.equalToSuperview()
+        }
+        
+        insideScrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.width.equalTo(scrollView)
+        }
+        
+        scrollView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(safeAreaLayoutGuide)
+            make.bottom.equalTo(stackOffersView!.snp.top).offset(-ThisSize.is16)
         }
         
         stackOffersView!.snp.makeConstraints { make in
-            make.top.equalTo(stackFeaturesView.snp.bottom).offset(ThisSize.is48)
             make.leading.trailing.equalToSuperview().inset(ThisSize.is16)
         }
-        
+
         purchaseButton.snp.makeConstraints { make in
-            make.top.greaterThanOrEqualTo(stackOffersView!.snp.bottom).offset(ThisSize.is28)
+            make.top.equalTo(stackOffersView!.snp.bottom).offset(ThisSize.is28)
             make.leading.trailing.equalToSuperview().inset(ThisSize.is16)
         }
-        
+
         termsAndPrivacyView.snp.makeConstraints { make in
             make.top.equalTo(purchaseButton.snp.bottom).offset(ThisSize.is12)
             make.centerX.equalToSuperview()
@@ -286,28 +315,39 @@ private extension PaywallView {
     func configureNoneSubviewsConstaraints() {
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).offset(ThisSize.is64)
+            make.top.equalTo(closeButton.snp.bottom).offset(ThisSize.is36)
             make.centerX.equalToSuperview()
         }
         
-        stackFeaturesView.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(ThisSize.is36)
-            make.leading.trailing.equalToSuperview().inset(ThisSize.is24)
-        }
-        
         animaticView.snp.makeConstraints { make in
-            make.top.equalTo(stackFeaturesView.snp.bottom)
+            make.top.equalTo(titleLabel.snp.bottom)
             make.centerX.equalToSuperview()
             make.height.equalTo(ThisSize.is88*2.7)
         }
         
+        stackFeaturesView.snp.makeConstraints { make in
+            make.top.equalTo(animaticView.snp.bottom)
+            make.leading.trailing.equalToSuperview().inset(ThisSize.is24)
+            make.bottom.equalToSuperview()
+        }
+        
+        insideScrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.width.equalTo(scrollView)
+        }
+        
+        scrollView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(safeAreaLayoutGuide)
+            make.bottom.equalTo(subtitleLabel.snp.top).offset(-ThisSize.is16)
+        }
+        
         subtitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(animaticView.snp.bottom).offset(ThisSize.is20)
             make.centerX.equalToSuperview()
         }
         
         purchaseButton.snp.makeConstraints { make in
-            make.top.greaterThanOrEqualTo(subtitleLabel.snp.bottom).offset(ThisSize.is16)
+            make.top.equalTo(subtitleLabel.snp.bottom).offset(ThisSize.is16)
             make.leading.trailing.equalToSuperview().inset(ThisSize.is16)
         }
         
@@ -322,27 +362,38 @@ private extension PaywallView {
     func configureOvalSubviewsConstaraints() {
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).offset(ThisSize.is36)
+            make.top.equalTo(closeButton.snp.bottom)
             make.centerX.equalToSuperview()
         }
         
         ovalTitleImageView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(ThisSize.is20)
-            make.centerX.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
         }
         
         stackFeaturesView.snp.makeConstraints { make in
             make.top.equalTo(ovalTitleImageView.snp.bottom).offset(ThisSize.is16)
-            make.leading.trailing.equalToSuperview().inset(ThisSize.is64)
+            make.leading.trailing.equalToSuperview().inset(ThisSize.is56)
+            make.bottom.equalToSuperview()
+        }
+        
+        insideScrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.width.equalTo(scrollView)
+        }
+        
+        scrollView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(safeAreaLayoutGuide)
+            make.bottom.equalTo(stackOffersView!.snp.top).offset(-ThisSize.is16)
         }
         
         stackOffersView!.snp.makeConstraints { make in
-            make.top.equalTo(stackFeaturesView.snp.bottom).offset(ThisSize.is16)
             make.leading.trailing.equalToSuperview().inset(ThisSize.is20)
         }
         
         purchaseButton.snp.makeConstraints { make in
-            make.top.greaterThanOrEqualTo(stackOffersView!.snp.bottom).offset(ThisSize.is16)
+            make.top.equalTo(stackOffersView!.snp.bottom).offset(ThisSize.is16)
             make.leading.trailing.equalToSuperview().inset(ThisSize.is16)
         }
         

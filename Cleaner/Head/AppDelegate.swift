@@ -10,18 +10,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
         window = UIWindow()
-        window?.overrideUserInterfaceStyle = .light
-        window?.rootViewController = AppCoordiator()
-//        window?.rootViewController = PaywallViewController(paywallType: .rect)
-        window?.makeKeyAndVisible()
-        
+        AppManager.shared.start(application: application, window: window)
         configureNavBar()
-        
-        startAllServices()
-        
         return true
+    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        AppKit.shared.applicactionDidBecomeActive()
+        AppManager.shared.applicationDidBecomeActive(application)
     }
 
 }

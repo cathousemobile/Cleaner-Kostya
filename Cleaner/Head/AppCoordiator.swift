@@ -28,7 +28,7 @@ final class AppCoordiator: UIViewController {
     
     // MARK: - Private Proporties
     
-    private let homeVC = HomeViewController()
+    private let homeVC = RootViewController()
     private let onboardingVC = OnboardingViewController()
 
     // MARK: - Lifecycle
@@ -161,7 +161,29 @@ private extension AppCoordiator {
 
 extension AppCoordiator {
     
-    func routeToSettings(_ message: String, currentVC: UIViewController) {
+    func getPaywall() -> PaywallViewController {
+        
+        if let userPaywall = LocaleStorage.paywallId, let type = PaywallViewTypeModel(rawValue: userPaywall) {
+            return PaywallViewController(paywallType: type)
+        }
+        
+        let paywalls = SFPurchaseManager.shared.paywalls.filter {
+            ($0.value.json?["isVisible"] as? Bool) == true
+        }
+        
+        if let newPaywall = paywalls.randomElement()?.key,
+           let type = PaywallViewTypeModel(rawValue: newPaywall) {
+            LocaleStorage.paywallId = newPaywall
+            return PaywallViewController(paywallType: type)
+        }
+        
+        let defaultType = PaywallViewTypeModel.rect
+        LocaleStorage.paywallId = defaultType.rawValue
+        return PaywallViewController(paywallType: defaultType)
+        
+    }
+    
+    func routeToSettings(_ message: String, currentVC: UIViewController, isLimitedAccess: Bool = false) {
         
         let alertVC = UIAlertController(title: Generated.Text.Common.accessDenied, message: message, preferredStyle: .alert)
         
@@ -176,7 +198,9 @@ extension AppCoordiator {
         }
         
         let cancelAction = UIAlertAction(title: Generated.Text.Common.cancel, style: .cancel) { _ in
-            currentVC.navigationController?.popToRootViewController(animated: true)
+            if !isLimitedAccess {
+                currentVC.navigationController?.popToRootViewController(animated: true)
+            }
         }
         
         alertVC.addAction(cancelAction)

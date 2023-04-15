@@ -18,6 +18,10 @@
 "common.selectAll" = "Select All";
 "common.deselectAll" = "Deselect All";
 "common.accessDenied" = "Access denied";
+"common.on" = "On";
+"common.off" = "Off";
+"common.save" = "Save";
+"common.copied" = "Copied";
 
 // MARK: - Onboarding
 
@@ -47,7 +51,7 @@
 "main.home" = "Home";
 "main.systemLoad" = "System load";
 "main.calculating" = "Calculating category sizes...";
-"main.usedMemory" = "%@ GB of %@ GB Used";
+"main.usedMemory" = "%@ of %@ Used";
 "main.smartCleaning" = "Smart Cleaning";
 "main.moreOptions" = "More options";
 "main.speedTest" = "Speed test";
@@ -164,6 +168,8 @@
 "battery.status" = "Status";
 "battery.level" = "Level";
 "battery.savingMode" = "Power saving mode";
+"battery.charging" = "Charging";
+"battery.unplugged" = "Unplugged";
 
 // MARK: - OS
 
@@ -234,6 +240,8 @@ with ";
 "paywall.noneTrialDescriptionPt2" = "3-day trial";
 "paywall.noneTrialDescriptionPt3" = ",
 then just $3.99/week. Cancel anytime.";
+"paywall.per" = " per ";
+"paywall.trial" = "with %@ trial then %@/%@";
 
 // MARK: - Gallery Cleaner
 
@@ -248,3 +256,55 @@ then just $3.99/week. Cancel anytime.";
 "galleryCleaner.bestPhoto" = "Best photo";
 "galleryCleaner.photosCount" = "Photos: %@";
 "galleryCleaner.permissionRequared" = "“Photos” permission required";
+"galleryCleaner.limitedAccess" = "Need Access to All Photos";
+
+// MARK: - Secret Folder
+
+"secretFolder.title" = "Secret folder";
+"secretFolder.notProtected" = "Your secret folder is not protected!
+Add Face ID and PIN-code authentication
+to protec the privacy of your data.";
+"secretFolder.protectedPt1" = "Contacts, photos and videos added in this
+section will not be displayed in the main
+secion of the phone.";
+"secretFolder.protectedPt2" = "Only you will have access to them through
+this application.";
+"secretFolder.passwords" = "My passwords";
+"secretFolder.gallery" = "Secret gallery";
+"secretFolder.contacts" = "Secret contacts";
+"secretFolder.options" = "Options";
+"secretFolder.addAuthentication" = "Add Authentication";
+
+// MARK: - Passwords
+
+"myPasswords.mainTitle" = "My Passwords";
+"myPasswords.emptyTitle" = "There will be your
+generated passwords";
+"myPasswords.addPassword" = "Add Password";
+"myPasswords.apearHere" = "The password you generated
+will appear here";
+"myPasswords.lengthFunc" = "Length: %@";
+"myPasswords.digits" = "Digits";
+"myPasswords.digitsSubtitle" = "E.g. 123";
+"myPasswords.letters" = "Letters";
+"myPasswords.lettersSubtitle" = "E.g. Aa";
+"myPasswords.symbols" = "Symbols";
+"myPasswords.symbolsSubtitle" = "E.g. #@?";
+"myPasswords.characters" = "Similar characters";
+"myPasswords.charactersSubtitle" = "E.g. 1| 0O";
+"myPasswords.generatePassword" = "Generate password";
+"myPasswords.createAccount" = "Create Account";
+"myPasswords.link" = "Link";
+"myPasswords.account" = "Account";
+"myPasswords.login" = "Login";
+"myPasswords.canChangeDetails" = "You can change the account details later";
+"myPasswords.password" = "PASSWORD";
+"myPasswords.textEtc" = "Text...";
+"myPasswords.yourPasswords" = "YOUR PASSWORDS";
+"myPasswords.deletePassword" = "Delete password?";
+"myPasswords.deletePasswordSubtitle" = "Account information will be deleted from the secret folder.";
+"myPasswords.sureDeletePassword" = "Are you sure you want to delete all passwords?";
+"myPasswords.deleteAllPasswords" = "Delete All Passwords";
+"myPasswords.strongPassword" = "Strong password";
+"myPasswords.insecurePassword" = "Insecure password";
+"myPasswords.dangerousPassword" = "Dangerous password";

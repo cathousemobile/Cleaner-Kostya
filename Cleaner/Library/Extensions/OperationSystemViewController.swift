@@ -62,12 +62,14 @@ private extension OperationSystemViewController {
         for os in SystemInfoOSModel.Installed.allCases {
             let cell = SystemInfoDetailCell(id: os.rawValue)
             cell.setTitleText(os.titleText)
+            cell.setSubtitleText(os.infoText)
             contentView.addCellToOsList(cell)
         }
         
         for session in SystemInfoOSModel.Current.allCases {
             let cell = SystemInfoDetailCell(id: session.rawValue)
             cell.setTitleText(session.titleText)
+            cell.setSubtitleText(session.infoText)
             contentView.addCellToSessionList(cell)
         }
         

@@ -62,12 +62,14 @@ private extension DeviceViewController {
         for basic in SystemInfoDeviceModel.Basic.allCases {
             let cell = SystemInfoDetailCell(id: basic.rawValue)
             cell.setTitleText(basic.titleText)
+            cell.setSubtitleText(basic.infoText)
             contentView.addCellToBasic(cell)
         }
         
         for general in SystemInfoDeviceModel.General.allCases {
             let cell = SystemInfoDetailCell(id: general.rawValue)
             cell.setTitleText(general.titleText)
+            cell.setSubtitleText(general.infoText)
             contentView.addCellToGeneral(cell)
         }
         

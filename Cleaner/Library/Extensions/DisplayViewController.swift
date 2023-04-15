@@ -62,12 +62,14 @@ private extension DisplayViewController {
         for size in SystemInfoDisplayModel.Size.allCases {
             let cell = SystemInfoDetailCell(id: size.rawValue)
             cell.setTitleText(size.titleText)
+            cell.setSubtitleText(size.infoText)
             contentView.addCellToSizeList(cell)
         }
         
         for info in SystemInfoDisplayModel.Information.allCases {
             let cell = SystemInfoDetailCell(id: info.rawValue)
             cell.setTitleText(info.titleText)
+            cell.setSubtitleText(info.infoText)
             contentView.addCellToInfoList(cell)
         }
         

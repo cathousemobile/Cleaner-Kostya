@@ -17,8 +17,9 @@ final class CustomRadioView: UIView {
     
     private lazy var imageView = UIImageView()
     
-    private var iconOn: UIImage// = Generated.Image.radioOn
-    private var iconOff: UIImage// = Generated.Image.radioOff
+    private var iconOn: UIImage
+    private var iconOff: UIImage
+    private var iconDisable: UIImage
     
     // MARK: - Private Properties
     
@@ -34,9 +35,10 @@ final class CustomRadioView: UIView {
     
     // MARK: - Lifecycle
     
-    init(frame: CGRect = .zero, iconOn: UIImage = Generated.Image.radioOn, iconOff: UIImage = Generated.Image.radioOff) {
+    init(frame: CGRect = .zero, iconOn: UIImage = Generated.Image.radioOn, iconOff: UIImage = Generated.Image.radioOff, iconDisable: UIImage = Generated.Image.radioDisable) {
         self.iconOn = iconOn
         self.iconOff = iconOff
+        self.iconDisable = iconDisable
         super.init(frame: frame)
         configureAppearance()
     }
@@ -80,9 +82,10 @@ extension CustomRadioView {
         tapped = action
     }
     
-    func changeRadioIcons(iconOn: UIImage, iconOff: UIImage) {
+    func changeRadioIcons(iconOn: UIImage, iconOff: UIImage, iconDisable: UIImage) {
         self.iconOn = iconOn
         self.iconOff = iconOff
+        self.iconDisable = iconDisable
     }
     
 }
@@ -121,7 +124,7 @@ private extension CustomRadioView {
         case .enable:
             updateSelected()
         case .disable:
-            imageView.image = Generated.Image.radioDisable
+            imageView.image = iconDisable
         }
     }
     

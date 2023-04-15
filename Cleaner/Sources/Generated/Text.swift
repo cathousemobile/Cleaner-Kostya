@@ -7,9 +7,11 @@ import Foundation
 extension Generated.Text {
 
     enum Battery {
+        static var charging: String { NSLocalizedString("battery.charging", comment: "Charging") }
         static var level: String { NSLocalizedString("battery.level", comment: "Level") }
         static var savingMode: String { NSLocalizedString("battery.savingMode", comment: "Power saving mode") }
         static var status: String { NSLocalizedString("battery.status", comment: "Status") }
+        static var unplugged: String { NSLocalizedString("battery.unplugged", comment: "Unplugged") }
     }
 
     enum Common {
@@ -21,6 +23,7 @@ extension Generated.Text {
             return String.localizedStringWithFormat(text, p1)
         }
         static var `continue`: String { NSLocalizedString("common.continue", comment: "Continue") }
+        static var copied: String { NSLocalizedString("common.copied", comment: "Copied") }
         static var delete: String { NSLocalizedString("common.delete", comment: "Delete") }
         static func deleteAllContentWithCount(_ p1: String) -> String {
             let text =  NSLocalizedString("common.deleteAllContentWithCount", comment: "Delete All Content (%@)") 
@@ -34,7 +37,10 @@ extension Generated.Text {
         }
         static var deselectAll: String { NSLocalizedString("common.deselectAll", comment: "Deselect All") }
         static var noAccess: String { NSLocalizedString("common.noAccess", comment: "No access") }
+        static var off: String { NSLocalizedString("common.off", comment: "Off") }
+        static var on: String { NSLocalizedString("common.on", comment: "On") }
         static var restore: String { NSLocalizedString("common.restore", comment: "Restore") }
+        static var save: String { NSLocalizedString("common.save", comment: "Save") }
         static var search: String { NSLocalizedString("common.search", comment: "Search") }
         static var select: String { NSLocalizedString("common.select", comment: "Select") }
         static var selectAll: String { NSLocalizedString("common.selectAll", comment: "Select All") }
@@ -100,6 +106,7 @@ extension Generated.Text {
         static var bestPhoto: String { NSLocalizedString("galleryCleaner.bestPhoto", comment: "Best photo") }
         static var blurryPhotosTag: String { NSLocalizedString("galleryCleaner.blurryPhotosTag", comment: "Blurry photos") }
         static var emptyContentTitle: String { NSLocalizedString("galleryCleaner.emptyContentTitle", comment: "You have no photos & videos") }
+        static var limitedAccess: String { NSLocalizedString("galleryCleaner.limitedAccess", comment: "Need Access to All Photos") }
         static var livePhotosTag: String { NSLocalizedString("galleryCleaner.livePhotosTag", comment: "Live photos") }
         static var permissionRequared: String { NSLocalizedString("galleryCleaner.permissionRequared", comment: "“Photos” permission required") }
         static func photosCount(_ p1: String) -> String {
@@ -124,7 +131,7 @@ extension Generated.Text {
         static var systemInfo: String { NSLocalizedString("main.systemInfo", comment: "System info") }
         static var systemLoad: String { NSLocalizedString("main.systemLoad", comment: "System load") }
         static func usedMemory(_ p1: String, _ p2: String) -> String {
-            let text =  NSLocalizedString("main.usedMemory", comment: "%@ GB of %@ GB Used") 
+            let text =  NSLocalizedString("main.usedMemory", comment: "%@ of %@ Used") 
             return String.localizedStringWithFormat(text, p1, p2)
         }
     }
@@ -136,6 +143,41 @@ extension Generated.Text {
         static var storageAvailable: String { NSLocalizedString("memory.storageAvailable", comment: "Available storage") }
         static var storageTitle: String { NSLocalizedString("memory.storageTitle", comment: "STORAGE INFORMATION") }
         static var storageTotal: String { NSLocalizedString("memory.storageTotal", comment: "Total storage") }
+    }
+
+    enum MyPasswords {
+        static var account: String { NSLocalizedString("myPasswords.account", comment: "Account") }
+        static var addPassword: String { NSLocalizedString("myPasswords.addPassword", comment: "Add Password") }
+        static var apearHere: String { NSLocalizedString("myPasswords.apearHere", comment: "The password you generated\nwill appear here") }
+        static var canChangeDetails: String { NSLocalizedString("myPasswords.canChangeDetails", comment: "You can change the account details later") }
+        static var characters: String { NSLocalizedString("myPasswords.characters", comment: "Similar characters") }
+        static var charactersSubtitle: String { NSLocalizedString("myPasswords.charactersSubtitle", comment: "E.g. 1| 0O") }
+        static var createAccount: String { NSLocalizedString("myPasswords.createAccount", comment: "Create Account") }
+        static var dangerousPassword: String { NSLocalizedString("myPasswords.dangerousPassword", comment: "Dangerous password") }
+        static var deleteAllPasswords: String { NSLocalizedString("myPasswords.deleteAllPasswords", comment: "Delete All Passwords") }
+        static var deletePassword: String { NSLocalizedString("myPasswords.deletePassword", comment: "Delete password?") }
+        static var deletePasswordSubtitle: String { NSLocalizedString("myPasswords.deletePasswordSubtitle", comment: "Account information will be deleted from the secret folder.") }
+        static var digits: String { NSLocalizedString("myPasswords.digits", comment: "Digits") }
+        static var digitsSubtitle: String { NSLocalizedString("myPasswords.digitsSubtitle", comment: "E.g. 123") }
+        static var emptyTitle: String { NSLocalizedString("myPasswords.emptyTitle", comment: "There will be your\ngenerated passwords") }
+        static var generatePassword: String { NSLocalizedString("myPasswords.generatePassword", comment: "Generate password") }
+        static var insecurePassword: String { NSLocalizedString("myPasswords.insecurePassword", comment: "Insecure password") }
+        static func lengthFunc(_ p1: String) -> String {
+            let text =  NSLocalizedString("myPasswords.lengthFunc", comment: "Length: %@") 
+            return String.localizedStringWithFormat(text, p1)
+        }
+        static var letters: String { NSLocalizedString("myPasswords.letters", comment: "Letters") }
+        static var lettersSubtitle: String { NSLocalizedString("myPasswords.lettersSubtitle", comment: "E.g. Aa") }
+        static var link: String { NSLocalizedString("myPasswords.link", comment: "Link") }
+        static var login: String { NSLocalizedString("myPasswords.login", comment: "Login") }
+        static var mainTitle: String { NSLocalizedString("myPasswords.mainTitle", comment: "My Passwords") }
+        static var password: String { NSLocalizedString("myPasswords.password", comment: "PASSWORD") }
+        static var strongPassword: String { NSLocalizedString("myPasswords.strongPassword", comment: "Strong password") }
+        static var sureDeletePassword: String { NSLocalizedString("myPasswords.sureDeletePassword", comment: "Are you sure you want to delete all passwords?") }
+        static var symbols: String { NSLocalizedString("myPasswords.symbols", comment: "Symbols") }
+        static var symbolsSubtitle: String { NSLocalizedString("myPasswords.symbolsSubtitle", comment: "E.g. #@?") }
+        static var textEtc: String { NSLocalizedString("myPasswords.textEtc", comment: "Text...") }
+        static var yourPasswords: String { NSLocalizedString("myPasswords.yourPasswords", comment: "YOUR PASSWORDS") }
     }
 
     enum Network {
@@ -193,12 +235,29 @@ extension Generated.Text {
         static var noneTrialDescriptionPt1: String { NSLocalizedString("paywall.noneTrialDescriptionPt1", comment: "Get full experience with ") }
         static var noneTrialDescriptionPt2: String { NSLocalizedString("paywall.noneTrialDescriptionPt2", comment: "3-day trial") }
         static var noneTrialDescriptionPt3: String { NSLocalizedString("paywall.noneTrialDescriptionPt3", comment: ",\nthen just $3.99/week. Cancel anytime.") }
+        static var per: String { NSLocalizedString("paywall.per", comment: " per ") }
         static var squareAndOvalTitle: String { NSLocalizedString("paywall.squareAndOvalTitle", comment: "Get Premium") }
         static var squareSubtitle: String { NSLocalizedString("paywall.squareSubtitle", comment: "Choose your plan and get all these\ngreat features ") }
+        static func trial(_ p1: String, _ p2: String, _ p3: String) -> String {
+            let text =  NSLocalizedString("paywall.trial", comment: "with %@ trial then %@/%@") 
+            return String.localizedStringWithFormat(text, p1, p2, p3)
+        }
     }
 
     enum Screen {
         static var colorTest: String { NSLocalizedString("screen.colorTest", comment: "Color Test") }
+    }
+
+    enum SecretFolder {
+        static var addAuthentication: String { NSLocalizedString("secretFolder.addAuthentication", comment: "Add Authentication") }
+        static var contacts: String { NSLocalizedString("secretFolder.contacts", comment: "Secret contacts") }
+        static var gallery: String { NSLocalizedString("secretFolder.gallery", comment: "Secret gallery") }
+        static var notProtected: String { NSLocalizedString("secretFolder.notProtected", comment: "Your secret folder is not protected!\nAdd Face ID and PIN-code authentication\nto protec the privacy of your data.") }
+        static var options: String { NSLocalizedString("secretFolder.options", comment: "Options") }
+        static var passwords: String { NSLocalizedString("secretFolder.passwords", comment: "My passwords") }
+        static var protectedPt1: String { NSLocalizedString("secretFolder.protectedPt1", comment: "Contacts, photos and videos added in this\nsection will not be displayed in the main\nsecion of the phone.") }
+        static var protectedPt2: String { NSLocalizedString("secretFolder.protectedPt2", comment: "Only you will have access to them through\nthis application.") }
+        static var title: String { NSLocalizedString("secretFolder.title", comment: "Secret folder") }
     }
 
     enum Sensor {

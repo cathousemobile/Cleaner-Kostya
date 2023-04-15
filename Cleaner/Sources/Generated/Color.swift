@@ -13,7 +13,9 @@ extension Generated.Color {
     static var redTest = UIColor(named: "redTest")!
     static var buttonBackground = UIColor(named: "buttonBackground")!
     static var contactProgress = UIColor(named: "contactProgress")!
+    static var dangerousPasswordColor = UIColor(named: "dangerousPasswordColor")!
     static var dividerBackground = UIColor(named: "dividerBackground")!
+    static var insecurePasswordColor = UIColor(named: "insecurePasswordColor")!
     static var launchBackground = UIColor(named: "launchBackground")!
     static var mainBackground = UIColor(named: "mainBackground")!
     static var mergeButtonBackground = UIColor(named: "mergeButtonBackground")!
@@ -27,6 +29,7 @@ extension Generated.Color {
     static var secondaryText = UIColor(named: "secondaryText")!
     static var selectedText = UIColor(named: "selectedText")!
     static var smartCleaningCellSubtitle = UIColor(named: "smartCleaningCellSubtitle")!
+    static var strongPasswordColor = UIColor(named: "strongPasswordColor")!
     static var tabBarBackground = UIColor(named: "tabBarBackground")!
     static var tabBarUnselected = UIColor(named: "tabBarUnselected")!
     static var tagBackground = UIColor(named: "tagBackground")!

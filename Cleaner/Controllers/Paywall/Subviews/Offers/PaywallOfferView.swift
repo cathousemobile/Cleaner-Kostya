@@ -14,9 +14,41 @@ class PaywallOfferView: UIView {
         didSet { changeState() }
     }
     
+    // MARK: - Private Properties
+    
+    private var buttonAction: EmptyBlock?
+    
     // MARK: - Open Funcs
     
     open func changeState() { }
+    open func setPeriod(_ period: String) { }
+    open func setPrice(_ price: String) { }
+    open func setPricePerPeriod(_ pricePerPeriod: String) { }
+    
+}
+
+// MARK: - Public Methods
+
+extension PaywallOfferView {
+    
+    func setAction(_ action: @escaping EmptyBlock) {
+        buttonAction = action
+    }
+    
+}
+
+// MARK: - Public Methods
+
+extension PaywallOfferView {
+    
+    @objc func buttonTap() {
+        buttonAction?()
+    }
+    
+    func addActions() {
+        isUserInteractionEnabled = true
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(buttonTap)))
+    }
     
 }
 

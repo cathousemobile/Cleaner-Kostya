@@ -21,8 +21,6 @@ final class PaywallOvalOfferView: PaywallOfferView {
     
     // MARK: - Private Properties
     
-    private var buttonAction: EmptyBlock?
-    
     // MARK: - Life Cicle
     
     override init(frame: CGRect = .zero) {
@@ -53,6 +51,18 @@ final class PaywallOvalOfferView: PaywallOfferView {
         
     }
     
+    override func setPeriod(_ period: String) {
+        periodLabel.text = period
+    }
+    
+    override func setPrice(_ price: String) {
+        priceLabel.text = price
+    }
+    
+    override func setPricePerPeriod(_ pricePerPeriod: String) {
+        pricePerPeriodLabel.text = pricePerPeriod
+    }
+    
 }
 
 // MARK: - Private Methods
@@ -73,36 +83,11 @@ private extension PaywallOvalOfferView {
 
 extension PaywallOvalOfferView {
     
-    func setAction(_ action: @escaping EmptyBlock) {
-        buttonAction = action
-    }
-    
-    func setPeriod(_ period: String) {
-        periodLabel.text = period
-    }
-    
-    func setPrice(_ price: String) {
-        priceLabel.text = price
-    }
-    
-    func setPricePerPeriod(_ pricePerPeriod: String) {
-        pricePerPeriodLabel.text = pricePerPeriod
-    }
-    
 }
 
 // MARK: - Actions
 
 private extension PaywallOvalOfferView {
-    
-    func addActions() {
-        isUserInteractionEnabled = true
-        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(buttonTap)))
-    }
-    
-    @objc func buttonTap() {
-        buttonAction?()
-    }
     
 }
 

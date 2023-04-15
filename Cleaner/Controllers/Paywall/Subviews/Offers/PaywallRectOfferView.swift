@@ -3,6 +3,7 @@
 //
 
 import UIKit
+import AttributedString
 
 final class PaywallRectOfferView: PaywallOfferView {
     
@@ -18,8 +19,6 @@ final class PaywallRectOfferView: PaywallOfferView {
     // MARK: - Public Properties
     
     // MARK: - Private Properties
-    
-    private var buttonAction: EmptyBlock?
     
     // MARK: - Life Cicle
     
@@ -50,6 +49,18 @@ final class PaywallRectOfferView: PaywallOfferView {
         
     }
     
+    override func setPeriod(_ period: String) {
+        periodLabel.text = period
+    }
+    
+    override func setPrice(_ price: String) {
+        priceLabel.text = price
+    }
+    
+    override func setPricePerPeriod(_ pricePerPeriod: String) {
+        pricePerPeriodLabel.text = pricePerPeriod
+    }
+    
 }
 
 // MARK: - Private Methods
@@ -70,36 +81,11 @@ private extension PaywallRectOfferView {
 
 extension PaywallRectOfferView {
     
-    func setAction(_ action: @escaping EmptyBlock) {
-        buttonAction = action
-    }
-    
-    func setPeriod(_ period: String) {
-        periodLabel.text = period
-    }
-    
-    func setPrice(_ price: String) {
-        priceLabel.text = price
-    }
-    
-    func setPricePerPeriod(_ pricePerPeriod: String) {
-        pricePerPeriodLabel.text = pricePerPeriod
-    }
-    
 }
 
 // MARK: - Actions
 
 private extension PaywallRectOfferView {
-    
-    func addActions() {
-        isUserInteractionEnabled = true
-        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(buttonTap)))
-    }
-    
-    @objc func buttonTap() {
-        buttonAction?()
-    }
     
 }
 
@@ -113,14 +99,15 @@ private extension PaywallRectOfferView {
     
     func configureSubview() {
         
-        periodLabel.text = "3 Month"
+        periodLabel.text = "Loading..."
         periodLabel.font = .systemFont(ofSize: 16, weight: .bold)
         
-        priceLabel.text = "$58.99"
+        priceLabel.text = "Loading..."
         priceLabel.font = .systemFont(ofSize: 16, weight: .semibold)
         
-        pricePerPeriodLabel.text = "$1 per day"
-        pricePerPeriodLabel.font = .systemFont(ofSize: 14, weight: .semibold)
+        pricePerPeriodLabel.text = "Loading..."
+        pricePerPeriodLabel.font = .systemFont(ofSize: 12, weight: .semibold)
+        pricePerPeriodLabel.numberOfLines = 0
         
         [periodLabel, priceLabel, pricePerPeriodLabel].forEach {
             $0.textAlignment = .center

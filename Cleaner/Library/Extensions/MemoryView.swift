@@ -44,7 +44,6 @@ extension MemoryView {
     func setInfoInCellById(_ stack: SystemInfoMemoryModel, id: String, info: String) {
         
         switch stack {
-        
         case .storage:
             storageListView.setInfoInCellById(id, info: info)
         case .ram:

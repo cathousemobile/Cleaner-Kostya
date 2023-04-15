@@ -59,22 +59,20 @@ private extension NetworkViewController {
     
     func initStacks() {
         
-        for wifi in SystemInfoNetworkModel.Wifi.allCases {
-            let cell = SystemInfoDetailCell(id: wifi.rawValue)
-            cell.setTitleText(wifi.titleText)
-            contentView.addCellToWifiList(cell)
-        }
-        
-        for ip in SystemInfoNetworkModel.Ip.allCases {
-            let cell = SystemInfoDetailCell(id: ip.rawValue)
-            cell.setTitleText(ip.titleText)
-            contentView.addCellToIpList(cell)
-        }
-        
-        for carrier in SystemInfoNetworkModel.Cellular.allCases {
-            let cell = SystemInfoDetailCell(id: carrier.rawValue)
-            cell.setTitleText(carrier.titleText)
-            contentView.addCellToCarrierList(cell)
+        SFSystemInfo.Network.get { [weak self] networkInfo in
+            guard let self = self else { return }
+            
+            DispatchQueue.main.async {
+                
+                for wifi in SystemInfoNetworkModel.allCases {
+                    let cell = SystemInfoDetailCell(id: wifi.rawValue)
+                    cell.setTitleText(wifi.titleText)
+                    cell.setSubtitleText(wifi.infoText(networkInfo))
+                    self.contentView.addCellToWifiList(cell)
+                }
+                
+            }
+            
         }
         
     }

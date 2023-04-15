@@ -16,6 +16,15 @@ extension Generated.Image {
     static var settingsIcon = UIImage(named: "settingsIcon")!
     static var speedTestIcon = UIImage(named: "speedTestIcon")!
     static var systemIcon = UIImage(named: "systemIcon")!
+    static var charactersIcon = UIImage(named: "charactersIcon")!
+    static var copyIcon = UIImage(named: "copyIcon")!
+    static var dangerousPasswordIcon = UIImage(named: "dangerousPasswordIcon")!
+    static var digitsIcon = UIImage(named: "digitsIcon")!
+    static var insecurePasswordIcon = UIImage(named: "insecurePasswordIcon")!
+    static var lettersIcon = UIImage(named: "lettersIcon")!
+    static var passwordCounterBack = UIImage(named: "passwordCounterBack")!
+    static var strongPasswordIcon = UIImage(named: "strongPasswordIcon")!
+    static var symbolsIcon = UIImage(named: "symbolsIcon")!
     static var onboardingFirst = UIImage(named: "onboardingFirst")!
     static var onboardingSecond = UIImage(named: "onboardingSecond")!
     static var onboardingThird = UIImage(named: "onboardingThird")!
@@ -28,6 +37,11 @@ extension Generated.Image {
     static var paywallThirdFeatureIcon = UIImage(named: "paywallThirdFeatureIcon")!
     static var paywallRadioOff = UIImage(named: "paywallRadioOff")!
     static var paywallRadioOn = UIImage(named: "paywallRadioOn")!
+    static var secretContactsIcon = UIImage(named: "secretContactsIcon")!
+    static var secretGalleryIcon = UIImage(named: "secretGalleryIcon")!
+    static var secretNonProtectedTitleBackgroundImage = UIImage(named: "secretNonProtectedTitleBackgroundImage")!
+    static var secretPasswordsIcon = UIImage(named: "secretPasswordsIcon")!
+    static var secretProtectedTitleBackgroundImage = UIImage(named: "secretProtectedTitleBackgroundImage")!
     static var arrowRight = UIImage(named: "arrowRight")!
     static var closeButton = UIImage(named: "closeButton")!
     static var lock = UIImage(named: "lock")!

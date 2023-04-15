@@ -3,12 +3,14 @@
 //
 
 import UIKit
+import Motions
 
 final class SensorViewController: UIViewController {
     
     // MARK: - UI Elements
     
     private let contentView = SensorView()
+    private let meter: Accelerometer = .init()
     
     // MARK: - Public Proporties
     
@@ -53,7 +55,23 @@ extension SensorViewController {
 
 private extension SensorViewController {
     
+    func meterFunc() async {
+        do {
+            let stream: AsyncStream<Point> = try meter.subscribe()
+            for await data in stream {
+                // Do something with the data.
+                print(data)
+            }
+        } catch let error {
+            // Do something with the error.
+            print("Here: ", error)
+        }
+    }
+    
     func setupActions() {
+        Task {
+            await meterFunc()
+        }
         
     }
     

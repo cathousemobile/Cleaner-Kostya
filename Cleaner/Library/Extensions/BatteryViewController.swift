@@ -62,6 +62,7 @@ private extension BatteryViewController {
         for battery in SystemInfoBatteryModel.allCases {
             let cell = SystemInfoDetailCell(id: battery.rawValue)
             cell.setTitleText(battery.titleText)
+            cell.setSubtitleText(battery.infoText)
             contentView.addCellToList(cell)
         }
        

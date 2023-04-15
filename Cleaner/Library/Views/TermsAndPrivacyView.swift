@@ -88,19 +88,6 @@ extension TermsAndPrivacyView {
             .foreground(Generated.Color.buttonBackground)
         ], range: NSRange(location: 0, length: terms.length))
         
-        
-//        privacy = .init(string: "Privacy Policy", with: [
-//            .font(.systemFont(ofSize: 12, weight: .medium)),
-//            .underline(.single, color: Generated.Color.buttonBackground),
-//            .foreground(Generated.Color.buttonBackground)
-//        ])
-        
-//        terms = .init(string: "Terms and Contidions", with: [
-//            .font(.systemFont(ofSize: 12, weight: .medium)),
-//            .underline(.single, color: Generated.Color.buttonBackground),
-//            .foreground(Generated.Color.buttonBackground)
-//        ])
-        
         agreementLabel.attributed.text = privacy + " and " + terms
         
     }

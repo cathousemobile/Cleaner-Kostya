@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "agrume",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/JanGorman/Agrume",
+      "state" : {
+        "revision" : "3527d8dc0d8303be12a7194f287881e8bf689a6b",
+        "version" : "5.8.6"
+      }
+    },
+    {
       "identity" : "apphudsdk",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apphud/ApphudSDK",
@@ -70,6 +79,51 @@
       "state" : {
         "revision" : "5fd3e2923d26f0f0b40f0e6c10fca458a61a73c4",
         "version" : "4.2.0"
+      }
+    },
+    {
+      "identity" : "swift-measures",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/alexandrehsaad/swift-measures.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "11ff96d6f59963a1615a7180c98fb2e8e3ada107"
+      }
+    },
+    {
+      "identity" : "swift-motions",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/alexandrehsaad/swift-motions.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "66cb4a94e12b3af8aeefb3a29a8c203cae0845a4"
+      }
+    },
+    {
+      "identity" : "swift-numeric-protocols",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/alexandrehsaad/swift-numeric-protocols.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "63dab85c1fe8fb14cdfeb4f0ac04988699a25bfd"
+      }
+    },
+    {
+      "identity" : "swift-points",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/alexandrehsaad/swift-points.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "431858d8134b613e9214e73d3204207a42e93cd1"
+      }
+    },
+    {
+      "identity" : "swiftygif",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kirualex/SwiftyGif",
+      "state" : {
+        "revision" : "d6d26061d6553a493781ad3df4a8e275c43fc373",
+        "version" : "5.4.4"
       }
     },
     {
