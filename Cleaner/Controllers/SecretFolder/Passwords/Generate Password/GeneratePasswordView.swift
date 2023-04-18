@@ -73,8 +73,8 @@ extension GeneratePasswordView {
         passwordCountSliderView.getCurrentCountValue()
     }
     
-    func setPasswordData(_ passwordData: PasswordSecurityLevelModel, passwordText: String) {
-        passwordInfoView.setPasswordData(passwordData, passwordText: passwordText)
+    func setPasswordData(_ passwordData: SFPasswordModel) {
+        passwordInfoView.setPasswordData(passwordData)
     }
     
     func setCopyAction(_ action: @escaping EmptyBlock) {

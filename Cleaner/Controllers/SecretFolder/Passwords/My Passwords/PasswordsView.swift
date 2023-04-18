@@ -59,8 +59,11 @@ extension PasswordsView {
         addPasswordButton.setAction(action)
     }
     
-    func addToAccountsList(_ optionsView: MainOptionsCell) {
-        accountsListView.addArrangedSubview(optionsView)
+    func addToAccountsList(_ accountViews: [AccountCellView]) {
+        if !accountsListView.arrangedSubviews.isEmpty {
+            accountsListView.arrangedSubviews.forEach({ $0.removeFromSuperview() })
+        }
+        accountsListView.addArrangedSubviews(accountViews)
     }
     
     func getAccountViewFromId(_ id: String) {
@@ -150,7 +153,7 @@ private extension PasswordsView {
         insideScrollView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(ThisSize.is16/2)
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview().offset(ThisSize.is24)
+            make.bottom.equalToSuperview().offset(-ThisSize.is64)
             make.width.equalToSuperview()
         }
         
@@ -160,8 +163,9 @@ private extension PasswordsView {
         }
         
         accountsListView.snp.makeConstraints { make in
-            make.top.equalTo(accountsTitleLabel).offset(ThisSize.is16/2)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.top.equalTo(accountsTitleLabel.snp.bottom).offset(ThisSize.is16/2)
+            make.leading.trailing.equalToSuperview().inset(ThisSize.is16)
+            make.bottom.equalToSuperview()
         }
         
         addPasswordButton.snp.makeConstraints { make in

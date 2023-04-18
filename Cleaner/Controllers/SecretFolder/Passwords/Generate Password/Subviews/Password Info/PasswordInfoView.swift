@@ -51,16 +51,20 @@ final class PasswordInfoView: UIView {
 
 extension PasswordInfoView {
     
-    func setPasswordData(_ passwordData: PasswordSecurityLevelModel, passwordText: String) {
+    func setPasswordData(_ passwordData: SFPasswordModel) {
         DispatchQueue.main.async {
-            self.passwordLabel.text = passwordText
-            self.passwordLevelIcon.image = passwordData.icon
-            self.passwordLevelLabel.attributed.text = passwordData.titleText
+            self.passwordLabel.text = passwordData.passwod
+            self.passwordLevelIcon.image = passwordData.secureLevel.icon
+            self.passwordLevelLabel.attributed.text = passwordData.secureLevel.titleText
         }
     }
     
     func setCopyAction(_ action: @escaping EmptyBlock) {
         copyButton.setAction(action)
+    }
+    
+    func getPassword() -> String {
+        passwordLabel.text ?? ""
     }
     
 }
@@ -112,7 +116,7 @@ private extension PasswordInfoView {
         addSubviewsBefore()
         
         passwordLevelIcon.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
+            make.leading.equalToSuperview().offset(ThisSize.is16)
             make.top.bottom.equalToSuperview().inset(ThisSize.is20)
         }
         
@@ -128,7 +132,7 @@ private extension PasswordInfoView {
         
         copyButton.snp.makeConstraints { make in
             make.leading.greaterThanOrEqualTo(passwordLabel.snp.trailing).offset(ThisSize.is12)
-            make.trailing.equalToSuperview()
+            make.trailing.equalToSuperview().offset(-ThisSize.is16)
             make.centerY.equalTo(passwordLevelIcon)
         }
         

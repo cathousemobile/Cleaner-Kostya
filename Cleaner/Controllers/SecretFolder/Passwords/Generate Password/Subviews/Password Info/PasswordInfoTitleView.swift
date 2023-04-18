@@ -47,11 +47,11 @@ final class PasswordInfoTitleView: UIView {
 
 extension PasswordInfoTitleView {
     
-    func setPasswordData(_ passwordData: PasswordSecurityLevelModel, passwordText: String) {
+    func setPasswordData(_ passwordData: SFPasswordModel) {
         DispatchQueue.main.async {
             TransitionHelper.with(self.titleLabel)
             self.titleLabel.isHidden = true
-            self.passwordInfoView.setPasswordData(passwordData, passwordText: passwordText)
+            self.passwordInfoView.setPasswordData(passwordData)
             TransitionHelper.with(self.passwordInfoView)
             self.passwordInfoView.isHidden = false
         }
@@ -116,7 +116,7 @@ private extension PasswordInfoTitleView {
         }
         
         passwordInfoView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(ThisSize.is16)
+            make.leading.trailing.equalToSuperview()
             make.top.bottom.equalToSuperview()
         }
         

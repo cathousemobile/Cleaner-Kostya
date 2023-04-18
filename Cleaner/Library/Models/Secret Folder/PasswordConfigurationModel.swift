@@ -12,7 +12,6 @@ enum PasswordConfigurationModel: String, CaseIterable {
     case digits
     case letters
     case symbols
-    case characters
     
     func save(_ bool: Bool) {
         let key = "passwordCellView." + titleText
@@ -39,8 +38,6 @@ enum PasswordConfigurationModel: String, CaseIterable {
             return Text.letters
         case .symbols:
             return Text.symbols
-        case .characters:
-            return Text.characters
             
         }
 
@@ -49,18 +46,16 @@ enum PasswordConfigurationModel: String, CaseIterable {
     var subtitleText: String {
 
         switch self {
-        
+            
         case .digits:
             return Text.digitsSubtitle
         case .letters:
             return Text.lettersSubtitle
         case .symbols:
             return Text.symbolsSubtitle
-        case .characters:
-            return Text.charactersSubtitle
             
         }
-
+        
     }
     
     var icon: UIImage {
@@ -73,8 +68,6 @@ enum PasswordConfigurationModel: String, CaseIterable {
             return Generated.Image.lettersIcon.withTintColor(Generated.Color.primaryText)
         case .symbols:
             return Generated.Image.symbolsIcon.withTintColor(Generated.Color.primaryText)
-        case .characters:
-            return Generated.Image.charactersIcon.withTintColor(Generated.Color.primaryText)
             
         }
 

@@ -146,12 +146,16 @@ extension Generated.Text {
     }
 
     enum MyPasswords {
+        static var acccountChanged: String { NSLocalizedString("myPasswords.acccountChanged", comment: "Account Changed") }
+        static var acccountDeleted: String { NSLocalizedString("myPasswords.acccountDeleted", comment: "Account Deleted") }
         static var account: String { NSLocalizedString("myPasswords.account", comment: "Account") }
+        static var accountDetails: String { NSLocalizedString("myPasswords.accountDetails", comment: "Account Details") }
         static var addPassword: String { NSLocalizedString("myPasswords.addPassword", comment: "Add Password") }
         static var apearHere: String { NSLocalizedString("myPasswords.apearHere", comment: "The password you generated\nwill appear here") }
         static var canChangeDetails: String { NSLocalizedString("myPasswords.canChangeDetails", comment: "You can change the account details later") }
         static var characters: String { NSLocalizedString("myPasswords.characters", comment: "Similar characters") }
         static var charactersSubtitle: String { NSLocalizedString("myPasswords.charactersSubtitle", comment: "E.g. 1| 0O") }
+        static var chooseAttribute: String { NSLocalizedString("myPasswords.chooseAttribute", comment: "Please, Choose Attribute") }
         static var createAccount: String { NSLocalizedString("myPasswords.createAccount", comment: "Create Account") }
         static var dangerousPassword: String { NSLocalizedString("myPasswords.dangerousPassword", comment: "Dangerous password") }
         static var deleteAllPasswords: String { NSLocalizedString("myPasswords.deleteAllPasswords", comment: "Delete All Passwords") }

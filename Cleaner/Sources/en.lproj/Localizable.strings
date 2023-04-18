@@ -308,3 +308,7 @@ will appear here";
 "myPasswords.strongPassword" = "Strong password";
 "myPasswords.insecurePassword" = "Insecure password";
 "myPasswords.dangerousPassword" = "Dangerous password";
+"myPasswords.acccountDeleted" = "Account Deleted";
+"myPasswords.acccountChanged" = "Account Changed";
+"myPasswords.chooseAttribute" = "Please, Choose Attribute";
+"myPasswords.accountDetails" = "Account Details";

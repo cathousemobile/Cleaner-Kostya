@@ -1,10 +1,10 @@
 //
-//  CreateAccountView.swift
+//  AccountDetailView.swift
 //
 
 import UIKit
 
-final class CreateAccountView: UIView {
+final class AccountDetailView: UIView {
     
     typealias Text = Generated.Text.MyPasswords
     
@@ -24,15 +24,18 @@ final class CreateAccountView: UIView {
     
     private lazy var accountInfoListView = UIStackView()
     
-    private lazy var createAccountButton = CustomButtonView()
+    private lazy var deleteAccountButton = CustomButtonView()
     
     private lazy var passwordInfoView = PasswordInfoView()
     
     // MARK: - Lifecycle
     
-    init(frame: CGRect = .zero, passwordData: SFPasswordModel) {
+    init(frame: CGRect = .zero, accountData: SFAccountModel) {
         super.init(frame: frame)
-        self.passwordInfoView.setPasswordData(passwordData)
+        linkCell.setTextfieldText(accountData.link ?? "")
+        accountCell.setTextfieldText(accountData.title ?? "")
+        loginCell.setTextfieldText(accountData.login)
+        self.passwordInfoView.setPasswordData(accountData.passwordInfo)
         configureAppearance()
     }
     
@@ -57,10 +60,10 @@ final class CreateAccountView: UIView {
 
 // MARK: - Public Methods
 
-extension CreateAccountView {
+extension AccountDetailView {
     
-    func setCreateAccountAction(_ action: @escaping EmptyBlock) {
-        createAccountButton.setAction(action)
+    func setDeleteAccountAction(_ action: @escaping EmptyBlock) {
+        deleteAccountButton.setAction(action)
     }
     
     func getAccountData() -> AccountDataModel {
@@ -72,11 +75,16 @@ extension CreateAccountView {
         passwordInfoView.setCopyAction(action)
     }
     
+    func getChangedFields() -> [CreateAccountCellView] {
+        let changeArray = accountInfoListView.arrangedSubviews.compactMap( { $0 as? CreateAccountCellView } ).filter({ $0.textIsChanged() == true })
+        return changeArray
+    }
+    
 }
 
 // MARK: - Private Methods
 
-private extension CreateAccountView {
+private extension AccountDetailView {
     
     func addActions() {
         
@@ -86,7 +94,7 @@ private extension CreateAccountView {
 
 // MARK: - UI Configure (view & subviews)
 
-private extension CreateAccountView {
+private extension AccountDetailView {
     
     func configureView() {
         backgroundColor = Generated.Color.mainBackground
@@ -111,7 +119,8 @@ private extension CreateAccountView {
         
         accountInfoListView.axis = .vertical
         
-        createAccountButton.setTitle(text: Text.createAccount)
+        deleteAccountButton.setTitle(text: Generated.Text.Common.delete)
+        deleteAccountButton.changeBackgroundColor(Generated.Color.redWarning)
         
     }
     
@@ -131,10 +140,10 @@ private extension CreateAccountView {
 
 // MARK: - Layout Setup
 
-private extension CreateAccountView {
+private extension AccountDetailView {
     
     func addSubviewsBefore() {
-        addSubviews([accountInfoListView, accountInfoPostTitleLabel, passwordTitleLabel, passwordInfoView, createAccountButton])
+        addSubviews([accountInfoListView, accountInfoPostTitleLabel, passwordTitleLabel, passwordInfoView, deleteAccountButton])
     }
     
     func configureConstraints() {
@@ -161,7 +170,7 @@ private extension CreateAccountView {
             make.leading.trailing.equalToSuperview().inset(ThisSize.is16)
         }
         
-        createAccountButton.snp.makeConstraints { make in
+        deleteAccountButton.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(ThisSize.is16)
             make.bottom.equalTo(safeAreaLayoutGuide).offset(-ThisSize.is12)
         }

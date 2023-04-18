@@ -1,15 +1,11 @@
 //
-//  PasswordDataModel.swift
+//  SFPasswordModel+Extension.swift
 //
 
-import UIKit
 import AttributedString
+import UIKit
 
-enum PasswordSecurityLevelModel {
-    
-    case dangerous
-    case insecure
-    case strong
+extension SFPasswordModel.SecureLevel {
     
     var titleText: ASAttributedString {
         
@@ -17,13 +13,13 @@ enum PasswordSecurityLevelModel {
 
         switch self {
         
-        case .dangerous:
+        case .low:
             return ASAttributedString(string: Text.dangerousPassword, .foreground(Generated.Color.dangerousPasswordColor),
                                                                       .font(.systemFont(ofSize: 15, weight: .regular)))
-        case .insecure:
+        case .medium:
             return ASAttributedString(string: Text.insecurePassword, .foreground(Generated.Color.insecurePasswordColor),
                                                                       .font(.systemFont(ofSize: 15, weight: .regular)))
-        case .strong:
+        case .hight:
             return ASAttributedString(string: Text.strongPassword, .foreground(Generated.Color.strongPasswordColor),
                                                                       .font(.systemFont(ofSize: 15, weight: .regular)))
         }
@@ -34,11 +30,11 @@ enum PasswordSecurityLevelModel {
 
         switch self {
             
-        case .dangerous:
+        case .low:
             return Generated.Image.dangerousPasswordIcon
-        case .insecure:
+        case .medium:
             return Generated.Image.insecurePasswordIcon
-        case .strong:
+        case .hight:
             return Generated.Image.strongPasswordIcon
             
         }

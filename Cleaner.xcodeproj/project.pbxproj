@@ -135,18 +135,34 @@
 		84A9A1F529E80E5A0034C7F5 /* SecretFolderTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A1F429E80E5A0034C7F5 /* SecretFolderTitleView.swift */; };
 		84A9A1FA29E968920034C7F5 /* PasswordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A1F929E968920034C7F5 /* PasswordsViewController.swift */; };
 		84A9A1FC29E9689B0034C7F5 /* PasswordsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A1FB29E9689B0034C7F5 /* PasswordsView.swift */; };
-		84A9A1FF29E96AFD0034C7F5 /* PasswordCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A1FE29E96AFD0034C7F5 /* PasswordCellView.swift */; };
+		84A9A1FF29E96AFD0034C7F5 /* CreateAccountCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A1FE29E96AFD0034C7F5 /* CreateAccountCellView.swift */; };
 		84A9A20129E97BB50034C7F5 /* PasswordConfigurationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A20029E97BB50034C7F5 /* PasswordConfigurationModel.swift */; };
 		84A9A20529E988840034C7F5 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A20429E988840034C7F5 /* CreateAccountViewController.swift */; };
 		84A9A20729E988AA0034C7F5 /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A20629E988AA0034C7F5 /* CreateAccountView.swift */; };
 		84A9A20B29E98B910034C7F5 /* GeneratePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A20A29E98B910034C7F5 /* GeneratePasswordViewController.swift */; };
 		84A9A20D29E98B9D0034C7F5 /* GeneratePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A20C29E98B9D0034C7F5 /* GeneratePasswordView.swift */; };
 		84A9A21029EAB2A40034C7F5 /* PasswordInfoTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A20F29EAB2A40034C7F5 /* PasswordInfoTitleView.swift */; };
-		84A9A21229EAB3400034C7F5 /* PasswordSecurityLevelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A21129EAB3400034C7F5 /* PasswordSecurityLevelModel.swift */; };
 		84A9A21429EABE5E0034C7F5 /* PasswordInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A21329EABE5E0034C7F5 /* PasswordInfoView.swift */; };
 		84A9A21629EAC7580034C7F5 /* PasswordSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A21529EAC7580034C7F5 /* PasswordSliderView.swift */; };
 		84A9A21829EAC7A80034C7F5 /* PasswordSliderIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A21729EAC7A80034C7F5 /* PasswordSliderIconView.swift */; };
 		84A9A21C29EAF03B0034C7F5 /* GeneratePasswordAttributeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A21B29EAF03B0034C7F5 /* GeneratePasswordAttributeView.swift */; };
+		84A9A21E29ED4E550034C7F5 /* AccountDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A21D29ED4E550034C7F5 /* AccountDataModel.swift */; };
+		84A9A22129ED58910034C7F5 /* AccountDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A22029ED58910034C7F5 /* AccountDetailViewController.swift */; };
+		84A9A22329ED58C40034C7F5 /* AccountDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A22229ED58C40034C7F5 /* AccountDetailView.swift */; };
+		84A9A22629ED6F7E0034C7F5 /* SecretGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A22529ED6F7E0034C7F5 /* SecretGalleryViewController.swift */; };
+		84A9A22829ED6F860034C7F5 /* SecretGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A22729ED6F860034C7F5 /* SecretGalleryView.swift */; };
+		84A9A22C29ED70990034C7F5 /* SecretGalleryDiffibleDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A22B29ED70990034C7F5 /* SecretGalleryDiffibleDataSource.swift */; };
+		84A9A22F29ED74020034C7F5 /* SecretContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A22E29ED74020034C7F5 /* SecretContactsViewController.swift */; };
+		84A9A23129ED745A0034C7F5 /* SecretContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A23029ED745A0034C7F5 /* SecretContactView.swift */; };
+		84A9A23329ED74840034C7F5 /* SecretContactDiffibleDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A23229ED74840034C7F5 /* SecretContactDiffibleDataSource.swift */; };
+		84A9A23929EE95290034C7F5 /* SFPasswordGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A23629EE95290034C7F5 /* SFPasswordGenerator.swift */; };
+		84A9A23A29EE95290034C7F5 /* SFPasswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A23829EE95290034C7F5 /* SFPasswordModel.swift */; };
+		84A9A23F29EE97AA0034C7F5 /* SFAccountStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A23C29EE97AA0034C7F5 /* SFAccountStorage.swift */; };
+		84A9A24029EE97AA0034C7F5 /* SFAccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A23E29EE97AA0034C7F5 /* SFAccountModel.swift */; };
+		84A9A24329EE97B70034C7F5 /* SFContactStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A24229EE97B70034C7F5 /* SFContactStorage.swift */; };
+		84A9A24529EE9CD50034C7F5 /* AccountCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A24429EE9CD50034C7F5 /* AccountCellView.swift */; };
+		84A9A24729EEC2550034C7F5 /* SFPasswordModel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A24629EEC2550034C7F5 /* SFPasswordModel+Extension.swift */; };
+		84A9A24A29EED7C90034C7F5 /* SFGalleryStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9A24929EED7C90034C7F5 /* SFGalleryStorage.swift */; };
 		84B1764129CB3E6D00885758 /* TermsAndPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B1764029CB3E6D00885758 /* TermsAndPrivacyView.swift */; };
 		84B1764329CC678C00885758 /* CustomLabelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B1764229CC678C00885758 /* CustomLabelButton.swift */; };
 		84B1764529CC68C000885758 /* CustomImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B1764429CC68C000885758 /* CustomImageButton.swift */; };
@@ -187,7 +203,6 @@
 		84B176C229D6CFA100885758 /* SFSystemInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B1767D29D6CFA100885758 /* SFSystemInfo.swift */; };
 		84B176C329D6CFA100885758 /* SFDeviceName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B1768029D6CFA100885758 /* SFDeviceName.swift */; };
 		84B176C429D6CFA100885758 /* SFDevicePPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B1768129D6CFA100885758 /* SFDevicePPI.swift */; };
-		84B176C529D6CFA100885758 /* SFPasswordGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B1768229D6CFA100885758 /* SFPasswordGenerator.swift */; };
 		84B176C629D6CFA100885758 /* SFSpeedTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B1768429D6CFA100885758 /* SFSpeedTest.swift */; };
 		84B176C729D6CFA100885758 /* URLResponse+Checking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B1768629D6CFA100885758 /* URLResponse+Checking.swift */; };
 		84B176C829D6CFA100885758 /* URL+ping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B1768729D6CFA100885758 /* URL+ping.swift */; };
@@ -360,18 +375,34 @@
 		84A9A1F429E80E5A0034C7F5 /* SecretFolderTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretFolderTitleView.swift; sourceTree = "<group>"; };
 		84A9A1F929E968920034C7F5 /* PasswordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordsViewController.swift; sourceTree = "<group>"; };
 		84A9A1FB29E9689B0034C7F5 /* PasswordsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordsView.swift; sourceTree = "<group>"; };
-		84A9A1FE29E96AFD0034C7F5 /* PasswordCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordCellView.swift; sourceTree = "<group>"; };
+		84A9A1FE29E96AFD0034C7F5 /* CreateAccountCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountCellView.swift; sourceTree = "<group>"; };
 		84A9A20029E97BB50034C7F5 /* PasswordConfigurationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordConfigurationModel.swift; sourceTree = "<group>"; };
 		84A9A20429E988840034C7F5 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		84A9A20629E988AA0034C7F5 /* CreateAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
 		84A9A20A29E98B910034C7F5 /* GeneratePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePasswordViewController.swift; sourceTree = "<group>"; };
 		84A9A20C29E98B9D0034C7F5 /* GeneratePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePasswordView.swift; sourceTree = "<group>"; };
 		84A9A20F29EAB2A40034C7F5 /* PasswordInfoTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordInfoTitleView.swift; sourceTree = "<group>"; };
-		84A9A21129EAB3400034C7F5 /* PasswordSecurityLevelModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordSecurityLevelModel.swift; sourceTree = "<group>"; };
 		84A9A21329EABE5E0034C7F5 /* PasswordInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordInfoView.swift; sourceTree = "<group>"; };
 		84A9A21529EAC7580034C7F5 /* PasswordSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordSliderView.swift; sourceTree = "<group>"; };
 		84A9A21729EAC7A80034C7F5 /* PasswordSliderIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordSliderIconView.swift; sourceTree = "<group>"; };
 		84A9A21B29EAF03B0034C7F5 /* GeneratePasswordAttributeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePasswordAttributeView.swift; sourceTree = "<group>"; };
+		84A9A21D29ED4E550034C7F5 /* AccountDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDataModel.swift; sourceTree = "<group>"; };
+		84A9A22029ED58910034C7F5 /* AccountDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailViewController.swift; sourceTree = "<group>"; };
+		84A9A22229ED58C40034C7F5 /* AccountDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailView.swift; sourceTree = "<group>"; };
+		84A9A22529ED6F7E0034C7F5 /* SecretGalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretGalleryViewController.swift; sourceTree = "<group>"; };
+		84A9A22729ED6F860034C7F5 /* SecretGalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretGalleryView.swift; sourceTree = "<group>"; };
+		84A9A22B29ED70990034C7F5 /* SecretGalleryDiffibleDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretGalleryDiffibleDataSource.swift; sourceTree = "<group>"; };
+		84A9A22E29ED74020034C7F5 /* SecretContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretContactsViewController.swift; sourceTree = "<group>"; };
+		84A9A23029ED745A0034C7F5 /* SecretContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretContactView.swift; sourceTree = "<group>"; };
+		84A9A23229ED74840034C7F5 /* SecretContactDiffibleDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretContactDiffibleDataSource.swift; sourceTree = "<group>"; };
+		84A9A23629EE95290034C7F5 /* SFPasswordGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFPasswordGenerator.swift; sourceTree = "<group>"; };
+		84A9A23829EE95290034C7F5 /* SFPasswordModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFPasswordModel.swift; sourceTree = "<group>"; };
+		84A9A23C29EE97AA0034C7F5 /* SFAccountStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFAccountStorage.swift; sourceTree = "<group>"; };
+		84A9A23E29EE97AA0034C7F5 /* SFAccountModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFAccountModel.swift; sourceTree = "<group>"; };
+		84A9A24229EE97B70034C7F5 /* SFContactStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFContactStorage.swift; sourceTree = "<group>"; };
+		84A9A24429EE9CD50034C7F5 /* AccountCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCellView.swift; sourceTree = "<group>"; };
+		84A9A24629EEC2550034C7F5 /* SFPasswordModel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SFPasswordModel+Extension.swift"; sourceTree = "<group>"; };
+		84A9A24929EED7C90034C7F5 /* SFGalleryStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFGalleryStorage.swift; sourceTree = "<group>"; };
 		84B1764029CB3E6D00885758 /* TermsAndPrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndPrivacyView.swift; sourceTree = "<group>"; };
 		84B1764229CC678C00885758 /* CustomLabelButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabelButton.swift; sourceTree = "<group>"; };
 		84B1764429CC68C000885758 /* CustomImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageButton.swift; sourceTree = "<group>"; };
@@ -412,7 +443,6 @@
 		84B1767D29D6CFA100885758 /* SFSystemInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFSystemInfo.swift; sourceTree = "<group>"; };
 		84B1768029D6CFA100885758 /* SFDeviceName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFDeviceName.swift; sourceTree = "<group>"; };
 		84B1768129D6CFA100885758 /* SFDevicePPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFDevicePPI.swift; sourceTree = "<group>"; };
-		84B1768229D6CFA100885758 /* SFPasswordGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFPasswordGenerator.swift; sourceTree = "<group>"; };
 		84B1768429D6CFA100885758 /* SFSpeedTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFSpeedTest.swift; sourceTree = "<group>"; };
 		84B1768629D6CFA100885758 /* URLResponse+Checking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLResponse+Checking.swift"; sourceTree = "<group>"; };
 		84B1768729D6CFA100885758 /* URL+ping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+ping.swift"; sourceTree = "<group>"; };
@@ -648,6 +678,7 @@
 				84D210B729C47A5900CCCEA0 /* NSDiffableDataSourceSnapshot+Extension.swift */,
 				84B1765329D5E62800885758 /* UCollectionView+Extension.swift */,
 				8426DE7129E5748000515D29 /* TimeInterval+Extension.swift */,
+				84A9A24629EEC2550034C7F5 /* SFPasswordModel+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1009,6 +1040,8 @@
 		84A9A1E629E806F50034C7F5 /* SecretFolder */ = {
 			isa = PBXGroup;
 			children = (
+				84A9A22D29ED73ED0034C7F5 /* Secret Contacts */,
+				84A9A22429ED6F650034C7F5 /* Secret Gallery */,
 				84A9A1ED29E80B350034C7F5 /* Main */,
 				84A9A1F829E968530034C7F5 /* Passwords */,
 			);
@@ -1046,7 +1079,7 @@
 			children = (
 				84A9A1EB29E80A9A0034C7F5 /* SecretFolderOptionsModel.swift */,
 				84A9A20029E97BB50034C7F5 /* PasswordConfigurationModel.swift */,
-				84A9A21129EAB3400034C7F5 /* PasswordSecurityLevelModel.swift */,
+				84A9A21D29ED4E550034C7F5 /* AccountDataModel.swift */,
 			);
 			path = "Secret Folder";
 			sourceTree = "<group>";
@@ -1083,6 +1116,7 @@
 				84A9A20229E988590034C7F5 /* My Passwords */,
 				84A9A20929E98B750034C7F5 /* Generate Password */,
 				84A9A20329E988710034C7F5 /* Create Account */,
+				84A9A21F29ED50D00034C7F5 /* Account Detail */,
 			);
 			path = Passwords;
 			sourceTree = "<group>";
@@ -1090,6 +1124,7 @@
 		84A9A1FD29E96A590034C7F5 /* Subviews */ = {
 			isa = PBXGroup;
 			children = (
+				84A9A24429EE9CD50034C7F5 /* AccountCellView.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -1117,7 +1152,7 @@
 		84A9A20829E988CD0034C7F5 /* Subviews */ = {
 			isa = PBXGroup;
 			children = (
-				84A9A1FE29E96AFD0034C7F5 /* PasswordCellView.swift */,
+				84A9A1FE29E96AFD0034C7F5 /* CreateAccountCellView.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -1158,6 +1193,101 @@
 				84A9A21329EABE5E0034C7F5 /* PasswordInfoView.swift */,
 			);
 			path = "Password Info";
+			sourceTree = "<group>";
+		};
+		84A9A21F29ED50D00034C7F5 /* Account Detail */ = {
+			isa = PBXGroup;
+			children = (
+				84A9A22029ED58910034C7F5 /* AccountDetailViewController.swift */,
+				84A9A22229ED58C40034C7F5 /* AccountDetailView.swift */,
+			);
+			path = "Account Detail";
+			sourceTree = "<group>";
+		};
+		84A9A22429ED6F650034C7F5 /* Secret Gallery */ = {
+			isa = PBXGroup;
+			children = (
+				84A9A22529ED6F7E0034C7F5 /* SecretGalleryViewController.swift */,
+				84A9A22729ED6F860034C7F5 /* SecretGalleryView.swift */,
+				84A9A22929ED6F8C0034C7F5 /* Data Source */,
+			);
+			path = "Secret Gallery";
+			sourceTree = "<group>";
+		};
+		84A9A22929ED6F8C0034C7F5 /* Data Source */ = {
+			isa = PBXGroup;
+			children = (
+				84A9A22B29ED70990034C7F5 /* SecretGalleryDiffibleDataSource.swift */,
+			);
+			path = "Data Source";
+			sourceTree = "<group>";
+		};
+		84A9A22D29ED73ED0034C7F5 /* Secret Contacts */ = {
+			isa = PBXGroup;
+			children = (
+				84A9A22E29ED74020034C7F5 /* SecretContactsViewController.swift */,
+				84A9A23029ED745A0034C7F5 /* SecretContactView.swift */,
+				84A9A23429ED74890034C7F5 /* Data Source */,
+			);
+			path = "Secret Contacts";
+			sourceTree = "<group>";
+		};
+		84A9A23429ED74890034C7F5 /* Data Source */ = {
+			isa = PBXGroup;
+			children = (
+				84A9A23229ED74840034C7F5 /* SecretContactDiffibleDataSource.swift */,
+			);
+			path = "Data Source";
+			sourceTree = "<group>";
+		};
+		84A9A23529EE95290034C7F5 /* SFPasswordGenerator */ = {
+			isa = PBXGroup;
+			children = (
+				84A9A23629EE95290034C7F5 /* SFPasswordGenerator.swift */,
+				84A9A23729EE95290034C7F5 /* Model */,
+			);
+			path = SFPasswordGenerator;
+			sourceTree = "<group>";
+		};
+		84A9A23729EE95290034C7F5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				84A9A23829EE95290034C7F5 /* SFPasswordModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		84A9A23B29EE97AA0034C7F5 /* SFAccountStorage */ = {
+			isa = PBXGroup;
+			children = (
+				84A9A23C29EE97AA0034C7F5 /* SFAccountStorage.swift */,
+				84A9A23D29EE97AA0034C7F5 /* Model */,
+			);
+			path = SFAccountStorage;
+			sourceTree = "<group>";
+		};
+		84A9A23D29EE97AA0034C7F5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				84A9A23E29EE97AA0034C7F5 /* SFAccountModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		84A9A24129EE97B70034C7F5 /* SFContactStorage */ = {
+			isa = PBXGroup;
+			children = (
+				84A9A24229EE97B70034C7F5 /* SFContactStorage.swift */,
+			);
+			path = SFContactStorage;
+			sourceTree = "<group>";
+		};
+		84A9A24829EED7C90034C7F5 /* SFGalleryStorage */ = {
+			isa = PBXGroup;
+			children = (
+				84A9A24929EED7C90034C7F5 /* SFGalleryStorage.swift */,
+			);
+			path = SFGalleryStorage;
 			sourceTree = "<group>";
 		};
 		84B1764629CC691500885758 /* Buttons */ = {
@@ -1287,9 +1417,12 @@
 		84B1767C29D6CFA100885758 /* Cleaner */ = {
 			isa = PBXGroup;
 			children = (
+				84A9A24829EED7C90034C7F5 /* SFGalleryStorage */,
+				84A9A24129EE97B70034C7F5 /* SFContactStorage */,
+				84A9A23B29EE97AA0034C7F5 /* SFAccountStorage */,
+				84A9A23529EE95290034C7F5 /* SFPasswordGenerator */,
 				84B1767D29D6CFA100885758 /* SFSystemInfo.swift */,
 				84B1767E29D6CFA100885758 /* SFDeviceInfo */,
-				84B1768229D6CFA100885758 /* SFPasswordGenerator.swift */,
 				84B1768329D6CFA100885758 /* SFSpeedTest */,
 				84B1769929D6CFA100885758 /* SFByteFormatter.swift */,
 				84B1769A29D6CFA100885758 /* SFContactFinder */,
@@ -1665,15 +1798,16 @@
 				84B176C429D6CFA100885758 /* SFDevicePPI.swift in Sources */,
 				84B176CF29D6CFA100885758 /* DefaultHostPingService.swift in Sources */,
 				84B176A329D6CFA100885758 /* SFTypealias.swift in Sources */,
+				84A9A21E29ED4E550034C7F5 /* AccountDataModel.swift in Sources */,
 				84B176A829D6CFA100885758 /* UIViewControllerExtension.swift in Sources */,
 				84D210C729C877DA00CCCEA0 /* ContactCleanerTableMergeCell.swift in Sources */,
 				84A9A1F529E80E5A0034C7F5 /* SecretFolderTitleView.swift in Sources */,
 				84D210D529C9E4E600CCCEA0 /* PaywallFeaturesStackViewCell.swift in Sources */,
 				84B1764929D2F53200885758 /* GalleryDefaultCollectionCell.swift in Sources */,
 				8446981A29B6040900A5490C /* MainSystemInfoView.swift in Sources */,
+				84A9A22629ED6F7E0034C7F5 /* SecretGalleryViewController.swift in Sources */,
 				84D210DD29CB028E00CCCEA0 /* PaywallViewTypeModel.swift in Sources */,
 				84A9A1EC29E80A9A0034C7F5 /* SecretFolderOptionsModel.swift in Sources */,
-				84B176C529D6CFA100885758 /* SFPasswordGenerator.swift in Sources */,
 				844697C929B2016900A5490C /* SizeCalculator.swift in Sources */,
 				849815B229BF47D6007F8206 /* SystemInfoOSModel.swift in Sources */,
 				84D210DB29CAFF6100CCCEA0 /* PaywallRectOfferView.swift in Sources */,
@@ -1688,12 +1822,15 @@
 				84B176CA29D6CFA100885758 /* CustomHostDownloadService.swift in Sources */,
 				844697D429B203C300A5490C /* OnboardingViewController.swift in Sources */,
 				84B176D529D6CFA100885758 /* SFContact.swift in Sources */,
+				84A9A24329EE97B70034C7F5 /* SFContactStorage.swift in Sources */,
 				844697FC29B2128400A5490C /* OnboardingFirstAnimaticView.swift in Sources */,
 				844697C729B2013800A5490C /* DeviceSize.swift in Sources */,
 				8446981529B5F8EE00A5490C /* MainViewController.swift in Sources */,
+				84A9A23A29EE95290034C7F5 /* SFPasswordModel.swift in Sources */,
 				8498159229BB7F0D007F8206 /* NetworkViewController.swift in Sources */,
 				84B176C129D6CFA100885758 /* SFNotificationSystem.swift in Sources */,
 				8446980D29B5EB4E00A5490C /* FadePushAnimator.swift in Sources */,
+				84A9A23929EE95290034C7F5 /* SFPasswordGenerator.swift in Sources */,
 				8498159829BB7F95007F8206 /* BatteryView.swift in Sources */,
 				84B176C329D6CFA100885758 /* SFDeviceName.swift in Sources */,
 				8426DE6E29E458EF00515D29 /* AppKit.swift in Sources */,
@@ -1728,6 +1865,7 @@
 				8498153C29B9DA42007F8206 /* SettingsNotificationCellView.swift in Sources */,
 				84B176B429D6CFA100885758 /* CollectionExtension.swift in Sources */,
 				844697C029B1FED600A5490C /* Blocks.swift in Sources */,
+				84A9A22F29ED74020034C7F5 /* SecretContactsViewController.swift in Sources */,
 				84D210E229CB0B0E00CCCEA0 /* PaywallOvalOfferView.swift in Sources */,
 				84B176A729D6CFA100885758 /* UIColorExtension.swift in Sources */,
 				84B1765029D5A8C900885758 /* GalleryCleanerBestPhotoView.swift in Sources */,
@@ -1748,12 +1886,14 @@
 				84D210B029C3065100CCCEA0 /* ContactCleanerTableSimpleCell.swift in Sources */,
 				84A42C5529B7542600407D2B /* GalleryCleanerViewController.swift in Sources */,
 				8498158229BB7D3F007F8206 /* DeviceViewController.swift in Sources */,
+				84A9A24529EE9CD50034C7F5 /* AccountCellView.swift in Sources */,
 				8498157629BB75B7007F8206 /* UIImage+Extension.swift in Sources */,
 				84B176A929D6CFA100885758 /* UITableViewExtension.swift in Sources */,
 				84B176CE29D6CFA100885758 /* HostURLFormatter.swift in Sources */,
 				84B176B529D6CFA100885758 /* CalendarExtension.swift in Sources */,
 				8446981229B5F3E000A5490C /* LocalStorage.swift in Sources */,
 				84D210E029CB08E800CCCEA0 /* PaywallOffersStackView.swift in Sources */,
+				84A9A23329ED74840034C7F5 /* SecretContactDiffibleDataSource.swift in Sources */,
 				84B1764C29D2FC5600885758 /* GalleryCollectionViewDiffibleDataSource.swift in Sources */,
 				84A9A1E029E6B0B80034C7F5 /* SFContactFinderType.swift in Sources */,
 				84B176D629D6CFA100885758 /* SFContactFinderError.swift in Sources */,
@@ -1769,10 +1909,12 @@
 				8498158C29BB7E13007F8206 /* MemoryViewController.swift in Sources */,
 				84B1764529CC68C000885758 /* CustomImageButton.swift in Sources */,
 				849815AC29BF3CDD007F8206 /* SystemInfoDisplayModel.swift in Sources */,
-				84A9A1FF29E96AFD0034C7F5 /* PasswordCellView.swift in Sources */,
+				84A9A1FF29E96AFD0034C7F5 /* CreateAccountCellView.swift in Sources */,
+				84A9A23F29EE97AA0034C7F5 /* SFAccountStorage.swift in Sources */,
 				849815AE29BF3F20007F8206 /* SystemInfoNetworkModel.swift in Sources */,
 				8498159429BB7F15007F8206 /* NetworkView.swift in Sources */,
 				84B176BC29D6CFA100885758 /* PHAssetExtension.swift in Sources */,
+				84A9A22C29ED70990034C7F5 /* SecretGalleryDiffibleDataSource.swift in Sources */,
 				84B176AE29D6CFA100885758 /* UITabBarControllerExtension.swift in Sources */,
 				84A9A21829EAC7A80034C7F5 /* PasswordSliderIconView.swift in Sources */,
 				849815AA29BF38C7007F8206 /* SystemInfoMemoryModel.swift in Sources */,
@@ -1787,6 +1929,7 @@
 				8446979529B0A82100A5490C /* Generated.swift in Sources */,
 				84B176DA29D6D40E00885758 /* Do.swift in Sources */,
 				8498153729B9C972007F8206 /* AppConstants.swift in Sources */,
+				84A9A24A29EED7C90034C7F5 /* SFGalleryStorage.swift in Sources */,
 				84B176B629D6CFA100885758 /* ArrayExtension.swift in Sources */,
 				84B176BF29D6CFA100885758 /* SFProductAnalytics.swift in Sources */,
 				84B1765229D5B81D00885758 /* GalleryCleanerHeaderView.swift in Sources */,
@@ -1805,6 +1948,7 @@
 				84B176BA29D6CFA100885758 /* DateExtension.swift in Sources */,
 				84B176B729D6CFA100885758 /* BinaryFloatingPointExtension.swift in Sources */,
 				84A42C5F29B7552300407D2B /* GalleryCleanerView.swift in Sources */,
+				84A9A22329ED58C40034C7F5 /* AccountDetailView.swift in Sources */,
 				8498159029BB7E97007F8206 /* DisplayView.swift in Sources */,
 				8498157129BB6FB9007F8206 /* SystemInfoCell.swift in Sources */,
 				8426DE7029E45A8B00515D29 /* AppManager.swift in Sources */,
@@ -1813,18 +1957,20 @@
 				84B176B829D6CFA100885758 /* StringExtension.swift in Sources */,
 				84B176C729D6CFA100885758 /* URLResponse+Checking.swift in Sources */,
 				8498158A29BB7E07007F8206 /* MemoryView.swift in Sources */,
+				84A9A24729EEC2550034C7F5 /* SFPasswordModel+Extension.swift in Sources */,
 				84A42C5329B7540900407D2B /* ContactCleanerViewController.swift in Sources */,
 				84315A9C29C07FA3006A2F0D /* CustomRadioView.swift in Sources */,
 				8426DE6C29E4524A00515D29 /* PaywallOfferModel.swift in Sources */,
 				8446981729B5F8F500A5490C /* MainView.swift in Sources */,
 				849815B429BF49F5007F8206 /* SystemInfoSensorModel.swift in Sources */,
-				84A9A21229EAB3400034C7F5 /* PasswordSecurityLevelModel.swift in Sources */,
 				84B176B229D6CFA100885758 /* UINavigationBarExtension.swift in Sources */,
 				84315A9529C07EAC006A2F0D /* SmartCleaningViewController.swift in Sources */,
 				8426DE6729E2F17100515D29 /* ContentSizeCalculatorHelper.swift in Sources */,
 				84A9A21029EAB2A40034C7F5 /* PasswordInfoTitleView.swift in Sources */,
 				84A42C6129B7555600407D2B /* SystemInfoView.swift in Sources */,
 				8446980829B23B2800A5490C /* CircularProgressView.swift in Sources */,
+				84A9A24029EE97AA0034C7F5 /* SFAccountModel.swift in Sources */,
+				84A9A22829ED6F860034C7F5 /* SecretGalleryView.swift in Sources */,
 				849815B029BF462D007F8206 /* SystemInfoBatteryModel.swift in Sources */,
 				8498156629B9E295007F8206 /* SpeedTestSpeedInfoView.swift in Sources */,
 				84A42C5129B753C700407D2B /* SpeedTestViewController.swift in Sources */,
@@ -1837,8 +1983,10 @@
 				84A9A21429EABE5E0034C7F5 /* PasswordInfoView.swift in Sources */,
 				8446976B29B09ABB00A5490C /* AppDelegate.swift in Sources */,
 				84D210D729C9E6A600CCCEA0 /* PaywallFeaturesModel.swift in Sources */,
+				84A9A22129ED58910034C7F5 /* AccountDetailViewController.swift in Sources */,
 				8498156A29B9E7C0007F8206 /* SpeedTestSpeedView.swift in Sources */,
 				849815A529BF28A7007F8206 /* SystemInfoDetailStackView.swift in Sources */,
+				84A9A23129ED745A0034C7F5 /* SecretContactView.swift in Sources */,
 				8498156829B9E5DF007F8206 /* SpeedTestCurrentSpeedView.swift in Sources */,
 				8498159E29BB8037007F8206 /* SensorViewController.swift in Sources */,
 				84B176D429D6CFA100885758 /* SFContactFinder.swift in Sources */,

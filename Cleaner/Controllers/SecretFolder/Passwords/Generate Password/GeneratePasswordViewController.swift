@@ -18,8 +18,7 @@ final class GeneratePasswordViewController: UIViewController {
     
     // MARK: - Private Proporties
     
-    private var generatedPassword: String?
-    private var passwordSecurityLevel: PasswordSecurityLevelModel?
+    private var generatedPasswordModel: SFPasswordModel?
     
     private var passwordDidGenerate: Bool = false {
         didSet {
@@ -156,7 +155,7 @@ private extension GeneratePasswordViewController {
         }
         
         contentView.setCopyAction {
-            guard let generatedPassword = self.generatedPassword else { return }
+            guard let generatedPassword = self.generatedPasswordModel?.passwod else { return }
             UIPasteboard.general.string = generatedPassword
             SPAlert.present(title: Generated.Text.Common.copied, preset: .done)
         }
@@ -167,23 +166,16 @@ private extension GeneratePasswordViewController {
         
         let passwordLenth = contentView.getPasswordLength()
         let passwordAttributes = PasswordConfigurationModel.allCases.map(\.isOn)
-        
-        generatedPassword = SFPasswordGenerator.shared.generatePassword(includeNumbers: passwordAttributes[0], includeLetters: passwordAttributes[1], includeSymbols: passwordAttributes[2], length: passwordLenth)
-        
-        guard let generatedPassword = generatedPassword else { return }
-        
-        switch passwordLenth {
-        case 0...5:
-            passwordSecurityLevel = .dangerous
-        case 6...11:
-            passwordSecurityLevel = .insecure
-        default:
-            passwordSecurityLevel = .strong
+        if passwordAttributes.allSatisfy({!$0}) {
+            SPAlert.present(title: Generated.Text.MyPasswords.chooseAttribute, preset: .error)
+        } else {
+            generatedPasswordModel = SFPasswordGenerator.shared.generatePassword(includeNumbers: passwordAttributes[0], includeLetters: passwordAttributes[1], includeSymbols: passwordAttributes[2], length: passwordLenth)
+            
+            guard let generatedPasswordModel = generatedPasswordModel else { return }
+            
+            contentView.setPasswordData(generatedPasswordModel)
+            passwordDidGenerate = true
         }
-        
-        contentView.setPasswordData(passwordSecurityLevel!, passwordText: generatedPassword)
-        passwordDidGenerate = true
-        
     }
     
 }
@@ -193,7 +185,7 @@ private extension GeneratePasswordViewController {
 private extension GeneratePasswordViewController {
     
     func routeToAddAccount() {
-        let accountVC = CreateAccountViewController()
+        let accountVC = CreateAccountViewController(passwordData: generatedPasswordModel!)
         self.navigationController?.pushViewController(accountVC, animated: true)
     }
     
