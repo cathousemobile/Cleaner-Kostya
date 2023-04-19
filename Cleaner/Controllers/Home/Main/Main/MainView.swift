@@ -13,7 +13,6 @@ final class MainView: UIView {
     
     // MARK: - Subviews
     
-    private lazy var titleLabel = UILabel()
     private lazy var systemTitleLabel = UILabel()
     private lazy var optionsTitleLabel = UILabel()
     
@@ -102,12 +101,6 @@ private extension MainView {
     
     func configureSubviews() {
         
-        titleLabel.do {
-            $0.text = Generated.Text.Main.home
-            $0.textColor = Generated.Color.primaryText
-            $0.font = .systemFont(ofSize: 34, weight: .bold)
-        }
-        
         [systemTitleLabel, optionsTitleLabel].forEach { label in
             label.do {
                 $0.textColor = Generated.Color.primaryText
@@ -122,6 +115,8 @@ private extension MainView {
         
         optionsListView.axis = .vertical
         
+        scrollView.showsVerticalScrollIndicator = false
+        
     }
     
 }
@@ -132,7 +127,7 @@ private extension MainView {
 private extension MainView {
     
     func addSubviewsBefore() {
-        insideScrollView.addSubviews([titleLabel, systemTitleLabel, cleaningButton, optionsTitleLabel, systemInfoView, optionsListView])
+        insideScrollView.addSubviews([systemTitleLabel, cleaningButton, optionsTitleLabel, systemInfoView, optionsListView])
         scrollView.addSubview(insideScrollView)
         addSubview(scrollView)
     }
@@ -152,14 +147,8 @@ private extension MainView {
             make.width.equalTo(scrollView)
         }
         
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.leading.equalToSuperview().offset(ThisSize.is16)
-            make.trailing.equalToSuperview()
-        }
-        
         systemTitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(ThisSize.is32)
+            make.top.equalToSuperview()
             make.leading.equalToSuperview().offset(ThisSize.is16)
             make.trailing.equalToSuperview()
         }

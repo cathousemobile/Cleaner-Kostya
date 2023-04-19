@@ -32,17 +32,11 @@ class SecretContactDiffibleDataSource: UITableViewDiffableDataSource<String, SFC
         
         guard editingStyle == .delete else { return }
         
-        if let id = self.itemIdentifier(for: indexPath) {
-            do {
-                try SFContactFinder.shared.deleteContacts([id])
-                var snap = self.snapshot()
-                snap.deleteWithSections([id])
-                self.apply(snap)
-                lastDeletedItem = id
-                
-            } catch {
-                
-            }
+        if let id = self.itemIdentifier(for: indexPath), SFContactStorage.shared.delete(id) {
+            var snap = self.snapshot()
+            snap.deleteWithSections([id])
+            self.apply(snap)
+            lastDeletedItem = id
         }
         
     }

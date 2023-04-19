@@ -17,13 +17,14 @@ final class SecretFolderView: UIView {
     
     private lazy var titleView = SecretFolderTitleView()
     
-    private lazy var titleLabel = UILabel()
-    
     private lazy var optionsTitleLabel = UILabel()
     
     private lazy var optionsListView = UIStackView()
     
     private lazy var addAuthenticationButton = CustomButtonView()
+    
+    private lazy var scrollView = UIScrollView()
+    private lazy var insideScrollView = UIView()
     
     // MARK: - Lifecycle
     
@@ -92,12 +93,6 @@ private extension SecretFolderView {
     
     func configureSubviews() {
         
-        titleLabel.do {
-            $0.text = Text.title
-            $0.textColor = Generated.Color.primaryText
-            $0.font = .systemFont(ofSize: 34, weight: .bold)
-        }
-        
         optionsTitleLabel.do {
             $0.text = Text.options
             $0.textColor = Generated.Color.primaryText
@@ -110,6 +105,9 @@ private extension SecretFolderView {
         addAuthenticationButton.changeBackgroundColor(Generated.Color.redWarning)
         addAuthenticationButton.isHidden = LocaleStorage.secretIsAuthenticated
         
+//        scrollView.alwaysBounceVertical = true
+        scrollView.showsVerticalScrollIndicator = false
+        
     }
     
 }
@@ -120,21 +118,28 @@ private extension SecretFolderView {
 private extension SecretFolderView {
     
     func addSubviewsBefore() {
-        addSubviews([titleLabel, titleView, addAuthenticationButton, optionsTitleLabel, optionsListView])
+        insideScrollView.addSubviews([titleView, addAuthenticationButton, optionsTitleLabel, optionsListView])
+        scrollView.addSubview(insideScrollView)
+        addSubview(scrollView)
     }
     
     func configureConstraints() {
         
         addSubviewsBefore()
         
-        titleLabel.snp.makeConstraints { make in
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        insideScrollView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(ThisSize.is48)
-            make.leading.equalToSuperview().offset(ThisSize.is16)
-            make.trailing.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-ThisSize.is48)
+            make.width.equalTo(scrollView)
         }
         
         titleView.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(ThisSize.is32)
+            make.top.equalToSuperview()
             make.leading.trailing.equalToSuperview().inset(ThisSize.is16)
         }
         
@@ -151,7 +156,7 @@ private extension SecretFolderView {
         optionsListView.snp.makeConstraints { make in
             make.top.equalTo(optionsTitleLabel.snp.bottom).offset(ThisSize.is16)
             make.leading.trailing.equalToSuperview().inset(ThisSize.is16)
-            make.bottom.lessThanOrEqualTo(safeAreaLayoutGuide)
+            make.bottom.equalToSuperview()
         }
         
     }

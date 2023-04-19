@@ -16,6 +16,7 @@ final class SecretContactView: UIView {
     
     private lazy var emptyDataLabel = UILabel()
     
+    private lazy var addContactButton = CustomButtonView()
     
     // MARK: - Lifecycle
     
@@ -41,16 +42,18 @@ final class SecretContactView: UIView {
 
 extension SecretContactView {
     
-    func setEmptyDataTitle(_ text: String) {
-        DispatchQueue.main.async {
-            self.emptyDataLabel.text = text
-        }
+    func setAddContactAction(_ action: @escaping EmptyBlock) {
+        addContactButton.setAction(action)
     }
     
     func hideEmptyDataTitle(_ isHidden: Bool) {
         DispatchQueue.main.async {
             self.emptyDataLabel.isHidden = isHidden
         }
+    }
+    
+    func lockAddButton(_ isLocked: Bool) {
+        addContactButton.shouldBeLocked(isLocked)
     }
     
 }
@@ -76,26 +79,30 @@ private extension SecretContactView {
     func configureSubviews() {
         
         emptyDataLabel.do {
+            $0.text = Generated.Text.SecretContacts.emtyTitle
             $0.textColor = Generated.Color.primaryText
             $0.font = .systemFont(ofSize: 16, weight: .regular)
             $0.isHidden = true
+            $0.numberOfLines = 0
+            $0.textAlignment = .center
         }
         
         tableView.backgroundColor = .clear
         tableView.allowsSelection = false
         tableView.delaysContentTouches = false
         
+        addContactButton.setTitle(text: Generated.Text.SecretContacts.addContact)
+        
     }
     
 }
-
 
 // MARK: - Layout Setup
 
 private extension SecretContactView {
     
     func addSubviewsBefore() {
-        addSubviews([tableView, emptyDataLabel])
+        addSubviews([tableView, emptyDataLabel, addContactButton])
     }
     
     func configureConstraints() {
@@ -108,6 +115,11 @@ private extension SecretContactView {
 
         emptyDataLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()
+        }
+        
+        addContactButton.snp.makeConstraints { make in
+            make.bottom.equalTo(safeAreaLayoutGuide).offset(-ThisSize.is16/2)
+            make.leading.trailing.equalToSuperview().inset(ThisSize.is16)
         }
         
     }

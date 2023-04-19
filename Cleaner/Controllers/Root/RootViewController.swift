@@ -23,7 +23,8 @@ final class RootViewController: UITabBarController {
         viewController.tabBarItem.image = image
         viewController.tabBarItem.selectedImage = selectedImage
         viewController.tabBarItem.title = titleText
-        return viewController
+        viewController.title = titleText
+        return viewController.wrapToNavigationController(prefersLargeTitles: true)
     }
     
     private func tabBarConfigure() {

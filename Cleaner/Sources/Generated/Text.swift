@@ -252,6 +252,13 @@ extension Generated.Text {
         static var colorTest: String { NSLocalizedString("screen.colorTest", comment: "Color Test") }
     }
 
+    enum SecretContacts {
+        static var addContact: String { NSLocalizedString("secretContacts.addContact", comment: "Add Contact") }
+        static var addFromContacts: String { NSLocalizedString("secretContacts.addFromContacts", comment: "Add from contacts") }
+        static var createContact: String { NSLocalizedString("secretContacts.createContact", comment: "Create new Contact") }
+        static var emtyTitle: String { NSLocalizedString("secretContacts.emtyTitle", comment: "There will be your\nsecret contacts") }
+    }
+
     enum SecretFolder {
         static var addAuthentication: String { NSLocalizedString("secretFolder.addAuthentication", comment: "Add Authentication") }
         static var contacts: String { NSLocalizedString("secretFolder.contacts", comment: "Secret contacts") }

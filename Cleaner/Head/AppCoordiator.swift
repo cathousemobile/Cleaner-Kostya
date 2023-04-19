@@ -41,7 +41,7 @@ final class AppCoordiator: UIViewController {
     private func start() {
 
         if LocaleStorage.onboardingCompleted == true {
-            current = UINavigationController(rootViewController: homeVC)
+            current = homeVC
         } else {
             current = onboardingVC
         }
@@ -66,7 +66,7 @@ extension AppCoordiator {
 
     func switchToMainScreen() {
         self.dismiss(animated: true)
-        self.animateFadeTransition(to: UINavigationController(rootViewController: homeVC))
+        self.animateFadeTransition(to: homeVC)
     }
 
     func animateFadeTransition(to new: UIViewController, completion: (() -> Void)? = nil) {

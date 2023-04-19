@@ -312,3 +312,11 @@ will appear here";
 "myPasswords.acccountChanged" = "Account Changed";
 "myPasswords.chooseAttribute" = "Please, Choose Attribute";
 "myPasswords.accountDetails" = "Account Details";
+
+// MARK: - Secret Contacts
+
+"secretContacts.emtyTitle" = "There will be your
+secret contacts";
+"secretContacts.addContact" = "Add Contact";
+"secretContacts.addFromContacts" = "Add from contacts";
+"secretContacts.createContact" = "Create new Contact";

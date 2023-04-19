@@ -30,7 +30,7 @@ final class SystemInfoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        title = Generated.Text.SystemInfo.title
+        title = Generated.Text.SystemInfo.title
         setupActions()
         initInfos()
     }

@@ -20,17 +20,19 @@ final class SecretContactsViewController: UIViewController {
     
     // MARK: - Private Proporties
     
+    private var cnVC = CNContactViewController()
+    
     private let dispatchGroup = DispatchGroup()
     
     private var isSearching = false
     
     private var simpleDataSource: SecretContactDiffibleDataSource!
     
-    private var simpleContactsArray = [[SFContact]]() {
+    private var simpleContactsArray = [SFContact]() {
         didSet { checkData() }
     }
     
-    private var simpleContactSearchArray = [[SFContact]]() {
+    private var simpleContactSearchArray = [SFContact]() {
         didSet {
             if oldValue != simpleContactSearchArray { initDataAndSnap() }
         }
@@ -52,13 +54,15 @@ final class SecretContactsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = Generated.Text.Main.contactsCleaner
+        title = Generated.Text.SecretFolder.contacts
         initData()
+        fetchMedia()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        checkAccess()
+        initNavigationBarItems()
+        contentView.lockAddButton(!SFPurchaseManager.shared.isUserPremium)
     }
     
 }
@@ -67,11 +71,10 @@ final class SecretContactsViewController: UIViewController {
 
 extension SecretContactsViewController {
     
-    func checkAccess() {
+    func checkAccess(_ successCompletion: @escaping EmptyBlock) {
         
-        SFContactFinder.shared.requestAccess { [weak self] in
-            guard let self = self else { return }
-#warning("FETCH")
+        SFContactFinder.shared.requestAccess {
+            successCompletion()
         } needShowDeniedAlert: { [weak self] in
             guard let self = self else { return }
             DispatchQueue.main.async {
@@ -84,7 +87,6 @@ extension SecretContactsViewController {
     func initData() {
         configureSearchController()
         configureTableView()
-        initNavigationBarItems()
         setupActions()
         initNotifications()
     }
@@ -101,13 +103,18 @@ extension SecretContactsViewController {
     
     func configureRightButton() {
         
-        clearAllButton.title = Generated.Text.ContactCleaner.cleanAll
-        clearAllButton.style = .plain
-        clearAllButton.target = self
-        clearAllButton.action = #selector(clearAllAction)
-        clearAllButton.tintColor = Generated.Color.redWarning
-        
-        self.navigationItem.rightBarButtonItem = clearAllButton
+        if !simpleContactsArray.isEmpty {
+            clearAllButton.title = Generated.Text.ContactCleaner.cleanAll
+            clearAllButton.style = .plain
+            clearAllButton.target = self
+            clearAllButton.action = #selector(clearAllAction)
+            clearAllButton.tintColor = Generated.Color.redWarning
+            
+            self.navigationItem.rightBarButtonItem = clearAllButton
+            
+        } else {
+            self.navigationItem.rightBarButtonItem = nil
+        }
         
     }
     
@@ -144,13 +151,9 @@ extension SecretContactsViewController: UISearchBarDelegate {
         
         isSearching = true
         
-        
         simpleContactSearchArray.removeAll()
         
-        let filteredContatsArray = simpleContactsArray.reduce([], +).filter({ $0.name?.lowercased().contains(text.lowercased()) ?? false })
-        filteredContatsArray.isEmpty ? simpleContactSearchArray = [] : simpleContactSearchArray.append(filteredContatsArray)
-        
-        
+        simpleContactSearchArray = simpleContactsArray.filter({ $0.name?.lowercased().contains(text.lowercased()) ?? false })
         
     }
     
@@ -164,7 +167,6 @@ private extension SecretContactsViewController {
         contentView.tableView.delegate = self
         contentView.tableView.separatorStyle = .singleLine
         contentView.tableView.register(ContactCleanerTableSimpleCell.self, forCellReuseIdentifier: "cellDuplicate")
-        contentView.tableView.register(ContactCleanerTableMergeCell.self, forCellReuseIdentifier: "cellMerge")
     }
     
 }
@@ -172,6 +174,15 @@ private extension SecretContactsViewController {
 // MARK: - TableView Delegate
 
 extension SecretContactsViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+
+        if indexPath.section == tableView.numberOfSections - 1 &&
+            indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
+            tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: ThisSize.is64, right: 0)
+        }
+        
+    }
     
 }
 
@@ -190,7 +201,6 @@ extension SecretContactsViewController {
     
     func initDataSource() {
         
-        
         self.simpleDataSource = SecretContactDiffibleDataSource(tableView: self.contentView.tableView, cellProvider: { [weak self] tableView, indexPath, contactModel in
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "cellDuplicate", for: indexPath) as! ContactCleanerTableSimpleCell
@@ -207,21 +217,18 @@ extension SecretContactsViewController {
             
         })
         
-        
-        
     }
     
     func initSnapshot() {
-        
         
         var snapshot = NSDiffableDataSourceSnapshot<String, SFContact>()
         
         var dataArray = [SFContact]()
         
         if isSearching {
-            dataArray = simpleContactSearchArray.reduce([], +)
+            dataArray = simpleContactSearchArray
         } else {
-            dataArray = simpleContactsArray.reduce([], +)
+            dataArray = simpleContactsArray
         }
         
         let dataDictionary = Dictionary(grouping: dataArray) { $0.name?.uppercased().first?.description ?? " " }
@@ -238,8 +245,6 @@ extension SecretContactsViewController {
         
         simpleDataSource.apply(snapshot, animatingDifferences: true)
         
-        
-        
     }
     
 }
@@ -252,35 +257,11 @@ private extension SecretContactsViewController {
     
     func fetchMedia() {
         
-        
         dispatchGroup.enter()
-        
+        simpleContactsArray = SFContactStorage.shared.getAll()
         dispatchGroup.leave()
         
-    }
-    
-    func fetchAllContacts(_ fetchFunc: () throws -> [SFContact]) {
-        
-        do {
-            
-            let assetsArray = try fetchFunc()
-            
-            if assetsArray.isEmpty {
-                simpleContactsArray = []
-                initDataAndSnap()
-                return
-            }
-            
-            simpleContactsArray.removeAll()
-            simpleContactsArray.append(assetsArray)
-            
-            initDataAndSnap()
-            
-        } catch {
-            print(error.localizedDescription)
-            simpleContactsArray = []
-            initDataAndSnap()
-        }
+        initDataAndSnap()
         
     }
     
@@ -288,46 +269,40 @@ private extension SecretContactsViewController {
     
     func initNotifications() {
         
-        SFNotificationSystem.observe(event: .contactFinderUpdated) { [weak self] in
+        SFNotificationSystem.observe(event: .contactStorageUpdated) { [weak self] in
             guard let self = self else { return }
-            self.checkData()
+            self.fetchMedia()
         }
         
         SFNotificationSystem.observe(event: .custom(name: "secretContactDeleted")) { [weak self] in
             guard let self = self else { return }
-            
-            self.simpleContactsArray.removeAll()
-            self.simpleContactsArray.append(self.simpleDataSource.snapshot().itemIdentifiers)
-            
+            self.simpleContactsArray = self.simpleDataSource.snapshot().itemIdentifiers
         }
         
     }
     
     
     func checkData() {
-        contentView.setEmptyDataTitle(Generated.Text.ContactCleaner.noContacts)
         contentView.hideEmptyDataTitle(!simpleContactsArray.isEmpty)
+        configureRightButton()
     }
     
     //MARK: - Contacts Actions
     
     func simpleCellAction(_ contact: SFContact) {
         
-        do {
-            let contactVC = try SFContactFinder.shared.getNativeContactController(for: contact, allowEditing: false)
+        if let contactVC = SFContactStorage.shared.getNativeContactController(for: contact) {
             self.navigationController?.pushViewController(contactVC, animated: true)
-        } catch {
-            return
+        } else {
+            SPAlert.present(title: "Error", preset: .error)
         }
         
     }
     
-    
-    
     @objc func clearAllAction() {
         
         let alertStringData: [String] = [Generated.Text.ContactCleaner.sureDeleteContact,
-                                         Generated.Text.ContactCleaner.deleteAllContacts(String(simpleContactsArray.reduce([], +).count)),
+                                         Generated.Text.ContactCleaner.deleteAllContacts(String(simpleContactsArray.count)),
                                          Generated.Text.Common.deleted]
         
         let alertVC = UIAlertController(title: alertStringData[0], message: nil, preferredStyle: .actionSheet)
@@ -341,11 +316,9 @@ private extension SecretContactsViewController {
                 return
             }
             
+            var snap = self.simpleDataSource.snapshot()
             
-            do {
-                var snap = self.simpleDataSource.snapshot()
-                
-                try SFContactFinder.shared.deleteContacts(snap.itemIdentifiers)
+            if SFContactStorage.shared.delete(snap.itemIdentifiers) {
                 
                 snap.deleteAllItems()
                 
@@ -353,10 +326,9 @@ private extension SecretContactsViewController {
                 self.simpleDataSource.apply(snap)
                 
                 SPAlert.present(title: alertStringData[2], preset: .done)
-                SFNotificationSystem.send(event: .custom(name: "secretContactDeleted"))
                 
-            } catch {
-                SPAlert.present(title: error.localizedDescription, preset: .error)
+            } else {
+                SPAlert.present(title: "Error", preset: .error)
             }
             
         }
@@ -366,6 +338,69 @@ private extension SecretContactsViewController {
         
         present(alertVC, animated: true)
         
+    }
+    
+    func addContactAction() {
+        
+//        if !SFPurchaseManager.shared.isUserPremium {
+//            self.routeToPaywall()
+//            return
+//        }
+        
+        let alertVC = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let addFromContactsAction = UIAlertAction(title: Generated.Text.SecretContacts.addFromContacts, style: .default) { [weak self] _ in
+            
+            guard let self = self else { return }
+            
+            self.checkAccess {
+                
+                let pickContactVC = SFContactStorage.shared.chooseFromNotebookController { newContact in
+                    self.saveContact(newContact)
+                }
+                
+                self.present(pickContactVC, animated: true)
+                
+            }
+            
+        }
+        
+        let addNewContactsAction = UIAlertAction(title: Generated.Text.SecretContacts.createContact, style: .default) { [weak self] _ in
+            
+            guard let self = self else { return }
+            
+            self.cnVC = SFContactStorage.shared.createContactController() { contactToSave in
+                guard let contactToSave = contactToSave else { return }
+                self.saveContact(contactToSave)
+                do {
+                    try SFContactFinder.shared.deleteContacts([contactToSave])
+                } catch {
+                    print(error.localizedDescription)
+                }
+                self.cnVC.dismiss(animated: true)
+            }
+            
+            let navigationController = UINavigationController(rootViewController: self.cnVC)
+            self.present(navigationController, animated: true)
+            
+        }
+        
+        alertVC.addAction(addFromContactsAction)
+        alertVC.addAction(addNewContactsAction)
+        alertVC.addAction(.init(title: Generated.Text.Common.cancel, style: .cancel))
+        
+        present(alertVC, animated: true)
+        
+    }
+    
+    func saveContact(_ contactToSave: SFContact?) {
+        if let contactToSave = contactToSave {
+            if SFContactStorage.shared.save(contactToSave) {
+                SPAlert.present(title: Generated.Text.Common.save, preset: .done)
+            } else {
+                SPAlert.present(title: "Error", preset: .error)
+            }
+        }
     }
     
 }
@@ -381,6 +416,11 @@ extension SecretContactsViewController {
 private extension SecretContactsViewController {
     
     func setupActions() {
+        
+        contentView.setAddContactAction { [weak self] in
+            guard let self = self else { return }
+            self.addContactAction()
+        }
         
     }
     

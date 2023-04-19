@@ -43,9 +43,9 @@ enum SecretFolderOptionsModel: CaseIterable {
         case .passwords:
             return PasswordsViewController()
         case .gallery:
-            return ContactCleanerViewController()
+            return SecretGalleryViewController()
         case .contacts:
-            return GalleryCleanerViewController()
+            return SecretContactsViewController()
         }
         
     }

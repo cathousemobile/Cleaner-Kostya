@@ -40,7 +40,7 @@ final class SecretFolderViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        navigationController?.navigationBar.sizeToFit()
     }
     
 }
@@ -90,8 +90,10 @@ private extension SecretFolderViewController {
                 $0.hideDivider(option == SecretFolderOptionsModel.allCases.last ? true : false)
                 $0.setAction { [weak self] in
                     guard let self = self else { return }
-                    self.navigationController?.isNavigationBarHidden = false
-                    self.navigationController?.pushViewController(option.viewControllerToRoute, animated: true)
+                    let vcToPush = option.viewControllerToRoute
+                    vcToPush.hidesBottomBarWhenPushed = true
+                    vcToPush.navigationItem.largeTitleDisplayMode = .never
+                    self.navigationController?.pushViewController(vcToPush, animated: true)
                 }
             }
             

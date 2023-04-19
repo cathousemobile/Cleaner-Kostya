@@ -38,11 +38,6 @@ final class MainViewController: UIViewController {
         setupActions()
         contentView.calculatingIsFinished(false)
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.isNavigationBarHidden = true
-    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -84,7 +79,6 @@ private extension MainViewController {
     
     func checkCalculating() {
         contentView.setProgress(progress: calculator.otherSizeEquals, photoProgress: calculator.mediaSizeEquals, contactsProgress: calculator.contactsSizeEquals)
-        
         contentView.calculatingIsFinished(true)
     }
     
@@ -118,9 +112,10 @@ private extension MainViewController {
         
         contentView.setCleaningButonAction { [weak self] in
             guard let self = self else { return }
-            let vc = SmartCleaningViewController()
-            self.navigationController?.isNavigationBarHidden = false
-            self.navigationController?.pushViewController(vc, animated: true)
+            let vcToPush = SmartCleaningViewController()
+            vcToPush.hidesBottomBarWhenPushed = true
+            vcToPush.navigationItem.largeTitleDisplayMode = .never
+            self.navigationController?.pushViewController(vcToPush, animated: true)
         }
         
     }
@@ -137,8 +132,10 @@ private extension MainViewController {
                 $0.hideDivider(option == MainOptionsModel.allCases.last ? true : false)
                 $0.setAction { [weak self] in
                     guard let self = self else { return }
-                    self.navigationController?.isNavigationBarHidden = false
-                    self.navigationController?.pushViewController(option.viewControllerToRoute, animated: true)
+                    let vcToPush = option.viewControllerToRoute
+                    vcToPush.hidesBottomBarWhenPushed = true
+                    vcToPush.navigationItem.largeTitleDisplayMode = .never
+                    self.navigationController?.pushViewController(vcToPush, animated: true)
                 }
             }
             

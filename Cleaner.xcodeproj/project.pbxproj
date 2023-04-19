@@ -1040,10 +1040,10 @@
 		84A9A1E629E806F50034C7F5 /* SecretFolder */ = {
 			isa = PBXGroup;
 			children = (
-				84A9A22D29ED73ED0034C7F5 /* Secret Contacts */,
-				84A9A22429ED6F650034C7F5 /* Secret Gallery */,
 				84A9A1ED29E80B350034C7F5 /* Main */,
 				84A9A1F829E968530034C7F5 /* Passwords */,
+				84A9A22D29ED73ED0034C7F5 /* Secret Contacts */,
+				84A9A22429ED6F650034C7F5 /* Secret Gallery */,
 			);
 			path = SecretFolder;
 			sourceTree = "<group>";

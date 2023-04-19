@@ -44,11 +44,6 @@ final class PasswordsViewController: UIViewController {
         checkAccountsCount()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.isNavigationBarHidden = true
-    }
-    
 }
 
 // MARK: - Handlers
