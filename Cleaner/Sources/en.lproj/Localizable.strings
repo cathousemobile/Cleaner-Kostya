@@ -22,6 +22,7 @@
 "common.off" = "Off";
 "common.save" = "Save";
 "common.copied" = "Copied";
+"common.protect" = "Protect";
 
 // MARK: - Onboarding
 
@@ -253,7 +254,8 @@ then just $3.99/week. Cancel anytime.";
 "galleryCleaner.livePhotosTag" = "Live photos";
 "galleryCleaner.selfiesTag" = "Selfies";
 "galleryCleaner.emptyContentTitle" = "You have no photos & videos";
-"galleryCleaner.bestPhoto" = "Best photo";
+"galleryCleaner.bestPhoto" = "Best Photo";
+"galleryCleaner.bestVideo" = "Best Video";
 "galleryCleaner.photosCount" = "Photos: %@";
 "galleryCleaner.permissionRequared" = "“Photos” permission required";
 "galleryCleaner.limitedAccess" = "Need Access to All Photos";
@@ -274,6 +276,8 @@ this application.";
 "secretFolder.contacts" = "Secret contacts";
 "secretFolder.options" = "Options";
 "secretFolder.addAuthentication" = "Add Authentication";
+"secretFolder.sureProtect" = "Protect your privacy";
+"secretFolder.remindLater" = "You can do it later";
 
 // MARK: - Passwords
 
@@ -320,3 +324,10 @@ secret contacts";
 "secretContacts.addContact" = "Add Contact";
 "secretContacts.addFromContacts" = "Add from contacts";
 "secretContacts.createContact" = "Create new Contact";
+
+// MARK: - Secret Contacts
+
+"secretGallery.emtyTitle" = "There will be your
+secret photos and videos";
+"secretGallery.addMedia" = "Add Photo/Video";
+"secretGallery.sureDelete" = "Are you sure you want to delete these photos?";

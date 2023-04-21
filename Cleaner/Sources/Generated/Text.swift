@@ -39,6 +39,7 @@ extension Generated.Text {
         static var noAccess: String { NSLocalizedString("common.noAccess", comment: "No access") }
         static var off: String { NSLocalizedString("common.off", comment: "Off") }
         static var on: String { NSLocalizedString("common.on", comment: "On") }
+        static var protect: String { NSLocalizedString("common.protect", comment: "Protect") }
         static var restore: String { NSLocalizedString("common.restore", comment: "Restore") }
         static var save: String { NSLocalizedString("common.save", comment: "Save") }
         static var search: String { NSLocalizedString("common.search", comment: "Search") }
@@ -103,7 +104,8 @@ extension Generated.Text {
 
     enum GalleryCleaner {
         static var allContentTag: String { NSLocalizedString("galleryCleaner.allContentTag", comment: "All content") }
-        static var bestPhoto: String { NSLocalizedString("galleryCleaner.bestPhoto", comment: "Best photo") }
+        static var bestPhoto: String { NSLocalizedString("galleryCleaner.bestPhoto", comment: "Best Photo") }
+        static var bestVideo: String { NSLocalizedString("galleryCleaner.bestVideo", comment: "Best Video") }
         static var blurryPhotosTag: String { NSLocalizedString("galleryCleaner.blurryPhotosTag", comment: "Blurry photos") }
         static var emptyContentTitle: String { NSLocalizedString("galleryCleaner.emptyContentTitle", comment: "You have no photos & videos") }
         static var limitedAccess: String { NSLocalizedString("galleryCleaner.limitedAccess", comment: "Need Access to All Photos") }
@@ -268,7 +270,15 @@ extension Generated.Text {
         static var passwords: String { NSLocalizedString("secretFolder.passwords", comment: "My passwords") }
         static var protectedPt1: String { NSLocalizedString("secretFolder.protectedPt1", comment: "Contacts, photos and videos added in this\nsection will not be displayed in the main\nsecion of the phone.") }
         static var protectedPt2: String { NSLocalizedString("secretFolder.protectedPt2", comment: "Only you will have access to them through\nthis application.") }
+        static var remindLater: String { NSLocalizedString("secretFolder.remindLater", comment: "You can do it later") }
+        static var sureProtect: String { NSLocalizedString("secretFolder.sureProtect", comment: "Protect your privacy") }
         static var title: String { NSLocalizedString("secretFolder.title", comment: "Secret folder") }
+    }
+
+    enum SecretGallery {
+        static var addMedia: String { NSLocalizedString("secretGallery.addMedia", comment: "Add Photo/Video") }
+        static var emtyTitle: String { NSLocalizedString("secretGallery.emtyTitle", comment: "There will be your\nsecret photos and videos") }
+        static var sureDelete: String { NSLocalizedString("secretGallery.sureDelete", comment: "Are you sure you want to delete these photos?") }
     }
 
     enum Sensor {

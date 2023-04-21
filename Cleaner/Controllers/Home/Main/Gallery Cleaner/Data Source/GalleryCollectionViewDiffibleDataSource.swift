@@ -32,6 +32,8 @@ final class GalleryCollectionViewDiffibleDataSource: UICollectionViewDiffableDat
             
             reusableview.isSelect = selectedItemsDictionary.keys.contains(indexPath.section) ? false : true
             
+            reusableview.section = indexPath.section
+            
             reusableview.setAction { [weak self] in
                 
                 if let self = self {
@@ -42,7 +44,11 @@ final class GalleryCollectionViewDiffibleDataSource: UICollectionViewDiffableDat
                         
                         for i in 0...self.snapshot().itemIdentifiers(inSection: indexPath.section).count {
                             let newIndexPath = IndexPath(row: i, section: indexPath.section)
-                            collectionView.cellForItem(at: newIndexPath)?.isSelected = false
+                            
+                            if let cell = collectionView.cellForItem(at: newIndexPath) as? GalleryDefaultCollectionCell {
+                                cell.mediaIsSelected = false
+                            }
+                            
                         }
                         
                         reusableview.isSelect = true
@@ -51,9 +57,11 @@ final class GalleryCollectionViewDiffibleDataSource: UICollectionViewDiffableDat
                         
                         for i in 1...self.snapshot().itemIdentifiers(inSection: indexPath.section).count {
                             let newIndexPath = IndexPath(row: i, section: indexPath.section)
-                            if let cell = collectionView.cellForItem(at: newIndexPath) {
-                                cell.isSelected = true
+                            
+                            if let cell = collectionView.cellForItem(at: newIndexPath) as? GalleryDefaultCollectionCell {
+                                cell.mediaIsSelected = true
                             }
+                            
                         }
                         
                         self.selectedItemsDictionary[indexPath.section] = Set(self.snapshot().itemIdentifiers(inSection: indexPath.section))

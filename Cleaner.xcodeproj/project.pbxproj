@@ -70,6 +70,7 @@
 		8446981529B5F8EE00A5490C /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446981429B5F8EE00A5490C /* MainViewController.swift */; };
 		8446981729B5F8F500A5490C /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446981629B5F8F500A5490C /* MainView.swift */; };
 		8446981A29B6040900A5490C /* MainSystemInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446981929B6040900A5490C /* MainSystemInfoView.swift */; };
+		844EFBA829F2D69D000DD415 /* SFGalleryStorageAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844EFBA729F2D69D000DD415 /* SFGalleryStorageAsset.swift */; };
 		847D081D29DEBCBB00B5C5D8 /* MergeContactsTableViewDiffibleDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847D081C29DEBCBB00B5C5D8 /* MergeContactsTableViewDiffibleDataSource.swift */; };
 		8498153529B9C929007F8206 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8498153429B9C929007F8206 /* SettingsModel.swift */; };
 		8498153729B9C972007F8206 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8498153629B9C972007F8206 /* AppConstants.swift */; };
@@ -311,6 +312,7 @@
 		8446981429B5F8EE00A5490C /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		8446981629B5F8F500A5490C /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		8446981929B6040900A5490C /* MainSystemInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSystemInfoView.swift; sourceTree = "<group>"; };
+		844EFBA729F2D69D000DD415 /* SFGalleryStorageAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SFGalleryStorageAsset.swift; path = Model/SFGalleryStorageAsset.swift; sourceTree = "<group>"; };
 		847D081C29DEBCBB00B5C5D8 /* MergeContactsTableViewDiffibleDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MergeContactsTableViewDiffibleDataSource.swift; sourceTree = "<group>"; };
 		8498153429B9C929007F8206 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		8498153629B9C972007F8206 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
@@ -808,6 +810,13 @@
 			path = Subviews;
 			sourceTree = "<group>";
 		};
+		844EFBA929F2DCCF000DD415 /* Subviews */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Subviews;
+			sourceTree = "<group>";
+		};
 		8498153829B9D7ED007F8206 /* Subviews */ = {
 			isa = PBXGroup;
 			children = (
@@ -1209,6 +1218,7 @@
 			children = (
 				84A9A22529ED6F7E0034C7F5 /* SecretGalleryViewController.swift */,
 				84A9A22729ED6F860034C7F5 /* SecretGalleryView.swift */,
+				844EFBA929F2DCCF000DD415 /* Subviews */,
 				84A9A22929ED6F8C0034C7F5 /* Data Source */,
 			);
 			path = "Secret Gallery";
@@ -1285,6 +1295,7 @@
 		84A9A24829EED7C90034C7F5 /* SFGalleryStorage */ = {
 			isa = PBXGroup;
 			children = (
+				844EFBA729F2D69D000DD415 /* SFGalleryStorageAsset.swift */,
 				84A9A24929EED7C90034C7F5 /* SFGalleryStorage.swift */,
 			);
 			path = SFGalleryStorage;
@@ -1966,6 +1977,7 @@
 				84B176B229D6CFA100885758 /* UINavigationBarExtension.swift in Sources */,
 				84315A9529C07EAC006A2F0D /* SmartCleaningViewController.swift in Sources */,
 				8426DE6729E2F17100515D29 /* ContentSizeCalculatorHelper.swift in Sources */,
+				844EFBA829F2D69D000DD415 /* SFGalleryStorageAsset.swift in Sources */,
 				84A9A21029EAB2A40034C7F5 /* PasswordInfoTitleView.swift in Sources */,
 				84A42C6129B7555600407D2B /* SystemInfoView.swift in Sources */,
 				8446980829B23B2800A5490C /* CircularProgressView.swift in Sources */,

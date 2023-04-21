@@ -59,9 +59,11 @@ private extension SensorViewController {
         do {
             let stream: AsyncStream<Point> = try meter.subscribe()
             for await data in stream {
-                // Do something with the data.
-                print(data)
+                contentView.setInfoInCellById(.acceleration, id: Generated.Text.Sensor.xAxis, info: String(data.x))
+                contentView.setInfoInCellById(.acceleration, id: Generated.Text.Sensor.yAxis, info: String(data.y))
+                contentView.setInfoInCellById(.acceleration, id: Generated.Text.Sensor.zAxis, info: String(data.z))
             }
+            meter.unsubscribe()
         } catch let error {
             // Do something with the error.
             print("Here: ", error)
@@ -69,6 +71,7 @@ private extension SensorViewController {
     }
     
     func setupActions() {
+        
         Task {
             await meterFunc()
         }
@@ -78,25 +81,25 @@ private extension SensorViewController {
     func initStacks() {
         
         for orientation in SystemInfoSensorModel.Orientation.allCases {
-            let cell = SystemInfoDetailCell(id: orientation.rawValue)
+            let cell = SystemInfoDetailCell(id: orientation.titleText)
             cell.setTitleText(orientation.titleText)
             contentView.addCellToOrientationList(cell)
         }
         
         for coordinate in SystemInfoSensorModel.Coordinate.allCases {
-            let cell = SystemInfoDetailCell(id: coordinate.rawValue)
+            let cell = SystemInfoDetailCell(id: coordinate.titleText)
             cell.setTitleText(coordinate.titleText)
             contentView.addCellToAccelerationList(cell)
         }
         
         for coordinate in SystemInfoSensorModel.Coordinate.allCases {
-            let cell = SystemInfoDetailCell(id: coordinate.rawValue)
+            let cell = SystemInfoDetailCell(id: coordinate.titleText)
             cell.setTitleText(coordinate.titleText)
             contentView.addCellToMagneticList(cell)
         }
         
         for barometer in SystemInfoSensorModel.Barometer.allCases {
-            let cell = SystemInfoDetailCell(id: barometer.rawValue)
+            let cell = SystemInfoDetailCell(id: barometer.titleText)
             cell.setTitleText(barometer.titleText)
             contentView.addCellToBarometerList(cell)
         }

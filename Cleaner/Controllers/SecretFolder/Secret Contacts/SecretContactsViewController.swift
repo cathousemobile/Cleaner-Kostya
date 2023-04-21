@@ -342,10 +342,10 @@ private extension SecretContactsViewController {
     
     func addContactAction() {
         
-//        if !SFPurchaseManager.shared.isUserPremium {
-//            self.routeToPaywall()
-//            return
-//        }
+        if !SFPurchaseManager.shared.isUserPremium {
+            self.routeToPaywall()
+            return
+        }
         
         let alertVC = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
@@ -353,22 +353,18 @@ private extension SecretContactsViewController {
             
             guard let self = self else { return }
             
-            self.checkAccess {
-                
-                let pickContactVC = SFContactStorage.shared.chooseFromNotebookController { newContact in
-                    self.saveContact(newContact)
-                }
-                
-                self.present(pickContactVC, animated: true)
-                
+            let pickContactVC = SFContactStorage.shared.chooseFromNotebookController { newContact in
+                self.saveContact(newContact)
             }
+            
+            self.present(pickContactVC, animated: true)
             
         }
         
         let addNewContactsAction = UIAlertAction(title: Generated.Text.SecretContacts.createContact, style: .default) { [weak self] _ in
             
             guard let self = self else { return }
-            
+            #warning("ждем обновления либы")
             self.cnVC = SFContactStorage.shared.createContactController() { contactToSave in
                 guard let contactToSave = contactToSave else { return }
                 self.saveContact(contactToSave)

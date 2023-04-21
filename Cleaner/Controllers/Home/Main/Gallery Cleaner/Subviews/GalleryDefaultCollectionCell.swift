@@ -9,13 +9,13 @@ final class GalleryDefaultCollectionCell: UICollectionViewCell {
     
     // MARK: - Public Properties
     
-    override var isSelected: Bool {
-        didSet {
-            updateStyle()
-        }
+    var mediaIsSelected: Bool = false {
+        didSet { updateStyle() }
     }
     
     var phAsset = PHAsset()
+    
+    var galleryStorageAssetStringURL = String()
     
     // MARK: - Private Properties
     
@@ -68,10 +68,6 @@ final class GalleryDefaultCollectionCell: UICollectionViewCell {
 
 extension GalleryDefaultCollectionCell {
     
-    func removeTapGesture() {
-        removeGestureRecognizer(tapGesture)
-    }
-    
     func setImage(_ image: UIImage?) {
         imageView.image = image
     }
@@ -92,6 +88,10 @@ extension GalleryDefaultCollectionCell {
         bestPhotoView.isHidden = isHidden
     }
     
+    func bestContentIsPhoto(_ isPhoto: Bool) {
+        bestPhotoView.isPhoto(isPhoto)
+    }
+    
 }
 
 // MARK: - Private Methods
@@ -99,8 +99,8 @@ extension GalleryDefaultCollectionCell {
 private extension GalleryDefaultCollectionCell {
     
     func updateStyle() {
-        radioView.isHidden = !isSelected
-        blurEffectView.isHidden = !isSelected
+        radioView.isHidden = !mediaIsSelected
+        blurEffectView.isHidden = !mediaIsSelected
     }
     
     func configureView() {
@@ -111,7 +111,7 @@ private extension GalleryDefaultCollectionCell {
         tapGesture.addTarget(self, action: #selector(onTapped))
         addGestureRecognizer(tapGesture)
         longPressGesture.addTarget(self, action: #selector(onPressed))
-        longPressGesture.minimumPressDuration = 1
+        longPressGesture.minimumPressDuration = 0.5
         addGestureRecognizer(longPressGesture)
         isUserInteractionEnabled = true
     }

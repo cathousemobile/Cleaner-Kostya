@@ -54,7 +54,6 @@ extension SecretGalleryView {
     }
     
     func hideEmptyDataTitle(_ isHidden: Bool) {
-        cleanButton.isHidden = !isHidden
         emptyDataLabel.isHidden = isHidden
     }
     
@@ -64,6 +63,10 @@ extension SecretGalleryView {
     
     func setCleanAction(_ action: @escaping EmptyBlock) {
         cleanButton.setAction(action)
+    }
+    
+    func setAddCleanButtonTitle(_ titleText: String) {
+        cleanButton.setTitle(text: titleText)
     }
     
     func showBlur() {
@@ -110,7 +113,7 @@ private extension SecretGalleryView {
             $0.textAlignment = .center
         }
         
-        cleanButton.setTitle(text: Generated.Text.Common.clean)
+        setAddCleanButtonTitle(Generated.Text.SecretGallery.addMedia)
         
         blurView.isHidden = true
         

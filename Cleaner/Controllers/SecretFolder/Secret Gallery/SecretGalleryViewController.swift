@@ -6,10 +6,13 @@ import UIKit
 import Photos
 import SPAlert
 import Agrume
+import AVKit
 
 final class SecretGalleryViewController: UIViewController {
     
     // MARK: - UI Elements
+    
+    private var imagePickerVC = UIViewController()
     
     private let contentView = SecretGalleryView()
     
@@ -23,12 +26,11 @@ final class SecretGalleryViewController: UIViewController {
     
     private var dataSource: SecretGalleryDiffibleDataSource!
     
-    private var currentContentArray: [PHAsset] = [PHAsset]() {
+    private var currentContentArray: [SFGalleryStorageAsset] = [SFGalleryStorageAsset]() {
         didSet {
             initDataSource()
             initSnapshot()
             contentView.hideEmptyDataTitle(!currentContentArray.isEmpty)
-            
         }
     }
     
@@ -50,6 +52,7 @@ final class SecretGalleryViewController: UIViewController {
         super.viewDidLoad()
         title = Generated.Text.Main.galleryCleaner
         initGallery()
+        setupActions()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -59,7 +62,7 @@ final class SecretGalleryViewController: UIViewController {
     }
     
 }
-#warning("просмотр изображения + видео")
+
 // MARK: - Init
 
 extension SecretGalleryViewController {
@@ -138,7 +141,7 @@ extension SecretGalleryViewController {
     func makeCollectionViewLayout() -> UICollectionViewLayout {
         
         UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
-            return self?.makeTripletLayoutSection()
+            self?.makeTripletLayoutSection()
         }
         
     }
@@ -151,10 +154,8 @@ extension SecretGalleryViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
-        if let cell = cell as? GalleryDefaultCollectionCell, let isContained = dataSource.selectedItemsDictionary[indexPath.section]?.contains(cell.phAsset), isContained {
-            
-            cell.isSelected = true
-            
+        if let cell = cell as? GalleryDefaultCollectionCell, dataSource.selectedItemsSet.compactMap({$0.url.absoluteString}) .contains(cell.galleryStorageAssetStringURL) {
+            cell.mediaIsSelected = true
         }
         
     }
@@ -172,10 +173,12 @@ extension SecretGalleryViewController {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "defaultGalleryCell", for: indexPath) as! GalleryDefaultCollectionCell
             
-            cell.phAsset = itemIdentifier
+            cell.galleryStorageAssetStringURL = itemIdentifier.url.absoluteString
             
-            DispatchQueue.main.async {
-                SFGalleryFinder.shared.fetchImage(for: itemIdentifier) { cell.setImage($0) }
+            if let imageData = itemIdentifier.thumbnailData {
+                DispatchQueue.main.async {
+                    cell.setImage(UIImage(data: imageData))
+                }
             }
             
             cell.setTapAction { [weak self] in
@@ -183,20 +186,13 @@ extension SecretGalleryViewController {
                 
                 if self.contentShouldBeSelect {
                     
-                    if let isContained = self.dataSource.selectedItemsDictionary[indexPath.section]?.contains(itemIdentifier), isContained {
-                        
-                        self.dataSource.selectedItemsDictionary[indexPath.section]?.remove(itemIdentifier)
-                        cell.isSelected = false
+                    if self.dataSource.selectedItemsSet.contains(itemIdentifier) {
+                        self.dataSource.selectedItemsSet.remove(itemIdentifier)
+                        cell.mediaIsSelected = false
                         
                     } else {
-                        
-                        if self.dataSource.selectedItemsDictionary[indexPath.section] != nil {
-                            self.dataSource.selectedItemsDictionary[indexPath.section]?.insert(itemIdentifier)
-                        } else {
-                            self.dataSource.selectedItemsDictionary[indexPath.section] = [itemIdentifier]
-                        }
-                        
-                        cell.isSelected = true
+                        self.dataSource.selectedItemsSet.insert(itemIdentifier)
+                        cell.mediaIsSelected = true
                         
                     }
                     
@@ -211,6 +207,7 @@ extension SecretGalleryViewController {
                 guard let image = cell.getImage() else { return }
                 let agrume = Agrume(image: image, background: .colored(Generated.Color.mainBackground))
                 agrume.show(from: self)
+                    
             }
             
             return cell
@@ -222,7 +219,7 @@ extension SecretGalleryViewController {
     
     func initSnapshot() {
         
-        var snapshot = NSDiffableDataSourceSnapshot<Int, PHAsset>()
+        var snapshot = NSDiffableDataSourceSnapshot<Int, SFGalleryStorageAsset>()
         
         snapshot.appendSections([0])
         
@@ -241,26 +238,8 @@ private extension SecretGalleryViewController {
     // MARK: - Fetch Handlers
     
     func fetchMedia() {
-        
-    }
-    
-    func fetchGridContent(_ fetchFunc: () throws -> [PHAsset]) {
-        
-        do {
-            
-            let assetsArray = try fetchFunc()
-            
-            if assetsArray.isEmpty {
-                currentContentArray = []
-                return
-            }
-            
-            currentContentArray = assetsArray
-            
-        } catch {
-            currentContentArray = []
-        }
-        
+       currentContentArray = SFGalleryStorage.shared.getAll()
+        print(SFGalleryStorage.shared.getAll().count)
     }
     
     // MARK: - NavigationBar Handlers
@@ -272,12 +251,14 @@ private extension SecretGalleryViewController {
         if contentShouldBeSelect {
             selectButton.title = Generated.Text.Common.cancel
             selectButton.tintColor = Generated.Color.redWarning
+            contentView.setAddCleanButtonTitle(Generated.Text.Common.clean)
+            
         } else {
             selectButton.title = Generated.Text.Common.select
             selectButton.tintColor = Generated.Color.selectedText
-            dataSource.selectedItemsDictionary = [:]
-            contentView.collectionView.visibleCells.forEach {$0.isSelected = false}
-            contentView.setItemsForCleanCount(dataSource.selectedItemsCount())
+            dataSource.selectedItemsSet = []
+            contentView.collectionView.visibleCells.compactMap({$0 as? GalleryDefaultCollectionCell}).forEach {$0.mediaIsSelected = false}
+            contentView.setAddCleanButtonTitle(Generated.Text.SecretGallery.addMedia)
         }
         
     }
@@ -290,11 +271,6 @@ private extension SecretGalleryViewController {
             
             guard let self = self else { return }
             
-            if !SFPurchaseManager.shared.isUserPremium {
-                self.routeToPaywall()
-                return
-            }
-            
             self.dataSource.removeSelectedItems()
             
         }
@@ -304,6 +280,31 @@ private extension SecretGalleryViewController {
         
         present(alertVC, animated: true)
         
+    }
+    
+    // MARK: - Add Handler
+    
+    func addMediaToSecretFolder() {
+        
+       imagePickerVC = SFGalleryStorage.shared.chooseFromGalleryController(allowMultiplySelection: true) { [weak self] vc, assets in
+           guard let self = self else { return }
+           SFGalleryStorage.shared.save(assets)
+           print(assets)
+           self.imagePickerVC.dismiss(animated: true)
+        }
+        
+        present(imagePickerVC, animated: true)
+        
+    }
+    
+    // MARK: - Delete Handler
+    
+    func deleteMediaFromSecretFolder() {
+        if SFGalleryStorage.shared.delete(Array(dataSource.selectedItemsSet)) {
+            dataSource.removeSelectedItems()
+        } else {
+            SPAlert.present(title: "Error", preset: .error)
+        }
     }
     
 }
@@ -322,7 +323,7 @@ private extension SecretGalleryViewController {
         
         contentView.setCleanAction { [weak self] in
             guard let self = self else { return }
-            self.clearAllAction()
+            self.addMediaToSecretFolder()
         }
         
     }
@@ -334,7 +335,7 @@ private extension SecretGalleryViewController {
             self.fetchMedia()
             self.contentView.showBlur()
             if self.currentContentArray.isEmpty {
-                self.navigationItem.rightBarButtonItem = nil
+                self.configureRightButton()
             }
         }
         
@@ -345,12 +346,6 @@ private extension SecretGalleryViewController {
 // MARK: - Navigation
 
 private extension SecretGalleryViewController {
-    
-    func routeToPaywall() {
-        let paywallVC = AppCoordiator.shared.getPaywall()
-        paywallVC.modalPresentationStyle = .fullScreen
-        self.present(paywallVC, animated: true)
-    }
     
 }
 

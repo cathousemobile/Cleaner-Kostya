@@ -29,6 +29,7 @@ final class ContactCleanerView: UIView {
     private lazy var noPhonesTagView = HeaderWithTagsCellView()
     
     private lazy var emptyDataLabel = UILabel()
+    private lazy var spinView = UIActivityIndicatorView(style: .large)
     
     
     // MARK: - Lifecycle
@@ -95,6 +96,19 @@ extension ContactCleanerView {
         }
     }
     
+    func hideSpinner(_ isHidden: Bool) {
+        DispatchQueue.main.async {
+            self.spinView.isHidden = isHidden
+            isHidden ? self.spinView.stopAnimating() : self.spinView.startAnimating()
+        }
+    }
+    
+    func hideTable(_ isHidden: Bool) {
+        DispatchQueue.main.async {
+            self.tableView.isHidden = isHidden
+        }
+    }
+    
 }
 
 // MARK: - Private Methods
@@ -116,6 +130,8 @@ private extension ContactCleanerView {
     }
     
     func configureSubviews() {
+        
+        spinView.startAnimating()
         
         [cleanTitleLabel, contactTitleLabel].forEach {
             $0.do {
@@ -161,12 +177,16 @@ private extension ContactCleanerView {
     
     func addSubviewsBefore() {
         headerContainerView.addSubviews([cleanTitleLabel, contactTitleLabel, tagsHeaderView])
-        addSubviews([tableView, emptyDataLabel])
+        addSubviews([tableView, emptyDataLabel, spinView])
     }
     
     func configureConstraints() {
         
         addSubviewsBefore()
+        
+        spinView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
         
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()

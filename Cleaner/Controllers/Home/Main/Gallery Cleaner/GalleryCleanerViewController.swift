@@ -4,9 +4,9 @@
 
 import UIKit
 import Photos
-import Foundation
 import SPAlert
 import Agrume
+import AVKit
 
 final class GalleryCleanerViewController: UIViewController {
     
@@ -27,6 +27,22 @@ final class GalleryCleanerViewController: UIViewController {
     
     // MARK: - Private Proporties
     
+    private var avAsset: AVURLAsset? {
+        didSet {
+            DispatchQueue.main.async {
+                self.playVideo()
+            }
+        }
+    }
+    
+    private var agrumeImage: UIImage? {
+        didSet {
+            DispatchQueue.main.async {
+                self.showImage()
+            }
+        }
+    }
+    
     private var contentShouldBeSelect = false
     
     private var dataArrayType: ArrayType = .allContent {
@@ -45,7 +61,8 @@ final class GalleryCleanerViewController: UIViewController {
             initDataSource()
             initSnapshot()
             contentView.hideEmptyDataTitle(!currentContentArray.isEmpty)
-            
+            configureRightButton()
+            contentView.showBlur()
         }
     }
     
@@ -54,6 +71,7 @@ final class GalleryCleanerViewController: UIViewController {
             initDataSource()
             initSnapshot()
             contentView.hideEmptyDataTitle(!currentDuplicateContentArray.isEmpty)
+            contentView.showBlur()
         }
     }
     
@@ -77,17 +95,21 @@ final class GalleryCleanerViewController: UIViewController {
         super.viewDidLoad()
         title = Generated.Text.Main.galleryCleaner
         initGallery()
+        setupActions()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        contentView.showBlur()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        checkAccess()
         setupHeaderActions()
-        contentView.showBlur()
     }
     
 }
-#warning("просмотр изображения + видео")
+
 // MARK: - Init
 
 extension GalleryCleanerViewController {
@@ -252,15 +274,28 @@ extension GalleryCleanerViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
-        if let cell = cell as? GalleryDefaultCollectionCell, let isContained = dataSource.selectedItemsDictionary[indexPath.section]?.contains(cell.phAsset), isContained {
-            
-            switch dataArrayType {
-            case .allContent, .screenshots:
-                cell.isSelected = true
-            case .similarPhotos, .similarVideos:
-                cell.isSelected = indexPath.row != 0
+        if let cell = cell as? GalleryDefaultCollectionCell {
+            if let isContained = dataSource.selectedItemsDictionary[indexPath.section]?.contains(cell.phAsset), isContained {
+                
+                switch dataArrayType {
+                case .allContent, .screenshots:
+                    cell.mediaIsSelected = true
+                case .similarPhotos, .similarVideos:
+                    cell.mediaIsSelected = indexPath.row != 0
+                }
+                
+            } else {
+                cell.mediaIsSelected = false
             }
-            
+        }
+        
+        if indexPath.section == collectionView.numberOfSections - 1 &&
+            indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
+            collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: ThisSize.is64, right: 0)
+        }
+        
+        if indexPath.section == 0 && indexPath.row == 0 {
+            collectionView.contentInset = UIEdgeInsets(top: ThisSize.is64, left: 0, bottom: 0, right: 0)
         }
         
     }
@@ -295,7 +330,7 @@ extension GalleryCleanerViewController {
                         if let isContained = self.dataSource.selectedItemsDictionary[indexPath.section]?.contains(itemIdentifier), isContained {
 
                             self.dataSource.selectedItemsDictionary[indexPath.section]?.remove(itemIdentifier)
-                            cell.isSelected = false
+                            cell.mediaIsSelected = false
 
                         } else {
 
@@ -305,7 +340,7 @@ extension GalleryCleanerViewController {
                                 self.dataSource.selectedItemsDictionary[indexPath.section] = [itemIdentifier]
                             }
 
-                            cell.isSelected = true
+                            cell.mediaIsSelected = true
 
                         }
 
@@ -317,9 +352,16 @@ extension GalleryCleanerViewController {
                 cell.setLongPressAction { [weak self] in
                     guard let self = self else { return }
                     
-                    guard let image = cell.getImage() else { return }
-                    let agrume = Agrume(image: image, background: .colored(Generated.Color.mainBackground))
-                    agrume.show(from: self)
+                    SFGalleryFinder.shared.fetchVideoURLAsset(for: itemIdentifier) { avAsset in
+                        if let avAsset = avAsset {
+                            self.avAsset = avAsset
+                        } else {
+                            DispatchQueue.main.async {
+                                self.agrumeImage = cell.getImage()
+                            }
+                        }
+                    }
+                    
                 }
                 
                 return cell
@@ -333,10 +375,7 @@ extension GalleryCleanerViewController {
 
                 cell.isUserInteractionEnabled = true
                 
-                if self?.currentDuplicateContentArray[indexPath.section]?[0] == itemIdentifier {
-                    cell.hideBestPhotoTag(false)
-                    cell.removeTapGesture()
-                }
+                
                 
                 cell.phAsset = itemIdentifier
                 
@@ -345,12 +384,17 @@ extension GalleryCleanerViewController {
                 }
                 
                 cell.setTapAction { [weak self] in
+                    
                     guard let self = self else { return }
                     
                     if let isContained = self.dataSource.selectedItemsDictionary[indexPath.section]?.contains(itemIdentifier), isContained {
 
                         self.dataSource.selectedItemsDictionary[indexPath.section]?.remove(itemIdentifier)
-                        cell.isSelected = false
+                        cell.mediaIsSelected = false
+                        
+                        if let isEmpty = self.dataSource.selectedItemsDictionary[indexPath.section]?.isEmpty, isEmpty {
+                            self.dataSource.selectedItemsDictionary.removeValue(forKey: indexPath.section)
+                        }
 
                     } else {
 
@@ -360,11 +404,11 @@ extension GalleryCleanerViewController {
                             self.dataSource.selectedItemsDictionary[indexPath.section] = [itemIdentifier]
                         }
 
-                        cell.isSelected = true
+                        cell.mediaIsSelected = true
 
                     }
                     
-                    if let header = collectionView.visibleSupplementaryViews(ofKind: UICollectionView.elementKindSectionHeader)[0] as? GalleryCleanerSectionHeaderView {
+                    if let header = collectionView.visibleSupplementaryViews(ofKind: UICollectionView.elementKindSectionHeader).compactMap({$0 as? GalleryCleanerSectionHeaderView}).first(where: {$0.section == indexPath.section}) {
                         if (self.dataSource.selectedItemsDictionary[indexPath.section] == nil || self.dataSource.selectedItemsDictionary[indexPath.section] == []) {
                             header.isSelect = true
                         } else {
@@ -379,9 +423,22 @@ extension GalleryCleanerViewController {
                 cell.setLongPressAction { [weak self] in
                     guard let self = self else { return }
                     
-                    guard let image = cell.getImage() else { return }
-                    let agrume = Agrume(image: image, background: .colored(Generated.Color.mainBackground))
-                    agrume.show(from: self)
+                    SFGalleryFinder.shared.fetchVideoURLAsset(for: itemIdentifier) { avAsset in
+                        if let avAsset = avAsset {
+                            self.avAsset = avAsset
+                        } else {
+                            DispatchQueue.main.async {
+                                self.agrumeImage = cell.getImage()
+                            }
+                        }
+                    }
+                    
+                }
+                
+                if self?.currentDuplicateContentArray[indexPath.section]?[0] == itemIdentifier {
+                    cell.hideBestPhotoTag(false)
+                    cell.setTapAction { }
+                    cell.bestContentIsPhoto(self?.dataArrayType != .similarVideos)
                 }
                 
                 return cell
@@ -435,6 +492,27 @@ extension GalleryCleanerViewController {
 
 private extension GalleryCleanerViewController {
     
+    // MARK: - Media Handlers
+    
+    func showImage() {
+        if let agrumeImage = self.agrumeImage {
+            let agrume = Agrume(image: agrumeImage, background: .colored(Generated.Color.mainBackground))
+            agrume.show(from: self)
+        }
+    }
+    
+    func playVideo() {
+        if let ass = self.avAsset {
+            let playerItem = AVPlayerItem(asset: ass)
+            let player = AVPlayer(playerItem: playerItem)
+            let playerViewController = AVPlayerViewController()
+            playerViewController.player = player
+            self.present(playerViewController, animated: true) {
+                player.play()
+            }
+        }
+    }
+    
     // MARK: - Fetch Handlers
     
     func fetchMedia() {
@@ -442,7 +520,7 @@ private extension GalleryCleanerViewController {
         switch dataArrayType {
             
         case .allContent:
-            fetchGridContent(SFGalleryFinder.shared.getAllProtos)
+            fetchGridContent(SFGalleryFinder.shared.getAllVideos)
             
         case .screenshots:
             fetchGridContent(SFGalleryFinder.shared.getScreenshots)
@@ -460,15 +538,14 @@ private extension GalleryCleanerViewController {
     func fetchGridContent(_ fetchFunc: () throws -> [PHAsset]) {
         
         do {
-            
+            let dispGroup = DispatchGroup()
+            dispGroup.enter()
             let assetsArray = try fetchFunc()
-            
-            if assetsArray.isEmpty {
-                currentContentArray = []
-                return
+            dispGroup.leave()
+
+            dispGroup.notify(queue: .main) {
+                self.currentContentArray = assetsArray
             }
-            
-            currentContentArray = assetsArray
             
         } catch {
             currentContentArray = []
@@ -559,7 +636,7 @@ private extension GalleryCleanerViewController {
             selectButton.title = Generated.Text.Common.select
             selectButton.tintColor = Generated.Color.selectedText
             dataSource.selectedItemsDictionary = [:]
-            contentView.collectionView.visibleCells.forEach {$0.isSelected = false}
+            contentView.collectionView.visibleCells.compactMap({$0 as? GalleryDefaultCollectionCell}).forEach {$0.mediaIsSelected = false}
             contentView.setItemsForCleanCount(dataSource.selectedItemsCount())
         }
         

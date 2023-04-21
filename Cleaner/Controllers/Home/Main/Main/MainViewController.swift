@@ -44,6 +44,9 @@ final class MainViewController: UIViewController {
         checkContactsSize()
         checkGallerySize()
         setDeviceName()
+        navigationController?.navigationBar.sizeToFit()
+        navigationController?.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: Generated.Color.selectedText], for: .selected)
+        navigationController?.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: Generated.Color.tabBarUnselected], for: .normal)
     }
     
 }

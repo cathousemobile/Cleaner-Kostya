@@ -43,6 +43,10 @@ final class GalleryCleanerBestPhotoView: UIView {
 
 extension GalleryCleanerBestPhotoView {
     
+    func isPhoto(_ isPhoto: Bool) {
+        titleLabel.text = isPhoto ? Generated.Text.GalleryCleaner.bestPhoto : Generated.Text.GalleryCleaner.bestVideo
+    }
+    
 }
 
 // MARK: - Private Methods
@@ -65,7 +69,6 @@ private extension GalleryCleanerBestPhotoView {
     
     func configureSubviews() {
         titleLabel.do {
-            $0.text = Generated.Text.GalleryCleaner.bestPhoto
             $0.textColor = Generated.Color.primaryText
             $0.font = .systemFont(ofSize: 12, weight: .semibold)
         }

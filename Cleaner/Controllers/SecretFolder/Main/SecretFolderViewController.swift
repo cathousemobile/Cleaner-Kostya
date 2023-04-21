@@ -43,11 +43,48 @@ final class SecretFolderViewController: UIViewController {
         navigationController?.navigationBar.sizeToFit()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        LocaleStorage.secretIsAuthenticated ? auth() : routeToAuth()
+        DispatchQueue.main.async {
+            self.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: Generated.Color.selectedText], for: .selected)
+            self.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: Generated.Color.tabBarUnselected], for: .normal)
+        }
+       
+    }
+    
 }
 
 // MARK: - Handlers
 
 private extension SecretFolderViewController {
+    
+    func failed() {
+        SPAlert.present(message: "Password failed", haptic: .error)
+    }
+    
+    func auth() {
+        
+        let context = LAContext()
+        var error: NSError?
+        
+        if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
+            let reason = Generated.Text.SecretFolder.addAuthentication
+            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason ) { success, error in
+                DispatchQueue.main.async {
+                    if success {
+                        LocaleStorage.secretIsAuthenticated = true
+                    } else {
+                        
+                    }
+                }
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.failed()
+            }
+        }
+    }
     
 }
 
@@ -72,7 +109,8 @@ private extension SecretFolderViewController {
     
     func setupActions() {
         
-        contentView.setAuthenticationButonAction {
+        contentView.setAuthenticationButonAction { [weak self] in
+            guard let self = self else { return }
             self.auth()
         }
         
@@ -90,10 +128,17 @@ private extension SecretFolderViewController {
                 $0.hideDivider(option == SecretFolderOptionsModel.allCases.last ? true : false)
                 $0.setAction { [weak self] in
                     guard let self = self else { return }
+                    
+//                    if !SFPurchaseManager.shared.isUserPremium {
+//                        self.routeToPaywall()
+//                        return
+//                    }
+                    
                     let vcToPush = option.viewControllerToRoute
                     vcToPush.hidesBottomBarWhenPushed = true
                     vcToPush.navigationItem.largeTitleDisplayMode = .never
                     self.navigationController?.pushViewController(vcToPush, animated: true)
+                    
                 }
             }
             
@@ -109,43 +154,28 @@ private extension SecretFolderViewController {
 
 private extension SecretFolderViewController {
     
-    func present() {
-//        let vc = PasswordSummaryViewController()
-//        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func failed() {
-        SPAlert.present(message: "Password failed", haptic: .error)
-    }
-    
-//    guard UserDefaults.passwords.isEmpty == false else {
-//        present()
-//        return
-//    }
-    
-    func auth() {
+    func routeToAuth() {
         
-        let context = LAContext()
-        var error: NSError?
+        let alertVC = UIAlertController(title: Generated.Text.SecretFolder.sureProtect, message: Generated.Text.SecretFolder.remindLater, preferredStyle: .alert)
         
-        if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
-            let reason = "Holla"
-            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason ) { success, error in
-                DispatchQueue.main.async {
-                    if success {
-                        print("success")
-                    } else {
-                        print("not success")
-                    }
-                }
-            }
-        } else {
-            DispatchQueue.main.async {
-                print(error?.localizedDescription)
-                self.failed()
-            }
+        let addPasswordAction = UIAlertAction(title: Generated.Text.Common.protect, style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            self.auth()
         }
+        
+        alertVC.addAction(addPasswordAction)
+        alertVC.addAction(.init(title: Generated.Text.Common.cancel, style: .cancel))
+        
+        present(alertVC, animated: true)
+        
     }
+    
+    func routeToPaywall() {
+        let paywallVC = AppCoordiator.shared.getPaywall()
+        paywallVC.modalPresentationStyle = .fullScreen
+        self.present(paywallVC, animated: true)
+    }
+    
 }
 
 // MARK: - Layout Setup

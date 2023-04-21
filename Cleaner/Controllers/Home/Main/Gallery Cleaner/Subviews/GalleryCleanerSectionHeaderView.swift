@@ -12,6 +12,8 @@ final class GalleryCleanerSectionHeaderView: UICollectionReusableView {
         didSet { switchActionButtonType() }
     }
     
+    public var section: Int?
+    
     // MARK: - Private Properties
     
     // MARK: - Subviews

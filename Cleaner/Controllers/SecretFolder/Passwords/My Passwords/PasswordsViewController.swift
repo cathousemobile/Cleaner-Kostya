@@ -86,7 +86,26 @@ private extension PasswordsViewController {
         hideRightButton(SFAccountStorage.shared.getAll().isEmpty)
     }
     
-    
+    @objc func cleanAllAction() {
+        
+        let alertVC = UIAlertController(title: Generated.Text.MyPasswords.sureDeletePassword, message: nil, preferredStyle: .actionSheet)
+        
+        let deleteAction = UIAlertAction(title: Generated.Text.Common.delete, style: .destructive) { _ in
+            
+            if SFAccountStorage.shared.delete(SFAccountStorage.shared.getAll()) {
+                SPAlert.present(title: Generated.Text.Common.deleted, preset: .done)
+            } else {
+                SPAlert.present(title: "Error", preset: .error)
+            }
+            
+        }
+        
+        alertVC.addAction(deleteAction)
+        alertVC.addAction(.init(title: Generated.Text.Common.cancel, style: .cancel))
+        
+        present(alertVC, animated: true)
+        
+    }
     
 }
 
@@ -112,14 +131,6 @@ private extension PasswordsViewController {
     
     func hideRightButton(_ isHidden: Bool) {
         isHidden ? navigationItem.rightBarButtonItem = nil : configureRightButton()
-    }
-    
-    @objc func cleanAllAction() {
-        if SFAccountStorage.shared.delete(SFAccountStorage.shared.getAll()) {
-            SPAlert.present(title: Generated.Text.MyPasswords.acccountChanged, preset: .done)
-        } else {
-            SPAlert.present(title: "Error", preset: .error)
-        }
     }
     
 }
@@ -148,14 +159,7 @@ private extension PasswordsViewController {
         
         contentView.setPasswordButonAction { [weak self] in
             guard let self = self else { return }
-            
-//            if SFPurchaseManager.shared.isUserPremium {
-//                self.routeToPaywall()
-//                return
-//            }
-            
             self.routToAddGeneratePasswords()
-            
         }
         
     }

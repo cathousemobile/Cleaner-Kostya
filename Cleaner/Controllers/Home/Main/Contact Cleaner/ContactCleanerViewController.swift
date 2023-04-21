@@ -53,7 +53,6 @@ final class ContactCleanerViewController: UIViewController {
         didSet {
             guard oldValue != tableCellType else {return}
             contentView.tableView.separatorStyle = tableCellType == .merge ? .none : .singleLine
-            clearAllButton.title = tableCellType == .merge ? Generated.Text.ContactCleaner.mergeAll : Generated.Text.ContactCleaner.cleanAll
         }
     }
     
@@ -144,13 +143,18 @@ extension ContactCleanerViewController {
     
     func configureRightButton() {
         
-        clearAllButton.title = Generated.Text.ContactCleaner.cleanAll
-        clearAllButton.style = .plain
-        clearAllButton.target = self
-        clearAllButton.action = #selector(clearAllAction)
-        clearAllButton.tintColor = Generated.Color.redWarning
-        
-        self.navigationItem.rightBarButtonItem = clearAllButton
+        if !simpleContactsArray.isEmpty || !mergeContactsSearchDictionary.isEmpty {
+            clearAllButton.title = tableCellType == .merge ? Generated.Text.ContactCleaner.mergeAll : Generated.Text.ContactCleaner.cleanAll
+            clearAllButton.style = .plain
+            clearAllButton.target = self
+            clearAllButton.action = #selector(clearAllAction)
+            clearAllButton.tintColor = Generated.Color.redWarning
+            
+            self.navigationItem.rightBarButtonItem = clearAllButton
+            
+        } else {
+            self.navigationItem.rightBarButtonItem = nil
+        }
         
     }
     
@@ -228,6 +232,7 @@ extension ContactCleanerViewController {
     func initDataAndSnap() {
 
         dispatchGroup.notify(queue: .main) {
+            self.contentView.hideSpinner(true)
             self.initDataSource()
             self.initSnapshot()
         }
@@ -343,12 +348,43 @@ extension ContactCleanerViewController {
 
 private extension ContactCleanerViewController {
     
+    func routeHelp() {
+        
+        switch tableCellType {
+            
+        case .simple:
+            if let simpleDataSource = self.simpleDataSource {
+                var snap = self.simpleDataSource.snapshot()
+                snap.deleteAllItems()
+                simpleDataSource.apply(snap)
+            } else {
+                var snap = mergeDataSource.snapshot()
+                snap.deleteAllItems()
+                mergeDataSource.apply(snap)
+            }
+        case .merge:
+            if let mergeDataSource = self.mergeDataSource {
+                var snap = mergeDataSource.snapshot()
+                snap.deleteAllItems()
+                self.mergeDataSource.apply(snap)
+            } else {
+                var snap = self.simpleDataSource.snapshot()
+                snap.deleteAllItems()
+                simpleDataSource.apply(snap)
+            }
+            
+        }
+        
+    }
+    
     // MARK: - Fetch Handlers
     
     func fetchMedia() {
         
         guard let dataArrayType = dataArrayType else { return }
+
         dispatchGroup.enter()
+        
         switch dataArrayType {
             
         case .allContacts:
@@ -364,6 +400,7 @@ private extension ContactCleanerViewController {
         case .noPhones:
             fetchAllContacts(SFContactFinder.shared.getWithoutPhone)
         }
+        
         dispatchGroup.leave()
         
     }
@@ -471,6 +508,9 @@ private extension ContactCleanerViewController {
     }
     
     func checkData() {
+        
+        configureRightButton()
+        
         switch tableCellType {
         case .merge:
             contentView.setEmptyDataTitle(Generated.Text.ContactCleaner.noMerge)
@@ -479,6 +519,7 @@ private extension ContactCleanerViewController {
             contentView.setEmptyDataTitle(Generated.Text.ContactCleaner.noContacts)
             contentView.hideEmptyDataTitle(!simpleContactsArray.isEmpty)
         }
+        
     }
     
     //MARK: - Contacts Actions
@@ -645,6 +686,11 @@ private extension ContactCleanerViewController {
         self.contentView.getAllTags().forEach { $0.isSelected = $0.cellId == tagName }
         
         if isSearching { self.filterItems(text: self.searchController.searchBar.text) }
+        
+        self.contentView.hideSpinner(false)
+        self.contentView.hideEmptyDataTitle(true)
+        
+        self.routeHelp()
         
     }
     
