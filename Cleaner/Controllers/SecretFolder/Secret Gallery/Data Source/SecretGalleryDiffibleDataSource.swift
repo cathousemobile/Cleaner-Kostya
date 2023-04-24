@@ -24,14 +24,9 @@ extension SecretGalleryDiffibleDataSource {
     }
     
     func removeSelectedItems() {
-        
-        var snapshot = snapshot()
-        snapshot.deleteItems(Array(selectedItemsSet))
         selectedItemsSet.removeAll()
-        contentView?.setItemsForCleanCount(self.selectedItemsCount())
-        apply(snapshot, animatingDifferences: true)
+        contentView?.setItemsForCleanCount(selectedItemsCount())
         contentView?.showBlur()
-        
     }
     
 }

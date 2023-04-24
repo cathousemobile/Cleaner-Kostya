@@ -22,6 +22,8 @@ final class SecretGalleryViewController: UIViewController {
     
     // MARK: - Private Proporties
     
+    private var dispatchGroup = DispatchGroup()
+    
     private var contentShouldBeSelect = false
     
     private var dataSource: SecretGalleryDiffibleDataSource!
@@ -225,7 +227,9 @@ extension SecretGalleryViewController {
         
         snapshot.appendItems(currentContentArray, toSection: 0)
         
-        dataSource.apply(snapshot, animatingDifferences: true)
+        DispatchQueue.main.async {
+            self.dataSource.apply(snapshot, animatingDifferences: true)
+        }
         
     }
     
@@ -238,8 +242,7 @@ private extension SecretGalleryViewController {
     // MARK: - Fetch Handlers
     
     func fetchMedia() {
-       currentContentArray = SFGalleryStorage.shared.getAll()
-        print(SFGalleryStorage.shared.getAll().count)
+        currentContentArray = SFGalleryStorage.shared.getAll()
     }
     
     // MARK: - NavigationBar Handlers
@@ -252,6 +255,7 @@ private extension SecretGalleryViewController {
             selectButton.title = Generated.Text.Common.cancel
             selectButton.tintColor = Generated.Color.redWarning
             contentView.setAddCleanButtonTitle(Generated.Text.Common.clean)
+            contentView.setCleanAction(clearAction)
             
         } else {
             selectButton.title = Generated.Text.Common.select
@@ -259,20 +263,19 @@ private extension SecretGalleryViewController {
             dataSource.selectedItemsSet = []
             contentView.collectionView.visibleCells.compactMap({$0 as? GalleryDefaultCollectionCell}).forEach {$0.mediaIsSelected = false}
             contentView.setAddCleanButtonTitle(Generated.Text.SecretGallery.addMedia)
+            contentView.setCleanAction(addMediaToSecretFolder)
+            
         }
         
     }
     
-    @objc func clearAllAction() {
+    func clearAction() {
         
         let alertVC = UIAlertController(title: Generated.Text.Common.deleteSelectedContent, message: nil, preferredStyle: .actionSheet)
         let deleteItemsCount = dataSource.selectedItemsCount() == 0 ? dataSource.snapshot().numberOfItems : dataSource.selectedItemsCount()
         let deleteAction = UIAlertAction(title: Generated.Text.Common.deleteWithCount(String(deleteItemsCount)), style: .destructive) { [weak self] _ in
-            
             guard let self = self else { return }
-            
-            self.dataSource.removeSelectedItems()
-            
+            self.deleteMediaFromSecretFolder()
         }
         
         alertVC.addAction(deleteAction)
@@ -289,7 +292,6 @@ private extension SecretGalleryViewController {
        imagePickerVC = SFGalleryStorage.shared.chooseFromGalleryController(allowMultiplySelection: true) { [weak self] vc, assets in
            guard let self = self else { return }
            SFGalleryStorage.shared.save(assets)
-           print(assets)
            self.imagePickerVC.dismiss(animated: true)
         }
         
@@ -302,6 +304,7 @@ private extension SecretGalleryViewController {
     func deleteMediaFromSecretFolder() {
         if SFGalleryStorage.shared.delete(Array(dataSource.selectedItemsSet)) {
             dataSource.removeSelectedItems()
+            SPAlert.present(title: Generated.Text.Common.deleted, preset: .done)
         } else {
             SPAlert.present(title: "Error", preset: .error)
         }
@@ -320,17 +323,12 @@ extension SecretGalleryViewController {
 private extension SecretGalleryViewController {
     
     func setupActions() {
-        
-        contentView.setCleanAction { [weak self] in
-            guard let self = self else { return }
-            self.addMediaToSecretFolder()
-        }
-        
+        contentView.setCleanAction(addMediaToSecretFolder)
     }
     
     func subscribeToNotifications() {
         
-        SFNotificationSystem.observe(event: .galleryFinderUpdated) { [weak self] in
+        SFNotificationSystem.observe(event: .galleryStorageUpdated) { [weak self] in
             guard let self = self else { return }
             self.fetchMedia()
             self.contentView.showBlur()
