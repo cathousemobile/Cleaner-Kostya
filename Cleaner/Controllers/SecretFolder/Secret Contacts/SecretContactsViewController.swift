@@ -364,15 +364,10 @@ private extension SecretContactsViewController {
         let addNewContactsAction = UIAlertAction(title: Generated.Text.SecretContacts.createContact, style: .default) { [weak self] _ in
             
             guard let self = self else { return }
-            #warning("ждем обновления либы")
+            
             self.cnVC = SFContactStorage.shared.createContactController() { contactToSave in
                 guard let contactToSave = contactToSave else { return }
                 self.saveContact(contactToSave)
-                do {
-                    try SFContactFinder.shared.deleteContacts([contactToSave])
-                } catch {
-                    print(error.localizedDescription)
-                }
                 self.cnVC.dismiss(animated: true)
             }
             
