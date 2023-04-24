@@ -10,11 +10,15 @@ final class SensorViewController: UIViewController {
     // MARK: - UI Elements
     
     private let contentView = SensorView()
-    private let meter: Accelerometer = .init()
+    private let accelerometer = Accelerometer(frequency: .init(8, .hertz))
+    private let gyrometer = Gyrometer(frequency: .init(8, .hertz))
+    private let magnetometer = Magnetometer(frequency: .init(8, .hertz))
     
     // MARK: - Public Proporties
     
     // MARK: - Private Proporties
+    
+    private let altimeter = CMAltimeter()
     
     // MARK: - Life cycle
     
@@ -37,6 +41,18 @@ final class SensorViewController: UIViewController {
         initStacks()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        runStreams()
+        runBarometer()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        stopStreams()
+        altimeter.stopRelativeAltitudeUpdates()
+    }
+    
 }
 
 // MARK: - Handlers
@@ -55,26 +71,84 @@ extension SensorViewController {
 
 private extension SensorViewController {
     
-    func meterFunc() async {
+    func runAccelerometer() async {
         do {
-            let stream: AsyncStream<Point> = try meter.subscribe()
+            let stream: AsyncStream<Point> = try accelerometer.subscribe()
             for await data in stream {
-                contentView.setInfoInCellById(.acceleration, id: Generated.Text.Sensor.xAxis, info: String(data.x))
-                contentView.setInfoInCellById(.acceleration, id: Generated.Text.Sensor.yAxis, info: String(data.y))
-                contentView.setInfoInCellById(.acceleration, id: Generated.Text.Sensor.zAxis, info: String(data.z))
+                contentView.setInfoInCellById(.acceleration, id: Generated.Text.Sensor.xAxis, info: String(format: "%.2f", data.x))
+                contentView.setInfoInCellById(.acceleration, id: Generated.Text.Sensor.yAxis, info: String(format: "%.2f", data.y))
+                contentView.setInfoInCellById(.acceleration, id: Generated.Text.Sensor.zAxis, info: String(format: "%.2f", data.z))
             }
-            meter.unsubscribe()
         } catch let error {
             // Do something with the error.
             print("Here: ", error)
         }
     }
     
-    func setupActions() {
+    func runGyrometer() async {
+        do {
+            let stream: AsyncStream<Point> = try gyrometer.subscribe()
+            for await data in stream {
+                contentView.setInfoInCellById(.orientation, id: Generated.Text.Sensor.roll, info: String(format: "%.2f", data.x))
+                contentView.setInfoInCellById(.orientation, id: Generated.Text.Sensor.pitch, info: String(format: "%.2f", data.y))
+                contentView.setInfoInCellById(.orientation, id: Generated.Text.Sensor.yaw, info: String(format: "%.2f", data.z))
+            }
+        } catch let error {
+            // Do something with the error.
+            print("Here: ", error)
+        }
+    }
+    
+    func runMagnometer() async {
+        do {
+            let stream: AsyncStream<Point> = try magnetometer.subscribe()
+            for await data in stream {
+                contentView.setInfoInCellById(.magnetic, id: Generated.Text.Sensor.xAxis, info: String(format: "%.2f", data.x))
+                contentView.setInfoInCellById(.magnetic, id: Generated.Text.Sensor.yAxis, info: String(format: "%.2f", data.y))
+                contentView.setInfoInCellById(.magnetic, id: Generated.Text.Sensor.zAxis, info: String(format: "%.2f", data.z))
+                
+            }
+        } catch let error {
+            // Do something with the error.
+            print("Here: ", error)
+        }
+    }
+    
+    func runBarometer() {
+        
+        if CMAltimeter.isRelativeAltitudeAvailable() {
+            altimeter.startRelativeAltitudeUpdates(to: .main) { [weak self] data, error in
+                guard let self = self else { return }
+                self.contentView.setInfoInCellById(.barometer, id: Generated.Text.Sensor.pressure, info: String(format: "%.2f hPA", (data?.pressure.floatValue)!*10))
+            }
+            
+        }
+        
+    }
+    
+    func runStreams() {
         
         Task {
-            await meterFunc()
+            await runAccelerometer()
         }
+        
+        Task {
+            await runGyrometer()
+        }
+        
+        Task {
+            await runMagnometer()
+        }
+        
+    }
+    
+    func stopStreams() {
+        gyrometer.unsubscribe()
+        accelerometer.unsubscribe()
+        magnetometer.unsubscribe()
+    }
+    
+    func setupActions() {
         
     }
     
