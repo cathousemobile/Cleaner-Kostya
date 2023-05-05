@@ -76,12 +76,12 @@ extension PaywallView {
         purchaseButton.setAction(action)
     }
     
-    func changePurchaseButtonTitleFont(_ font: UIFont) {
-        purchaseButton.changeTitleTextFont(font)
+    func purchseButtonIsEnabled(_ isEnabled: Bool) {
+        purchaseButton.shouldBeEnabled(isEnabled)
     }
     
-    func setPrivacyAndTermsActions(privacyAction: @escaping EmptyBlock, termsAction: @escaping EmptyBlock) {
-        termsAndPrivacyView.setupActions(presentPrivacy: privacyAction, presentTerms: termsAction)
+    func purchaseInProgress(_ inProgress: Bool) {
+        purchaseButton.shouldBeLoading(inProgress)
     }
     
     func setRestoreButtonAction(_ action: @escaping EmptyBlock) {
@@ -90,10 +90,6 @@ extension PaywallView {
     
     func setCloseButtonAction(_ action: @escaping EmptyBlock) {
         closeButton.setAction(action)
-    }
-    
-    func purchseButtonIsEnabled(_ isEnabled: Bool) {
-        purchaseButton.shouldBeEnabled(isEnabled)
     }
     
 }

@@ -105,7 +105,7 @@ private extension SecretFolderView {
         addAuthenticationButton.changeBackgroundColor(Generated.Color.redWarning)
         addAuthenticationButton.isHidden = LocaleStorage.secretIsAuthenticated
         
-//        scrollView.alwaysBounceVertical = true
+        scrollView.alwaysBounceVertical = true
         scrollView.showsVerticalScrollIndicator = false
         
     }

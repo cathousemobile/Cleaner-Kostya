@@ -36,6 +36,7 @@ extension Generated.Text {
             return String.localizedStringWithFormat(text, p1)
         }
         static var deselectAll: String { NSLocalizedString("common.deselectAll", comment: "Deselect All") }
+        static var inProcess: String { NSLocalizedString("common.inProcess", comment: "Please wait, Service in Process") }
         static var noAccess: String { NSLocalizedString("common.noAccess", comment: "No access") }
         static var off: String { NSLocalizedString("common.off", comment: "Off") }
         static var on: String { NSLocalizedString("common.on", comment: "On") }
@@ -237,11 +238,13 @@ extension Generated.Text {
         static var allSecondFeature: String { NSLocalizedString("paywall.allSecondFeature", comment: "Create strong passwords to keep\nyour accounts safe") }
         static var allThirdFeature: String { NSLocalizedString("paywall.allThirdFeature", comment: "Hide important files in a secret\nfolder") }
         static var allTrial: String { NSLocalizedString("paywall.allTrial", comment: "Start 3-Day Trial") }
+        static var buyError: String { NSLocalizedString("paywall.buyError", comment: "Buy Error") }
         static var noneTitle: String { NSLocalizedString("paywall.noneTitle", comment: "Clean your iPhone\nwith ") }
         static var noneTrialDescriptionPt1: String { NSLocalizedString("paywall.noneTrialDescriptionPt1", comment: "Get full experience with ") }
         static var noneTrialDescriptionPt2: String { NSLocalizedString("paywall.noneTrialDescriptionPt2", comment: "3-day trial") }
         static var noneTrialDescriptionPt3: String { NSLocalizedString("paywall.noneTrialDescriptionPt3", comment: ",\nthen just $3.99/week. Cancel anytime.") }
         static var per: String { NSLocalizedString("paywall.per", comment: " per ") }
+        static var restoreError: String { NSLocalizedString("paywall.restoreError", comment: "Restore Error") }
         static var squareAndOvalTitle: String { NSLocalizedString("paywall.squareAndOvalTitle", comment: "Get Premium") }
         static var squareSubtitle: String { NSLocalizedString("paywall.squareSubtitle", comment: "Choose your plan and get all these\ngreat features ") }
         static func trial(_ p1: String, _ p2: String, _ p3: String) -> String {

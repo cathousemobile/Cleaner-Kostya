@@ -59,12 +59,9 @@ final class ContactCleanerViewController: UIViewController {
     private var simpleDataSource: SimpleContactsTableViewDiffibleDataSource!
     private var mergeDataSource: MergeContactsTableViewDiffibleDataSource!
     
-    private var simpleContactsArray = [[SFContact]]() {
-        didSet { checkData() }
-    }
-    private var currentMergeContactsDictionary = [SFContact : [SFContact]]() {
-        didSet { checkData() }
-    }
+    private var simpleContactsArray = [[SFContact]]()
+    
+    private var currentMergeContactsDictionary = [SFContact : [SFContact]]()
     
     private var simpleContactSearchArray = [[SFContact]]() {
         didSet {
@@ -126,7 +123,6 @@ extension ContactCleanerViewController {
     func initData() {
         configureSearchController()
         configureTableView()
-        initNavigationBarItems()
         setupActions()
         initNotifications()
     }
@@ -137,13 +133,9 @@ extension ContactCleanerViewController {
 
 extension ContactCleanerViewController {
     
-    func initNavigationBarItems() {
-        configureRightButton()
-    }
-    
-    func configureRightButton() {
+    func configureRightButton(_ isEmpty: Bool) {
         
-        if !simpleContactsArray.isEmpty || !mergeContactsSearchDictionary.isEmpty {
+        if !isEmpty {
             clearAllButton.title = tableCellType == .merge ? Generated.Text.ContactCleaner.mergeAll : Generated.Text.ContactCleaner.cleanAll
             clearAllButton.style = .plain
             clearAllButton.target = self
@@ -311,6 +303,8 @@ extension ContactCleanerViewController {
             
             simpleDataSource.apply(snapshot, animatingDifferences: true)
             
+            self.checkData(snapshot.itemIdentifiers.isEmpty)
+            
         case .merge:
             
             var snapshot = NSDiffableDataSourceSnapshot<String, [SFContact]>()
@@ -338,6 +332,8 @@ extension ContactCleanerViewController {
             
             mergeDataSource.apply(snapshot, animatingDifferences: true)
             
+            self.checkData(snapshot.itemIdentifiers.isEmpty)
+            
         }
         
     }
@@ -353,24 +349,16 @@ private extension ContactCleanerViewController {
         switch tableCellType {
             
         case .simple:
-            if let simpleDataSource = self.simpleDataSource {
-                var snap = self.simpleDataSource.snapshot()
+            if let simpleDataSource = self.simpleDataSource, simpleDataSource.snapshot().numberOfItems != 0 {
+                var snap = simpleDataSource.snapshot()
                 snap.deleteAllItems()
                 simpleDataSource.apply(snap)
-            } else {
+            }
+        case .merge:
+            if let mergeDataSource = self.mergeDataSource, mergeDataSource.snapshot().numberOfItems != 0 {
                 var snap = mergeDataSource.snapshot()
                 snap.deleteAllItems()
                 mergeDataSource.apply(snap)
-            }
-        case .merge:
-            if let mergeDataSource = self.mergeDataSource {
-                var snap = mergeDataSource.snapshot()
-                snap.deleteAllItems()
-                self.mergeDataSource.apply(snap)
-            } else {
-                var snap = self.simpleDataSource.snapshot()
-                snap.deleteAllItems()
-                simpleDataSource.apply(snap)
             }
             
         }
@@ -380,6 +368,8 @@ private extension ContactCleanerViewController {
     // MARK: - Fetch Handlers
     
     func fetchMedia() {
+        
+        if SFContactFinder.shared.inProcess { return }
         
         guard let dataArrayType = dataArrayType else { return }
 
@@ -447,7 +437,6 @@ private extension ContactCleanerViewController {
             initDataAndSnap()
             
         } catch {
-            print(error.localizedDescription)
             simpleContactsArray = []
             initDataAndSnap()
         }
@@ -471,7 +460,6 @@ private extension ContactCleanerViewController {
             initDataAndSnap()
             
         } catch {
-            print(error.localizedDescription)
             currentMergeContactsDictionary = [:]
             initDataAndSnap()
         }
@@ -484,7 +472,7 @@ private extension ContactCleanerViewController {
         
         SFNotificationSystem.observe(event: .contactFinderUpdated) { [weak self] in
             guard let self = self else { return }
-            self.checkData()
+            self.fetchMedia()
         }
         
         SFNotificationSystem.observe(event: .custom(name: "contactDeleted")) { [weak self] in
@@ -505,11 +493,23 @@ private extension ContactCleanerViewController {
             
         }
         
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil
+        )
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil
+        )
+        
     }
     
-    func checkData() {
+    func checkData(_ isEmpty: Bool) {
         
-        configureRightButton()
+        configureRightButton(isEmpty)
         
         switch tableCellType {
         case .merge:
@@ -520,6 +520,13 @@ private extension ContactCleanerViewController {
             contentView.hideEmptyDataTitle(!simpleContactsArray.isEmpty)
         }
         
+    }
+    
+    func checkServiceInProcess() {
+        if SFContactFinder.shared.inProcess {
+            SPAlert.present(message: Generated.Text.Common.inProcess, haptic: .warning)
+            return
+        }
     }
     
     //MARK: - Contacts Actions
@@ -538,8 +545,14 @@ private extension ContactCleanerViewController {
     func mergeCellAction(_ contacts: [SFContact]) {
         guard let contact = contacts.first else { return }
         
+        checkServiceInProcess()
+        
         do {
-            try SFContactFinder.shared.saveMergeContactAndDeleteOthers(contact)
+            if dataArrayType == .allDuplicates {
+                try SFContactFinder.shared.deleteContacts(contacts.filter({ $0 != contact }))
+            } else {
+                try SFContactFinder.shared.saveMergeContactAndDeleteOthers(contact)
+            }
             var snap = self.mergeDataSource.snapshot()
             snap.deleteItems([contacts])
             self.mergeDataSource.apply(snap)
@@ -550,9 +563,12 @@ private extension ContactCleanerViewController {
         } catch {
             SPAlert.present(title: error.localizedDescription, preset: .error)
         }
+        
     }
     
     @objc func clearAllAction() {
+        
+        checkServiceInProcess()
         
         let alertStringData: [String] = {
             
@@ -617,7 +633,11 @@ private extension ContactCleanerViewController {
                     
                     let contactsToMergeArray = snap.itemIdentifiers.compactMap({$0.first})
                     
-                    try SFContactFinder.shared.saveMergeContactsAndDeleteOthers(contactsToMergeArray)
+                    if self.dataArrayType == .allDuplicates {
+                        try SFContactFinder.shared.deleteContacts(snap.itemIdentifiers.reduce([], +).filter({ !contactsToMergeArray.contains($0) }))
+                    } else {
+                        try SFContactFinder.shared.saveMergeContactsAndDeleteOthers(contactsToMergeArray)
+                    }
 
                     snap.deleteAllItems()
 
@@ -680,6 +700,13 @@ private extension ContactCleanerViewController {
     
     func tagAction(_ tableCellType: TableCellType, _ dataArrayType: ContactsArrayType, _ tagName: String) {
         
+        checkServiceInProcess()
+        
+        if self.dataArrayType == dataArrayType { return }
+        
+        self.configureRightButton(true)
+        self.routeHelp()
+        
         self.tableCellType = tableCellType
         self.dataArrayType = dataArrayType
         
@@ -690,8 +717,20 @@ private extension ContactCleanerViewController {
         self.contentView.hideSpinner(false)
         self.contentView.hideEmptyDataTitle(true)
         
-        self.routeHelp()
-        
+    }
+    
+    //MARK: - Keyboard
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            contentView.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight, right: 0)
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        contentView.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
 }

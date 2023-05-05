@@ -23,6 +23,7 @@
 "common.save" = "Save";
 "common.copied" = "Copied";
 "common.protect" = "Protect";
+"common.inProcess" = "Please wait, Service in Process";
 
 // MARK: - Onboarding
 
@@ -243,6 +244,8 @@ with ";
 then just $3.99/week. Cancel anytime.";
 "paywall.per" = " per ";
 "paywall.trial" = "with %@ trial then %@/%@";
+"paywall.restoreError" = "Restore Error";
+"paywall.buyError" = "Buy Error";
 
 // MARK: - Gallery Cleaner
 

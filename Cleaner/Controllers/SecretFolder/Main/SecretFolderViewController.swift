@@ -17,6 +17,8 @@ final class SecretFolderViewController: UIViewController {
     
     // MARK: - Private Proporties
     
+    private lazy var authWasPresented = false
+    
     // MARK: - Life cycle
     
     init() {
@@ -40,12 +42,16 @@ final class SecretFolderViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.sizeToFit()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        LocaleStorage.secretIsAuthenticated ? auth() : routeToAuth()
+        
+        if !authWasPresented {
+            LocaleStorage.secretIsAuthenticated ? auth() : routeToAuth()
+            authWasPresented = true
+        }
+        
         DispatchQueue.main.async {
             self.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: Generated.Color.selectedText], for: .selected)
             self.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: Generated.Color.tabBarUnselected], for: .normal)
@@ -70,12 +76,13 @@ private extension SecretFolderViewController {
         
         if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
             let reason = Generated.Text.SecretFolder.addAuthentication
-            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason ) { success, error in
+            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason ) { [weak self] success, error in
                 DispatchQueue.main.async {
                     if success {
                         LocaleStorage.secretIsAuthenticated = true
                     } else {
-                        
+                        self?.tabBarController?.selectedIndex = 0
+                        self?.authWasPresented = false
                     }
                 }
             }

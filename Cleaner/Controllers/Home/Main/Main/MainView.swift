@@ -116,6 +116,7 @@ private extension MainView {
         optionsListView.axis = .vertical
         
         scrollView.showsVerticalScrollIndicator = false
+        scrollView.alwaysBounceVertical = true
         
     }
     

@@ -79,35 +79,41 @@ extension TermsAndPrivacyView {
         privacy.set(attributes: [
             .font(.systemFont(ofSize: 12, weight: .medium)),
             .underline(.single, color: Generated.Color.buttonBackground),
-            .foreground(Generated.Color.buttonBackground)
+            .foreground(Generated.Color.buttonBackground),
+            .action([
+                .foreground(Generated.Color.buttonBackground.darker(by: 0.3)),
+                .underline(.single, color: Generated.Color.buttonBackground),
+            ], { [weak self] in
+                self?.presentPrivacy()
+            })
         ], range: NSRange(location: 0, length: privacy.length))
         
         terms.set(attributes: [
             .font(.systemFont(ofSize: 12, weight: .medium)),
             .underline(.single, color: Generated.Color.buttonBackground),
-            .foreground(Generated.Color.buttonBackground)
+            .foreground(Generated.Color.buttonBackground),
+            .action([
+                .foreground(Generated.Color.buttonBackground.darker(by: 0.3)),
+                .underline(.single, color: Generated.Color.buttonBackground),
+            ], { [weak self] in
+                self?.presentTerms()
+            })
         ], range: NSRange(location: 0, length: terms.length))
         
         agreementLabel.attributed.text = privacy + " and " + terms
         
     }
     
-    func setupActions(presentPrivacy: @escaping EmptyBlock, presentTerms: @escaping EmptyBlock) {
-        
-        privacy.add(attributes: [.action([
-            .foreground(Generated.Color.buttonBackground.darker(by: 0.3)),
-            .underline(.single, color: Generated.Color.buttonBackground),
-        ], {
-            presentPrivacy()
-        })])
-        
-        terms.add(attributes: [.action([
-            .foreground(Generated.Color.buttonBackground.darker(by: 0.3)),
-            .underline(.single, color: Generated.Color.buttonBackground),
-        ], {
-            presentTerms()
-        })])
-        
+    func presentPrivacy() {
+        let application = UIApplication.shared
+        application.open(AppConstants.privacyPolicyURL)
+    }
+
+    func presentTerms() {
+        let application = UIApplication.shared
+        application.open(AppConstants.termsOfUseURL)
     }
     
 }
+
+

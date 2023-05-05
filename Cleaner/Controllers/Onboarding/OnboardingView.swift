@@ -95,7 +95,7 @@ private extension OnboardingView {
         continueButton.setTitle(text: Generated.Text.Common.continue)
         
         descriptionLabel.do {
-            $0.font = UIFont.systemFont(ofSize: 32, weight: .regular)
+            $0.font = UIFont.systemFont(ofSize: 30, weight: .bold)
             $0.numberOfLines = 3
             $0.textAlignment = .center
         }

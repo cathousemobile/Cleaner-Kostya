@@ -138,6 +138,11 @@ private extension PaywallViewController {
         
     }
     
+    func purchaseInProgress(_ inProgress: Bool) {
+        self.contentView.purchaseInProgress(inProgress)
+        self.contentView.purchseButtonIsEnabled(!inProgress)
+    }
+    
 }
 
 // MARK: - Public Methods
@@ -154,7 +159,21 @@ private extension PaywallViewController {
         
         contentView.setRestoreButtonAction { [weak self] in
             guard let self = self else { return }
-            SFPurchaseManager.shared.restorePurchases(completion: {$0 ? self.dismiss(animated: true) : SPAlert.present(message: "Restore Failed", haptic: .error)})
+            
+            self.purchaseInProgress(true)
+            
+            SFPurchaseManager.shared.restorePurchases { isCompleted in
+                if isCompleted {
+                    self.purchaseInProgress(false)
+                    SPAlert.present(title: "", preset: .done) {
+                        self.dismiss(animated: true)
+                    }
+                } else {
+                    self.purchaseInProgress(false)
+                    SPAlert.present(title: Generated.Text.Paywall.restoreError, preset: .error)
+                }
+            }
+            
         }
         
         contentView.setCloseButtonAction { [weak self] in
@@ -165,12 +184,18 @@ private extension PaywallViewController {
         contentView.setPurchaseButtonAction { [weak self] in
             guard let self = self else { return }
             
+            self.purchaseInProgress(true)
+            
             SFPurchaseManager.shared.purchaseProduct(id: self.currentOfferId, paywallID: self.paywallType.rawValue) {
-                self.dismiss(animated: true)
+                
+                self.purchaseInProgress(false)
+                SPAlert.present(title: "", preset: .done) {
+                    self.dismiss(animated: true)
+                }
 
-            } failed: { isFailed in
-                guard isFailed == false else { return }
-                SPAlert.present(message: "Purchase Failed", haptic: .error)
+            } failed: { _ in
+                self.purchaseInProgress(false)
+                SPAlert.present(title: Generated.Text.Paywall.buyError, preset: .error)
             }
             
         }
