@@ -43,7 +43,6 @@ extension AppManager {
         application.registerForRemoteNotifications()
         window?.rootViewController = rootController
         window?.makeKeyAndVisible()
-        window?.overrideUserInterfaceStyle = .light
         
     }
     

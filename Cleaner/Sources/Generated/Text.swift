@@ -38,6 +38,7 @@ extension Generated.Text {
         static var deselectAll: String { NSLocalizedString("common.deselectAll", comment: "Deselect All") }
         static var inProcess: String { NSLocalizedString("common.inProcess", comment: "Please wait, Service in Process") }
         static var noAccess: String { NSLocalizedString("common.noAccess", comment: "No access") }
+        static var nothingToDelete: String { NSLocalizedString("common.nothingToDelete", comment: "Nothing to delete") }
         static var off: String { NSLocalizedString("common.off", comment: "Off") }
         static var on: String { NSLocalizedString("common.on", comment: "On") }
         static var protect: String { NSLocalizedString("common.protect", comment: "Protect") }

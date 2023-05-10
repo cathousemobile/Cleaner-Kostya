@@ -3,6 +3,7 @@
 //
 
 import UIKit
+import StoreKit
 
 enum SettingsModel: CaseIterable {
     
@@ -54,7 +55,7 @@ enum SettingsModel: CaseIterable {
 final class SettingsActionHelper {
     
     @objc func rateTap() {
-        
+        SKStoreReviewController.requestReview()
     }
     
     @objc func contactUsTap() {
@@ -62,7 +63,8 @@ final class SettingsActionHelper {
     }
     
     @objc func licenseTap() {
-        
+        #warning("нет URL")
+        UIApplication.shared.open(AppConstants.privacyPolicyURL)
     }
     
     @objc func privacyTap() {

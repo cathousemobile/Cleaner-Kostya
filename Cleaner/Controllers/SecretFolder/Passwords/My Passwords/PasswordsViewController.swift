@@ -175,12 +175,6 @@ private extension PasswordsViewController {
         self.present(UINavigationController(rootViewController: generatePasswordVC), animated: true)
     }
     
-    func routeToPaywall() {
-        let paywallVC = AppCoordiator.shared.getPaywall()
-        paywallVC.modalPresentationStyle = .fullScreen
-        self.present(paywallVC, animated: true)
-    }
-    
     func routeToDetail(_ accountModel: SFAccountModel) {
         let detailVC = AccountDetailViewController(accountData: accountModel)
         self.present(UINavigationController(rootViewController: detailVC), animated: true)

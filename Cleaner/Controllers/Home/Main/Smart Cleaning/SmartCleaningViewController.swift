@@ -3,6 +3,7 @@
 //
 
 import UIKit
+import SPAlert
 
 final class SmartCleaningViewController: UIViewController {
     
@@ -13,7 +14,18 @@ final class SmartCleaningViewController: UIViewController {
     // MARK: - Public Proporties
     
     // MARK: - Private Proporties
+    
     private let calculator = ContentSizeCalculatorHelper()
+    
+    private lazy var contactsDeletingInProcess = false
+    private lazy var galleryDeletingInProcess = false
+    
+    private lazy var dispatchCounter = 0
+    
+    private let contactsDispatchGroup = DispatchGroup()
+    private let galleryPhotosDispatchGroup = DispatchGroup()
+    private let galleryScreenshotsDispatchGroup = DispatchGroup()
+    private let galleryVideosDispatchGroup = DispatchGroup()
     
     // MARK: - Life cycle
     
@@ -115,12 +127,59 @@ private extension SmartCleaningViewController {
         
         SFNotificationSystem.observe(event: .contactFinderUpdated) { [weak self] in
             guard let self = self else { return }
-            self.checkContactsSize()
+            
+            if self.contactsDeletingInProcess {
+                
+                self.dispatchCounter -= 1
+                
+                if self.dispatchCounter == 0 {
+                    SPAlert.present(title: Generated.Text.Common.deleted, preset: .done)
+                }
+                
+                self.contactsDeletingInProcess = false
+                
+                if let groupEnterCount = self.contactsDispatchGroup.debugDescription.components(separatedBy: ",").filter({$0.contains("count")})
+                    .first?.components(separatedBy: CharacterSet.decimalDigits.inverted).compactMap({Int($0)}).first, groupEnterCount > 0 {
+                    self.contactsDispatchGroup.leave()
+                }
+                
+            } else {
+                self.checkContactsSize()
+            }
+            
         }
         
         SFNotificationSystem.observe(event: .galleryFinderUpdated) { [weak self] in
             guard let self = self else { return }
-            self.checkGallerySize()
+            
+            if self.contactsDeletingInProcess {
+                
+                self.dispatchCounter -= 1
+                
+                if self.dispatchCounter == 0 {
+                    SPAlert.present(title: Generated.Text.Common.deleted, preset: .done)
+                    self.galleryDeletingInProcess = false
+                }
+                
+                if let photosGroupEnterCount = self.galleryPhotosDispatchGroup.debugDescription.components(separatedBy: ",").filter({$0.contains("count")})
+                    .first?.components(separatedBy: CharacterSet.decimalDigits.inverted).compactMap({Int($0)}).first, photosGroupEnterCount > 0 {
+                    self.galleryPhotosDispatchGroup.leave()
+                }
+                
+                if let videosGroupEnterCount = self.galleryVideosDispatchGroup.debugDescription.components(separatedBy: ",").filter({$0.contains("count")})
+                    .first?.components(separatedBy: CharacterSet.decimalDigits.inverted).compactMap({Int($0)}).first, videosGroupEnterCount > 0 {
+                    self.galleryVideosDispatchGroup.leave()
+                }
+                
+                if let shotsGroupEnterCount = self.galleryScreenshotsDispatchGroup.debugDescription.components(separatedBy: ",").filter({$0.contains("count")})
+                    .first?.components(separatedBy: CharacterSet.decimalDigits.inverted).compactMap({Int($0)}).first, shotsGroupEnterCount > 0 {
+                    self.galleryScreenshotsDispatchGroup.leave()
+                }
+                
+            } else {
+                self.checkGallerySize()
+            }
+            
         }
         
     }
@@ -142,10 +201,105 @@ private extension SmartCleaningViewController {
     }
     
     func deleteContent() {
-        for smartCell in SmartCleaningModel.allCases where smartCell.isOn {
-            smartCell.deleteContent()
-            print(smartCell)
+        
+        if SFContactFinder.shared.inProcess || SFGalleryFinder.shared.inProcess {
+            SPAlert.present(message: Generated.Text.Common.inProcess, haptic: .warning)
+            return
         }
+        
+        if SmartCleaningModel.allCases.filter({ $0.isOn }).isEmpty {
+            SPAlert.present(message: Generated.Text.Common.nothingToDelete, haptic: .none)
+            return
+        }
+        
+        dispatchCounter = 0
+        
+        for smartCell in SmartCleaningModel.allCases where smartCell.isOn {
+            
+            smartCell.deleteContent()
+            
+            if smartCell.titleText == Generated.Text.SmartCleaning.duplicateContacts {
+                
+                contactsDispatchGroup.enter()
+                
+                dispatchCounter += 1
+                
+                contactsDeletingInProcess = true
+                
+                if let cell = contentView.getCellById(smartCell.titleText) {
+                    cell.hideSpiner(false)
+                    contactsDispatchGroup.notify(queue: .main) {
+                        cell.setSubtitleState(.data(data: smartCell.size))
+                        cell.hideSpiner(true)
+                        cell.changeRadioState(to: .disable)
+                        smartCell.save(false)
+                    }
+                }
+                
+            }
+            
+            if smartCell.titleText == Generated.Text.SmartCleaning.similarPhotos {
+                
+                galleryPhotosDispatchGroup.enter()
+                
+                dispatchCounter += 1
+                
+                galleryDeletingInProcess = true
+                
+                if let cell = contentView.getCellById(smartCell.titleText) {
+                    cell.hideSpiner(false)
+                    galleryPhotosDispatchGroup.notify(queue: .main) {
+                        cell.setSubtitleState(.data(data: smartCell.size))
+                        cell.hideSpiner(true)
+                        cell.changeRadioState(to: .disable)
+                        smartCell.save(false)
+                    }
+                }
+                
+            }
+            
+            if smartCell.titleText == Generated.Text.SmartCleaning.similarVideos {
+                
+                galleryVideosDispatchGroup.enter()
+                
+                dispatchCounter += 1
+                
+                contactsDeletingInProcess = true
+                
+                if let cell = contentView.getCellById(smartCell.titleText) {
+                    cell.hideSpiner(false)
+                    galleryVideosDispatchGroup.notify(queue: .main) {
+                        cell.setSubtitleState(.data(data: smartCell.size))
+                        cell.hideSpiner(true)
+                        cell.changeRadioState(to: .disable)
+                        smartCell.save(false)
+                    }
+                }
+                
+            }
+            
+            if smartCell.titleText == Generated.Text.SmartCleaning.screenshots {
+                
+                galleryScreenshotsDispatchGroup.enter()
+                
+                dispatchCounter += 1
+                
+                contactsDeletingInProcess = true
+                
+                if let cell = contentView.getCellById(smartCell.titleText) {
+                    cell.hideSpiner(false)
+                    galleryScreenshotsDispatchGroup.notify(queue: .main) {
+                        cell.setSubtitleState(.data(data: smartCell.size))
+                        cell.hideSpiner(true)
+                        cell.changeRadioState(to: .disable)
+                        smartCell.save(false)
+                    }
+                }
+                
+            }
+            
+        }
+        
     }
     
     func initInfos() {
@@ -162,7 +316,14 @@ private extension SmartCleaningViewController {
                 $0.setAction { isOn in
                     smartCleaning.save(isOn)
                 }
-                $0.changeRadioState(to: smartCleaning.accessGainted ? .enable : .disable)
+                
+                if !smartCleaning.accessGainted || smartCleaning.size == "Zero KB" {
+                    $0.changeRadioState(to: .disable)
+                    smartCleaning.save(false)
+                } else {
+                    $0.changeRadioState(to: .enable)
+                }
+                
                 $0.setSubtitleState(smartCleaning.accessGainted ? .data(data: smartCleaning.size) : .disabled)
                 $0.radioButtonIsSelected(smartCleaning.isOn)
                 $0.hideSpiner(false)

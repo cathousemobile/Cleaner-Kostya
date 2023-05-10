@@ -77,7 +77,8 @@ private extension OnboardingViewController {
         swipeLeft.direction = UISwipeGestureRecognizer.Direction.left
         contentView.addNewGestureRecognizer(swipeLeft)
         
-        contentView.setContinueButtonAction { [unowned self] in
+        contentView.setContinueButtonAction { [weak self] in
+            guard let self = self else { return }
             self.continueTap()
         }
         
@@ -90,7 +91,6 @@ private extension OnboardingViewController {
 private extension OnboardingViewController {
     
     func switchToMain() {
-        LocaleStorage.onboardingCompleted = true
         AppDelegate.shared.appCoordiator.switchToMainScreen()
     }
     

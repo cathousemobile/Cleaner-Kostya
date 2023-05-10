@@ -74,12 +74,14 @@ private extension SystemInfoDetailCell {
         
         titleLabel.do {
             $0.textColor = Generated.Color.primaryText
+            $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
             $0.font = .systemFont(ofSize: 17, weight: .regular)
         }
         
         subtitleLabel.do {
             $0.text = "Loading..."
             $0.textColor = Generated.Color.secondaryText
+            $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
             $0.font = .systemFont(ofSize: 17, weight: .regular)
         }
         

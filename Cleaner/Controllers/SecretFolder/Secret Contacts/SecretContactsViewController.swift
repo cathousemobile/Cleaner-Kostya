@@ -62,7 +62,6 @@ final class SecretContactsViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         initNavigationBarItems()
-        contentView.lockAddButton(!SFPurchaseManager.shared.isUserPremium)
     }
     
 }
@@ -311,11 +310,6 @@ private extension SecretContactsViewController {
             
             guard let self = self else { return }
             
-            if !SFPurchaseManager.shared.isUserPremium {
-                self.routeToPaywall()
-                return
-            }
-            
             var snap = self.simpleDataSource.snapshot()
             
             if SFContactStorage.shared.delete(snap.itemIdentifiers) {
@@ -341,11 +335,6 @@ private extension SecretContactsViewController {
     }
     
     func addContactAction() {
-        
-        if !SFPurchaseManager.shared.isUserPremium {
-            self.routeToPaywall()
-            return
-        }
         
         let alertVC = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
@@ -420,12 +409,6 @@ private extension SecretContactsViewController {
 // MARK: - Navigation
 
 private extension SecretContactsViewController {
-    
-    func routeToPaywall() {
-        let paywallVC = AppCoordiator.shared.getPaywall()
-        paywallVC.modalPresentationStyle = .fullScreen
-        self.present(paywallVC, animated: true)
-    }
     
 }
 

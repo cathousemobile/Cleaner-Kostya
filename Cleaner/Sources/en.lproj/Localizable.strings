@@ -24,6 +24,7 @@
 "common.copied" = "Copied";
 "common.protect" = "Protect";
 "common.inProcess" = "Please wait, Service in Process";
+"common.nothingToDelete" = "Nothing to delete";
 
 // MARK: - Onboarding
 

@@ -38,7 +38,15 @@ final class MainViewController: UIViewController {
         setupActions()
         contentView.calculatingIsFinished(false)
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if !LocaleStorage.onboardingCompleted {
+            routeToPaywall()
+            LocaleStorage.onboardingCompleted = true
+        }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         checkContactsSize()
@@ -153,6 +161,12 @@ private extension MainViewController {
 // MARK: - Navigation
 
 private extension MainViewController {
+    
+    func routeToPaywall() {
+        let paywallVC = AppCoordiator.shared.getPaywall()
+        paywallVC.modalPresentationStyle = .fullScreen
+        self.present(paywallVC, animated: true)
+    }
     
 }
 

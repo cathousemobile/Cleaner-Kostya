@@ -62,6 +62,10 @@ extension SmartCleaningView {
         listView.addArrangedSubview(cell)
     }
     
+    func getCellById(_ id: String) -> SmartCleaningCell? {
+        listView.arrangedSubviews.compactMap({$0 as? SmartCleaningCell}).filter( {$0.id == id}).first
+    }
+    
     func calculatingIsFinished(_ isFinished: Bool) {
         systemInfoView.calculatingIsFinished(isFinished)
     }

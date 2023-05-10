@@ -81,8 +81,9 @@ private extension PasswordSliderView {
     func configureSubviews() {
         
         sliderView.minimumValue = 1
-        sliderView.maximumValue = 17
+        sliderView.maximumValue = 20
         sliderView.tintColor = Generated.Color.selectedText
+        sliderView.value = 15
         
         titleLabel.do {
             $0.text = Text.lengthFunc("\(Int(sliderView.value))")

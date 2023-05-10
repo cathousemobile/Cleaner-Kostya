@@ -136,10 +136,10 @@ private extension SecretFolderViewController {
                 $0.setAction { [weak self] in
                     guard let self = self else { return }
                     
-//                    if !SFPurchaseManager.shared.isUserPremium {
-//                        self.routeToPaywall()
-//                        return
-//                    }
+                    if !SFPurchaseManager.shared.isUserPremium {
+                        self.routeToPaywall()
+                        return
+                    }
                     
                     let vcToPush = option.viewControllerToRoute
                     vcToPush.hidesBottomBarWhenPushed = true

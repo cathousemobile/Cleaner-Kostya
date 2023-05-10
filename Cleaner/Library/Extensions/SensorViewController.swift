@@ -10,9 +10,9 @@ final class SensorViewController: UIViewController {
     // MARK: - UI Elements
     
     private let contentView = SensorView()
-    private let accelerometer = Accelerometer(frequency: .init(8, .hertz))
-    private let gyrometer = Gyrometer(frequency: .init(8, .hertz))
-    private let magnetometer = Magnetometer(frequency: .init(8, .hertz))
+    private let accelerometer = Accelerometer(frequency: .init(2, .hertz))
+    private let gyrometer = Gyrometer(frequency: .init(2, .hertz))
+    private let magnetometer = Magnetometer(frequency: .init(2, .hertz))
     
     // MARK: - Public Proporties
     
