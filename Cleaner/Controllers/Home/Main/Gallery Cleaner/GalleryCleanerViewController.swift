@@ -27,6 +27,8 @@ final class GalleryCleanerViewController: UIViewController {
     
     // MARK: - Private Proporties
     
+    private lazy var isDeliting = false
+    
     private var avAsset: AVURLAsset? {
         didSet {
             DispatchQueue.main.async {
@@ -75,8 +77,6 @@ final class GalleryCleanerViewController: UIViewController {
         }
     }
     
-    private var dummyContentArray = [PHAsset]()
-    
     // MARK: - Life cycle
     
     init() {
@@ -106,6 +106,7 @@ final class GalleryCleanerViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setupHeaderActions()
+        checkAccess()
     }
     
 }
@@ -126,7 +127,7 @@ extension GalleryCleanerViewController {
     
     func deniedAccess() {
         DispatchQueue.main.async {
-            AppCoordiator.shared.routeToSettings(Generated.Text.ContactCleaner.permissionRequared, currentVC: self)
+            AppCoordiator.shared.routeToSettings(Generated.Text.GalleryCleaner.permissionRequared, currentVC: self)
         }
     }
     
@@ -286,6 +287,20 @@ extension GalleryCleanerViewController: UICollectionViewDelegate {
                 
             } else {
                 cell.mediaIsSelected = false
+            }
+        }
+        
+        switch dataArrayType {
+            
+        case .allContent, .screenshots:
+            if indexPath.section == 0 && collectionView.numberOfItems(inSection: indexPath.section) < 12 {
+                collectionView.contentInset = UIEdgeInsets(top: ThisSize.is64, left: 0, bottom: 0, right: 0)
+                return
+            }
+        case .similarVideos, .similarPhotos:
+            if indexPath.section == 0 {
+                collectionView.contentInset = UIEdgeInsets(top: ThisSize.is64, left: 0, bottom: 0, right: 0)
+                return
             }
         }
         
@@ -520,7 +535,7 @@ private extension GalleryCleanerViewController {
         switch dataArrayType {
             
         case .allContent:
-            fetchGridContent(SFGalleryFinder.shared.getAllVideos)
+            fetchGridContent(SFGalleryFinder.shared.getAll)
             
         case .screenshots:
             fetchGridContent(SFGalleryFinder.shared.getScreenshots)
@@ -610,6 +625,11 @@ private extension GalleryCleanerViewController {
         
         guard let headerView = contentView.collectionView.currentCustomHeaderView as? GalleryCleanerHeaderView else { return }
         
+        if let dataSource = self.dataSource {
+            dataSource.selectedItemsDictionary.removeAll()
+            contentView.setItemsForCleanCount(0)
+        }
+        
         self.dataArrayType = dataArrayType
         
         headerView.getAllTags().forEach { $0.isSelected = $0.cellId == identifier }
@@ -657,6 +677,8 @@ private extension GalleryCleanerViewController {
             
             self.dataSource.removeSelectedItems()
             
+            self.isDeliting = true
+            
         }
         
         alertVC.addAction(deleteAction)
@@ -691,11 +713,19 @@ private extension GalleryCleanerViewController {
         
         SFNotificationSystem.observe(event: .galleryFinderUpdated) { [weak self] in
             guard let self = self else { return }
+            
+            if self.isDeliting {
+                SPAlert.present(title: Generated.Text.Common.deleted, preset: .done)
+                self.isDeliting = false
+            }
+            
             self.fetchMedia()
             self.contentView.showBlur()
+            
             if self.currentContentArray.isEmpty {
                 self.navigationItem.rightBarButtonItem = nil
             }
+            
         }
         
     }

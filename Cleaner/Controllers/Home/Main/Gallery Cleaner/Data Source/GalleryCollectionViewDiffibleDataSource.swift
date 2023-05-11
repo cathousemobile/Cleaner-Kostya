@@ -4,6 +4,7 @@
 
 import UIKit
 import Photos
+import SPAlert
 
 final class GalleryCollectionViewDiffibleDataSource: UICollectionViewDiffableDataSource<Int, PHAsset> {
     
@@ -111,6 +112,11 @@ extension GalleryCollectionViewDiffibleDataSource {
         let keys = Array(selectedItemsDictionary.compactMap( {$0.key} ))
         
         var snapshot = snapshot()
+        
+        if snapshot.itemIdentifiers.isEmpty {
+            SPAlert.present(message: Generated.Text.Common.nothingToDelete, haptic: .none)
+            return
+        }
         
         if !keys.isEmpty {
             

@@ -47,7 +47,7 @@ extension AppManager {
     }
     
     func startAllServices() {
-//        SFGalleryFinder.shared.start()
+        SFGalleryFinder.shared.start()
         SFContactFinder.shared.start()
     }
 
