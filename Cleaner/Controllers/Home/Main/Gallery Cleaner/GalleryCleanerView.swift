@@ -43,7 +43,8 @@ final class GalleryCleanerView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         collectionView.setHeaderView(headerView: tagsHeaderView)
-        collectionView.updateHeaderViewFrame()
+        let bottomHeight = self.safeAreaInsets.bottom + cleanButton.bounds.height + ThisSize.is48
+        collectionView.updateHeaderViewFrame(bottomHeight)
         blurView.setupGradient([UIColor.clear.cgColor, UIColor(hex: "0D0D0D").alpha(0.92).cgColor])
     }
     

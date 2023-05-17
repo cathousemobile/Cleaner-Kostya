@@ -38,7 +38,7 @@ enum AppConstants {
     static var adBlockBundle: String { "parusa.net.application.adblock" }
 
     /// ID Приложения
-    static var appID = "1583946694"
+    static var appID = "1635335229"
     static var appsFlyerKey = "DWopqcnMAtXEKCfgesjrhm"
     static var apphudKey: String { "app_NxAkpYEsc7P23CZLfRKifgjH2xGBBk" }
 

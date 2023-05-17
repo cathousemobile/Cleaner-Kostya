@@ -124,12 +124,16 @@ private extension CustomRadioView {
         case .enable:
             updateSelected()
         case .disable:
-            imageView.image = iconDisable
+            DispatchQueue.main.async {
+                self.imageView.image = self.iconDisable
+            }
         }
     }
     
     func updateSelected() {
-        imageView.image = isSelected ? iconOn : iconOff
+        DispatchQueue.main.async {
+            self.imageView.image = self.isSelected ? self.iconOn : self.iconOff
+        }
     }
     
 }

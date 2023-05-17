@@ -12,12 +12,12 @@ extension UICollectionView {
         return self.viewWithTag(headerTag)
     }
     
-    func updateHeaderViewFrame() {
+    func updateHeaderViewFrame(_ fixedBottomHeight: CGFloat = 0) {
         guard let headerView = self.viewWithTag(headerTag) else { return }
         let height = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
         let frame = self.bounds.inset(by: self.layoutMargins)
         headerView.frame = CGRect(x: frame.origin.x, y: -height, width: frame.width, height: height)
-        contentInset = UIEdgeInsets(top: height + 8, left: self.contentInset.left, bottom: -height + 58, right: self.contentInset.right)
+        contentInset = UIEdgeInsets(top: height + 8, left: self.contentInset.left, bottom: -height + fixedBottomHeight, right: self.contentInset.right)
     }
 
     func setHeaderView(headerView: UIView) {

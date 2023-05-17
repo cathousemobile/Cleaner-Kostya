@@ -19,7 +19,7 @@ final class PasswordSliderView: UIView {
     private lazy var sliderView = UISlider()
     
     private lazy var minCountView = PasswordSliderIconView(countText: "1")
-    private lazy var maxCountView = PasswordSliderIconView(countText: "17")
+    private lazy var maxCountView = PasswordSliderIconView(countText: "20")
     
     // MARK: - Lifecycle
     

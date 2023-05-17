@@ -46,13 +46,12 @@ final class ContactCleanerTableMergeCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        func empty() { }
         nameLabel.text = ""
         mergeListView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         mergeButton.setAction(empty)
     }
     
-    
+    func empty() { }
     
 }
 

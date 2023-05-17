@@ -152,7 +152,7 @@ private extension SmartCleaningViewController {
         SFNotificationSystem.observe(event: .galleryFinderUpdated) { [weak self] in
             guard let self = self else { return }
             
-            if self.contactsDeletingInProcess {
+            if self.galleryDeletingInProcess {
                 
                 self.dispatchCounter -= 1
                 
@@ -264,7 +264,7 @@ private extension SmartCleaningViewController {
                 
                 dispatchCounter += 1
                 
-                contactsDeletingInProcess = true
+                galleryDeletingInProcess = true
                 
                 if let cell = contentView.getCellById(smartCell.titleText) {
                     cell.hideSpiner(false)
@@ -284,7 +284,7 @@ private extension SmartCleaningViewController {
                 
                 dispatchCounter += 1
                 
-                contactsDeletingInProcess = true
+                galleryDeletingInProcess = true
                 
                 if let cell = contentView.getCellById(smartCell.titleText) {
                     cell.hideSpiner(false)

@@ -290,29 +290,6 @@ extension GalleryCleanerViewController: UICollectionViewDelegate {
             }
         }
         
-        switch dataArrayType {
-            
-        case .allContent, .screenshots:
-            if indexPath.section == 0 && collectionView.numberOfItems(inSection: indexPath.section) < 12 {
-                collectionView.contentInset = UIEdgeInsets(top: ThisSize.is64, left: 0, bottom: 0, right: 0)
-                return
-            }
-        case .similarVideos, .similarPhotos:
-            if indexPath.section == 0 {
-                collectionView.contentInset = UIEdgeInsets(top: ThisSize.is64, left: 0, bottom: 0, right: 0)
-                return
-            }
-        }
-        
-        if indexPath.section == collectionView.numberOfSections - 1 &&
-            indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
-            collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: ThisSize.is64, right: 0)
-        }
-        
-        if indexPath.section == 0 && indexPath.row == 0 {
-            collectionView.contentInset = UIEdgeInsets(top: ThisSize.is64, left: 0, bottom: 0, right: 0)
-        }
-        
     }
     
 }
@@ -358,8 +335,9 @@ extension GalleryCleanerViewController {
                             cell.mediaIsSelected = true
 
                         }
-
+                        
                         self.contentView.setItemsForCleanCount((self.dataSource.selectedItemsCount()))
+                        
                     }
                     
                 }

@@ -37,10 +37,12 @@ final class ContactCleanerTableSimpleCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        func empty() { }
         subtitleLabel.text = ""
         titleLabel.text = ""
+        setAction(empty)
     }
+    
+    func empty() { }
     
 }
 

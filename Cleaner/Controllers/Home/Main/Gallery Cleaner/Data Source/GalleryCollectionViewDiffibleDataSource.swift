@@ -111,7 +111,7 @@ extension GalleryCollectionViewDiffibleDataSource {
         
         let keys = Array(selectedItemsDictionary.compactMap( {$0.key} ))
         
-        var snapshot = snapshot()
+        let snapshot = snapshot()
         
         if snapshot.itemIdentifiers.isEmpty {
             SPAlert.present(message: Generated.Text.Common.nothingToDelete, haptic: .none)
@@ -135,16 +135,9 @@ extension GalleryCollectionViewDiffibleDataSource {
                     guard let self = self else { return }
                     guard error == nil else { return }
                     
-                    snapshot.deleteItems(deletedItems)
                     self.selectedItemsDictionary.removeAll()
                     
-                    if self.dataArrayType == .similarVideos || self.dataArrayType == .similarPhotos {
-                        let empties = snapshot.sectionIdentifiers.filter { snapshot.numberOfItems(inSection: $0) <= 1 }
-                        snapshot.deleteSections(empties)
-                    }
-                    
                     self.contentView?.setItemsForCleanCount(self.selectedItemsCount())
-                    self.apply(snapshot, animatingDifferences: true)
                     self.contentView?.showBlur()
                     
                 }
@@ -158,8 +151,7 @@ extension GalleryCollectionViewDiffibleDataSource {
                 guard let self = self else { return }
                 guard error == nil else { return }
                 
-                snapshot.deleteAllItems()
-                self.apply(snapshot, animatingDifferences: true)
+                self.contentView?.setItemsForCleanCount(self.selectedItemsCount())
                 self.contentView?.showBlur()
                 
             }

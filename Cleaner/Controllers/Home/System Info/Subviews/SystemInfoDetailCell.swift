@@ -100,6 +100,7 @@ private extension SystemInfoDetailCell {
         
         subtitleLabel.snp.makeConstraints { make in
             make.centerY.equalTo(titleLabel)
+            make.leading.greaterThanOrEqualTo(titleLabel.snp.trailing).offset(ThisSize.is16)
             make.trailing.equalToSuperview().offset(-ThisSize.is16)
         }
         

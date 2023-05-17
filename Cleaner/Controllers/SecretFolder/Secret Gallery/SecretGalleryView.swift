@@ -41,6 +41,8 @@ final class SecretGalleryView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         blurView.setupGradient([UIColor.clear.cgColor, UIColor(hex: "0D0D0D").alpha(0.92).cgColor])
+        let bottomHeight = self.safeAreaInsets.bottom + cleanButton.bounds.height + ThisSize.is48
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomHeight, right: 0)
     }
     
 }

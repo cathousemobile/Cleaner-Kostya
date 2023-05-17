@@ -63,7 +63,10 @@ extension SmartCleaningCell {
     }
     
     func changeRadioState(to state: CustomRadioView.CustomRadioState) {
-        radioView.changeState(to: state)
+        DispatchQueue.main.async {
+            self.radioView.changeState(to: state)
+        }
+        
     }
     
     func radioButtonIsSelected(_ isSelected: Bool) {

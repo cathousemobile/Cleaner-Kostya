@@ -66,6 +66,14 @@ extension SmartCleaningView {
         listView.arrangedSubviews.compactMap({$0 as? SmartCleaningCell}).filter( {$0.id == id}).first
     }
     
+    func getContactCell() -> SmartCleaningCell? {
+        listView.arrangedSubviews.compactMap({$0 as? SmartCleaningCell}).filter( {$0.id == SmartCleaningModel.duplicateContacts.titleText} ).first
+    }
+    
+    func getGalleryCells() -> [SmartCleaningCell]? {
+        listView.arrangedSubviews.compactMap({$0 as? SmartCleaningCell}).filter( {$0.id != SmartCleaningModel.duplicateContacts.titleText} )
+    }
+    
     func calculatingIsFinished(_ isFinished: Bool) {
         systemInfoView.calculatingIsFinished(isFinished)
     }

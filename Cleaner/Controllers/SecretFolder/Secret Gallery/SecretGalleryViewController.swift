@@ -22,7 +22,7 @@ final class SecretGalleryViewController: UIViewController {
     
     // MARK: - Private Proporties
     
-    private var dispatchGroup = DispatchGroup()
+    private var updateDispatchGroup = DispatchGroup()
     
     private var contentShouldBeSelect = false
     
@@ -33,6 +33,7 @@ final class SecretGalleryViewController: UIViewController {
             initDataSource()
             initSnapshot()
             contentView.hideEmptyDataTitle(!currentContentArray.isEmpty)
+            updateDispatchGroup.leave()
         }
     }
     
@@ -242,7 +243,8 @@ private extension SecretGalleryViewController {
     // MARK: - Fetch Handlers
     
     func fetchMedia() {
-        currentContentArray = SFGalleryStorage.shared.getAll()
+        updateDispatchGroup.enter()
+        currentContentArray = SFGalleryStorage.shared.getAll().removedDuplicates()
     }
     
     // MARK: - NavigationBar Handlers
@@ -275,7 +277,7 @@ private extension SecretGalleryViewController {
         let deleteItemsCount = dataSource.selectedItemsCount() == 0 ? dataSource.snapshot().numberOfItems : dataSource.selectedItemsCount()
         let deleteAction = UIAlertAction(title: Generated.Text.Common.deleteWithCount(String(deleteItemsCount)), style: .destructive) { [weak self] _ in
             guard let self = self else { return }
-            self.deleteMediaFromSecretFolder()
+            self.deleteMediaFromSecretFolder(self.dataSource.selectedItemsCount() == 0 ? self.dataSource.snapshot().itemIdentifiers : Array(self.dataSource.selectedItemsSet))
         }
         
         alertVC.addAction(deleteAction)
@@ -301,13 +303,39 @@ private extension SecretGalleryViewController {
     
     // MARK: - Delete Handler
     
-    func deleteMediaFromSecretFolder() {
-        if SFGalleryStorage.shared.delete(Array(dataSource.selectedItemsSet)) {
+    func deleteMediaFromSecretFolder(_ assetsArray: [SFGalleryStorageAsset]) {
+        if SFGalleryStorage.shared.delete(assetsArray) {
             dataSource.removeSelectedItems()
             SPAlert.present(title: Generated.Text.Common.deleted, preset: .done)
         } else {
             SPAlert.present(title: "Error", preset: .error)
         }
+    }
+    
+    // MARK: - Check Handler
+    
+    func checkState() {
+        
+        if currentContentArray.isEmpty {
+            contentShouldBeSelect = false
+        }
+        
+        if contentShouldBeSelect && !currentContentArray.isEmpty {
+            selectButton.title = Generated.Text.Common.cancel
+            selectButton.tintColor = Generated.Color.redWarning
+            contentView.setAddCleanButtonTitle(Generated.Text.Common.clean)
+            contentView.setCleanAction(clearAction)
+            
+        } else {
+            selectButton.title = Generated.Text.Common.select
+            selectButton.tintColor = Generated.Color.selectedText
+            dataSource.selectedItemsSet = []
+            contentView.collectionView.visibleCells.compactMap({$0 as? GalleryDefaultCollectionCell}).forEach {$0.mediaIsSelected = false}
+            contentView.setAddCleanButtonTitle(Generated.Text.SecretGallery.addMedia)
+            contentView.setCleanAction(addMediaToSecretFolder)
+            
+        }
+        
     }
     
 }
@@ -330,11 +358,15 @@ private extension SecretGalleryViewController {
         
         SFNotificationSystem.observe(event: .galleryStorageUpdated) { [weak self] in
             guard let self = self else { return }
+            
             self.fetchMedia()
-            self.contentView.showBlur()
-            if self.currentContentArray.isEmpty {
+            
+            self.updateDispatchGroup.notify(queue: .main) {
+                self.contentView.showBlur()
                 self.configureRightButton()
+                self.checkState()
             }
+            
         }
         
     }

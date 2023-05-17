@@ -96,7 +96,8 @@ private extension OnboardingView {
         
         descriptionLabel.do {
             $0.font = UIFont.systemFont(ofSize: 30, weight: .bold)
-            $0.numberOfLines = 3
+            $0.adjustsFontSizeToFitWidth = true
+            $0.numberOfLines = 2
             $0.textAlignment = .center
         }
         
