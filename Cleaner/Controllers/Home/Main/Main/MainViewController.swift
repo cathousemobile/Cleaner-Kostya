@@ -41,10 +41,7 @@ final class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if !LocaleStorage.onboardingCompleted {
-            routeToPaywall()
-            LocaleStorage.onboardingCompleted = true
-        }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -55,6 +52,10 @@ final class MainViewController: UIViewController {
         navigationController?.navigationBar.sizeToFit()
         navigationController?.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: Generated.Color.selectedText], for: .selected)
         navigationController?.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: Generated.Color.tabBarUnselected], for: .normal)
+        if !LocaleStorage.onboardingCompleted {
+            routeToPaywall()
+            LocaleStorage.onboardingCompleted = true
+        }
     }
     
 }

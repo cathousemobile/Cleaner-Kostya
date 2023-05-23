@@ -28,6 +28,10 @@ final class GalleryCleanerViewController: UIViewController {
     // MARK: - Private Proporties
     
     private lazy var isDeliting = false
+    private var contentShouldBeSelect = false
+    private lazy var wasChecked = false
+    
+    private let dispatchGroup = DispatchGroup()
     
     private var avAsset: AVURLAsset? {
         didSet {
@@ -45,8 +49,6 @@ final class GalleryCleanerViewController: UIViewController {
         }
     }
     
-    private var contentShouldBeSelect = false
-    
     private var dataArrayType: ArrayType = .allContent {
         didSet {
             fetchMedia()
@@ -60,20 +62,14 @@ final class GalleryCleanerViewController: UIViewController {
     
     private var currentContentArray: [PHAsset] = [PHAsset]() {
         didSet {
-            initDataSource()
-            initSnapshot()
             contentView.hideEmptyDataTitle(!currentContentArray.isEmpty)
             configureRightButton()
-            contentView.showBlur()
         }
     }
     
     private var currentDuplicateContentArray: [Int : [PHAsset]] = [Int : [PHAsset]]() {
         didSet {
-            initDataSource()
-            initSnapshot()
             contentView.hideEmptyDataTitle(!currentDuplicateContentArray.isEmpty)
-            contentView.showBlur()
         }
     }
     
@@ -98,15 +94,12 @@ final class GalleryCleanerViewController: UIViewController {
         setupActions()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        contentView.showBlur()
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setupHeaderActions()
-        checkAccess()
+        if !wasChecked {
+            checkAccess()
+        }
     }
     
 }
@@ -116,7 +109,17 @@ final class GalleryCleanerViewController: UIViewController {
 extension GalleryCleanerViewController {
     
     func fullAccess() {
-        self.dataArrayType = .allContent
+        
+        wasChecked = true
+        
+        if SFGalleryFinder.shared.inProcess {
+            DispatchQueue.main.async {
+                SPAlert.present(message: Generated.Text.Common.inProcess, haptic: .warning)
+            }
+        } else {
+            fetchMedia()
+        }
+        
     }
     
     func limitedAccess() {
@@ -136,7 +139,6 @@ extension GalleryCleanerViewController {
     }
     
     func initGallery() {
-        fetchMedia()
         configureCollectionView()
         initNavigationBarItems()
         subscribeToNotifications()
@@ -297,6 +299,15 @@ extension GalleryCleanerViewController: UICollectionViewDelegate {
 // MARK: - CollectionView Datasource
 
 extension GalleryCleanerViewController {
+    
+    func initDataAndSnap() {
+        
+        dispatchGroup.notify(queue: .main) {
+            self.initDataSource()
+            self.initSnapshot()
+        }
+        
+    }
     
     func initDataSource() {
         
@@ -477,6 +488,8 @@ extension GalleryCleanerViewController {
             
         }
         
+        showBlur()
+        
     }
     
 }
@@ -484,6 +497,12 @@ extension GalleryCleanerViewController {
 // MARK: - Handlers
 
 private extension GalleryCleanerViewController {
+    
+    // MARK: - UI Handlers
+    
+    func showBlur() {
+        contentView.showBlur(dataArrayType == .similarPhotos || dataArrayType == .similarVideos)
+    }
     
     // MARK: - Media Handlers
     
@@ -510,6 +529,10 @@ private extension GalleryCleanerViewController {
     
     func fetchMedia() {
         
+        if SFGalleryFinder.shared.inProcess { return }
+        
+        dispatchGroup.enter()
+        
         switch dataArrayType {
             
         case .allContent:
@@ -526,22 +549,23 @@ private extension GalleryCleanerViewController {
             
         }
         
+        dispatchGroup.leave()
+        
     }
     
     func fetchGridContent(_ fetchFunc: () throws -> [PHAsset]) {
         
         do {
-            let dispGroup = DispatchGroup()
-            dispGroup.enter()
-            let assetsArray = try fetchFunc()
-            dispGroup.leave()
 
-            dispGroup.notify(queue: .main) {
-                self.currentContentArray = assetsArray
-            }
+            let assetsArray = try fetchFunc()
+
+            self.currentContentArray = assetsArray
+            
+            initDataAndSnap()
             
         } catch {
             currentContentArray = []
+            initDataAndSnap()
         }
         
     }
@@ -556,6 +580,7 @@ private extension GalleryCleanerViewController {
             
             if assetsArray.isEmpty {
                 currentDuplicateContentArray = [:]
+                initDataAndSnap()
                 return
             }
 
@@ -564,9 +589,11 @@ private extension GalleryCleanerViewController {
             }
             
             currentDuplicateContentArray = assetsDictionary
+            initDataAndSnap()
 
         } catch {
             currentDuplicateContentArray = [:]
+            initDataAndSnap()
         }
         
     }
@@ -601,6 +628,11 @@ private extension GalleryCleanerViewController {
     
     func headerTagAction(for dataArrayType: ArrayType, with identifier: String) {
         
+        if SFGalleryFinder.shared.inProcess {
+            SPAlert.present(message: Generated.Text.Common.inProcess, haptic: .warning)
+            return
+        }
+        
         guard let headerView = contentView.collectionView.currentCustomHeaderView as? GalleryCleanerHeaderView else { return }
         
         if let dataSource = self.dataSource {
@@ -617,13 +649,18 @@ private extension GalleryCleanerViewController {
         configureRightButton()
         
         contentView.setItemsForCleanCount(dataSource.selectedItemsCount())
-        contentView.showBlur()
+        
         
     }
     
     // MARK: - NavigationBar Handlers
     
     @objc func selectAction() {
+        
+        if SFGalleryFinder.shared.inProcess {
+            SPAlert.present(message: Generated.Text.Common.inProcess, haptic: .warning)
+            return
+        }
         
         contentShouldBeSelect.toggle()
         
@@ -641,6 +678,11 @@ private extension GalleryCleanerViewController {
     }
     
     @objc func clearAllAction() {
+        
+        if SFGalleryFinder.shared.inProcess {
+            SPAlert.present(message: Generated.Text.Common.inProcess, haptic: .warning)
+            return
+        }
         
         let alertVC = UIAlertController(title: Generated.Text.Common.deleteSelectedContent, message: nil, preferredStyle: .actionSheet)
         let deleteItemsCount = dataSource.selectedItemsCount() == 0 ? dataSource.snapshot().numberOfItems : dataSource.selectedItemsCount()
@@ -698,7 +740,6 @@ private extension GalleryCleanerViewController {
             }
             
             self.fetchMedia()
-            self.contentView.showBlur()
             
             if self.currentContentArray.isEmpty {
                 self.navigationItem.rightBarButtonItem = nil
@@ -738,22 +779,27 @@ extension GalleryCleanerViewController {
     
     func configureRightButton() {
         
-        switch dataArrayType {
-        case .allContent, .screenshots:
-            if currentContentArray.isEmpty {
+        DispatchQueue.main.async {
+            
+            switch self.dataArrayType {
+                
+            case .allContent, .screenshots:
+                if self.currentContentArray.isEmpty {
+                    self.navigationItem.rightBarButtonItem = nil
+                    return
+                }
+                self.selectButton.title = Generated.Text.Common.select
+                self.selectButton.style = .plain
+                self.selectButton.target = self
+                self.selectButton.action = #selector(self.selectAction)
+                self.selectButton.tintColor = Generated.Color.selectedText
+                
+                self.navigationItem.rightBarButtonItem = self.selectButton
+                
+            case .similarPhotos, .similarVideos:
                 self.navigationItem.rightBarButtonItem = nil
-                return
+                
             }
-            selectButton.title = Generated.Text.Common.select
-            selectButton.style = .plain
-            selectButton.target = self
-            selectButton.action = #selector(selectAction)
-            selectButton.tintColor = Generated.Color.selectedText
-            
-            self.navigationItem.rightBarButtonItem = selectButton
-            
-        case .similarPhotos, .similarVideos:
-            self.navigationItem.rightBarButtonItem = nil
             
         }
         

@@ -55,33 +55,52 @@ final class GalleryCleanerView: UIView {
 extension GalleryCleanerView {
     
     func setEmptyDataTitle(_ text: String) {
-        emptyDataLabel.text = text
+        DispatchQueue.main.async {
+            self.emptyDataLabel.text = text
+        }
     }
     
     func hideEmptyDataTitle(_ isHidden: Bool) {
-        cleanButton.isHidden = !isHidden
-        emptyDataLabel.isHidden = isHidden
+        DispatchQueue.main.async {
+            self.cleanButton.isHidden = !isHidden
+            self.emptyDataLabel.isHidden = isHidden
+        }
+        
     }
     
     func setItemsForCleanCount(_ count: Int) {
-        cleanButton.setTitle(text: count == 0 ? Generated.Text.Common.clean : Generated.Text.Common.cleanWithCount(String(count)))
+        DispatchQueue.main.async {
+            self.cleanButton.setTitle(text: count == 0 ? Generated.Text.Common.clean : Generated.Text.Common.cleanWithCount(String(count)))
+        }
+        
     }
     
     func setCleanAction(_ action: @escaping EmptyBlock) {
         cleanButton.setAction(action)
     }
     
-    func showBlur() {
+    func showBlur(_ isSimilar: Bool = false) {
         
-        var cellsHeight = CGFloat()
-        
-        for i in 0..<collectionView.visibleCells.count {
-            if i % 3 == 0 {
-                cellsHeight += collectionView.visibleCells[i].frame.height
+        if !isSimilar {
+            
+            var cellsHeight = CGFloat()
+            
+            DispatchQueue.main.async {
+                
+                for i in 0..<self.collectionView.visibleCells.count {
+                    if i % 3 == 0 {
+                        cellsHeight += self.collectionView.visibleCells[i].frame.height
+                    }
+                }
+                
+                self.blurView.isHidden = !(cellsHeight >= self.frame.height/1.4)
+            }
+            
+        } else {
+            DispatchQueue.main.async {
+                self.blurView.isHidden = !(self.collectionView.visibleCells.count > 4)
             }
         }
-        
-        blurView.isHidden = !(cellsHeight >= self.frame.height/1.4)
         
     }
     
