@@ -31,12 +31,6 @@ enum AppConstants {
     /// Baundle приложения
     static var bundle: String { "parusa.net.application" }
 
-    /// Группа приложения
-    static var groupID: String { "group.parusa.net" }
-
-    /// Bundle блокировщика рекламы
-    static var adBlockBundle: String { "parusa.net.application.adblock" }
-
     /// ID Приложения
     static var appID = "1635335229"
     static var appsFlyerKey = "DWopqcnMAtXEKCfgesjrhm"

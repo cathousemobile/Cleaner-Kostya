@@ -584,7 +584,6 @@
 			isa = PBXGroup;
 			children = (
 				8498153629B9C972007F8206 /* AppConstants.swift */,
-				8446979A29B0AA8F00A5490C /* Content */,
 				8446979929B0AA4A00A5490C /* Animations */,
 				8446978D29B0A7B000A5490C /* Generated */,
 				8446977329B09ABC00A5490C /* Assets.xcassets */,
@@ -615,13 +614,6 @@
 				844697E929B20A2B00A5490C /* speed test animations */,
 			);
 			path = Animations;
-			sourceTree = "<group>";
-		};
-		8446979A29B0AA8F00A5490C /* Content */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Content;
 			sourceTree = "<group>";
 		};
 		8446979B29B0AE4100A5490C /* SwiftGen */ = {
@@ -1254,34 +1246,18 @@
 			isa = PBXGroup;
 			children = (
 				84A9A23629EE95290034C7F5 /* SFPasswordGenerator.swift */,
-				84A9A23729EE95290034C7F5 /* Model */,
-			);
-			path = SFPasswordGenerator;
-			sourceTree = "<group>";
-		};
-		84A9A23729EE95290034C7F5 /* Model */ = {
-			isa = PBXGroup;
-			children = (
 				84A9A23829EE95290034C7F5 /* SFPasswordModel.swift */,
 			);
-			path = Model;
+			path = SFPasswordGenerator;
 			sourceTree = "<group>";
 		};
 		84A9A23B29EE97AA0034C7F5 /* SFAccountStorage */ = {
 			isa = PBXGroup;
 			children = (
 				84A9A23C29EE97AA0034C7F5 /* SFAccountStorage.swift */,
-				84A9A23D29EE97AA0034C7F5 /* Model */,
-			);
-			path = SFAccountStorage;
-			sourceTree = "<group>";
-		};
-		84A9A23D29EE97AA0034C7F5 /* Model */ = {
-			isa = PBXGroup;
-			children = (
 				84A9A23E29EE97AA0034C7F5 /* SFAccountModel.swift */,
 			);
-			path = Model;
+			path = SFAccountStorage;
 			sourceTree = "<group>";
 		};
 		84A9A24129EE97B70034C7F5 /* SFContactStorage */ = {
@@ -1664,7 +1640,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8446977B29B09ABC00A5490C /* Build configuration list for PBXNativeTarget "Cleaner" */;
 			buildPhases = (
-				8446978629B0A33800A5490C /* ShellScript */,
 				8446976329B09ABB00A5490C /* Sources */,
 				8446976429B09ABB00A5490C /* Frameworks */,
 				8446976529B09ABB00A5490C /* Resources */,
@@ -1766,27 +1741,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		8446978629B0A33800A5490C /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 12;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif test -d \"/opt/homebrew/bin/\"; then\n  PATH=\"/opt/homebrew/bin/:${PATH}\"\nfi\n\nif test -d \"/usr/local/Homebrew/bin\"; then\n  PATH=\"/usr/local/Homebrew/bin:${PATH}\"\nfi\n\nexport PATH\n\nif which swiftgen > /dev/null; then\n    swiftgen config run --config \"SwiftGen/swiftgen.yml\"\nelse\n    echo \"warning: SwiftGen not installed\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8446976329B09ABB00A5490C /* Sources */ = {
@@ -2148,7 +2102,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = 96CRV24537;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Cleaner/Sources/Info.plist;
@@ -2168,7 +2122,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = parusa.net.application;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2186,7 +2140,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = 96CRV24537;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Cleaner/Sources/Info.plist;
@@ -2206,7 +2160,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = parusa.net.application;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
