@@ -1,6 +1,6 @@
 import Foundation
 
-class HostURLFormatter {
+class SFSpeedTestURLFormatter {
     private let initialUrl: URL
 
     private var downloadURL: URL {

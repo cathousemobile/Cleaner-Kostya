@@ -28,11 +28,11 @@ final class SecretContactsViewController: UIViewController {
     
     private var simpleDataSource: SecretContactDiffibleDataSource!
     
-    private var simpleContactsArray = [SFContact]() {
+    private var simpleContactsArray = [SFContactModel]() {
         didSet { checkData() }
     }
     
-    private var simpleContactSearchArray = [SFContact]() {
+    private var simpleContactSearchArray = [SFContactModel]() {
         didSet {
             if oldValue != simpleContactSearchArray { initDataAndSnap() }
         }
@@ -220,9 +220,9 @@ extension SecretContactsViewController {
     
     func initSnapshot() {
         
-        var snapshot = NSDiffableDataSourceSnapshot<String, SFContact>()
+        var snapshot = NSDiffableDataSourceSnapshot<String, SFContactModel>()
         
-        var dataArray = [SFContact]()
+        var dataArray = [SFContactModel]()
         
         if isSearching {
             dataArray = simpleContactSearchArray
@@ -288,7 +288,7 @@ private extension SecretContactsViewController {
     
     //MARK: - Contacts Actions
     
-    func simpleCellAction(_ contact: SFContact) {
+    func simpleCellAction(_ contact: SFContactModel) {
         
         if let contactVC = SFContactStorage.shared.getNativeContactController(for: contact) {
             self.navigationController?.pushViewController(contactVC, animated: true)
@@ -373,7 +373,7 @@ private extension SecretContactsViewController {
         
     }
     
-    func saveContact(_ contactToSave: SFContact?) {
+    func saveContact(_ contactToSave: SFContactModel?) {
         if let contactToSave = contactToSave {
             if SFContactStorage.shared.save(contactToSave) {
                 SPAlert.present(title: Generated.Text.Common.save, preset: .done)

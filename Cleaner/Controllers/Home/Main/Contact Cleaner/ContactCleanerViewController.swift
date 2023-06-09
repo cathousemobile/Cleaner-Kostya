@@ -57,17 +57,17 @@ final class ContactCleanerViewController: UIViewController {
     private var simpleDataSource: SimpleContactsTableViewDiffibleDataSource!
     private var mergeDataSource: MergeContactsTableViewDiffibleDataSource!
     
-    private var simpleContactsArray = [[SFContact]]()
+    private var simpleContactsArray = [[SFContactModel]]()
     
-    private var currentMergeContactsDictionary = [SFContact : [SFContact]]()
+    private var currentMergeContactsDictionary = [SFContactModel : [SFContactModel]]()
     
-    private var simpleContactSearchArray = [[SFContact]]() {
+    private var simpleContactSearchArray = [[SFContactModel]]() {
         didSet {
             if oldValue != simpleContactSearchArray { initDataAndSnap() }
         }
     }
     
-    private var mergeContactsSearchDictionary = [SFContact : [SFContact]]() {
+    private var mergeContactsSearchDictionary = [SFContactModel : [SFContactModel]]() {
         didSet {
             if oldValue != mergeContactsSearchDictionary { initDataAndSnap() }
         }
@@ -281,9 +281,9 @@ extension ContactCleanerViewController {
             
         case .simple:
             
-            var snapshot = NSDiffableDataSourceSnapshot<String, SFContact>()
+            var snapshot = NSDiffableDataSourceSnapshot<String, SFContactModel>()
             
-            var dataArray = [SFContact]()
+            var dataArray = [SFContactModel]()
             
             if isSearching {
                 dataArray = simpleContactSearchArray.reduce([], +)
@@ -309,9 +309,9 @@ extension ContactCleanerViewController {
             
         case .merge:
             
-            var snapshot = NSDiffableDataSourceSnapshot<String, [SFContact]>()
+            var snapshot = NSDiffableDataSourceSnapshot<String, [SFContactModel]>()
             
-            var dataArray = [[SFContact]]()
+            var dataArray = [[SFContactModel]]()
             
             if isSearching {
                 for (key, value) in mergeContactsSearchDictionary {
@@ -391,7 +391,7 @@ private extension ContactCleanerViewController {
         
     }
     
-    func fetchAllContacts(_ fetchFunc: () throws -> [SFContact]) {
+    func fetchAllContacts(_ fetchFunc: () throws -> [SFContactModel]) {
         
         do {
             
@@ -416,7 +416,7 @@ private extension ContactCleanerViewController {
         
     }
     
-    func fetchDuplicateContent(_ fetchFunc: () throws -> [[SFContact]]) {
+    func fetchDuplicateContent(_ fetchFunc: () throws -> [[SFContactModel]]) {
         
         do {
             
@@ -439,7 +439,7 @@ private extension ContactCleanerViewController {
         
     }
     
-    func fetchMergeContent(_ fetchFunc: () throws -> [SFContact : [SFContact]]) {
+    func fetchMergeContent(_ fetchFunc: () throws -> [SFContactModel : [SFContactModel]]) {
         
         do {
             
@@ -502,7 +502,7 @@ private extension ContactCleanerViewController {
     
     //MARK: - Contacts Actions
     
-    func simpleCellAction(_ contact: SFContact) {
+    func simpleCellAction(_ contact: SFContactModel) {
         
         do {
             let contactVC = try SFContactFinder.shared.getNativeContactController(for: contact, allowEditing: false)
@@ -513,7 +513,7 @@ private extension ContactCleanerViewController {
         
     }
     
-    func mergeCellAction(_ contacts: [SFContact]) {
+    func mergeCellAction(_ contacts: [SFContactModel]) {
         guard let contact = contacts.first else { return }
         
         if SFContactFinder.shared.inProcess {

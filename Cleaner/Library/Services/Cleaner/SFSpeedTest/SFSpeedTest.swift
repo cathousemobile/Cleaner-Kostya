@@ -5,16 +5,16 @@ public enum SFSpeedTest {
     // MARK: - Public Properties
     
     /// Обновлен текущий хост
-    public static var hostUpdated: ((SpeedTestHost) -> Void)?
+    public static var hostUpdated: ((SFSpeedTestHostModel) -> Void)?
     
     /// Обновлен пинг
     public static var pingUpdated: ((Int) -> Void)?
     
     /// Обновлена скорость загрузки
-    public static var downloadSpeedUpdated: ((Speed) -> Void)?
+    public static var downloadSpeedUpdated: ((SFSpeedModel) -> Void)?
     
     /// Обновлена скорость выгрузки
-    public static var uploadSpeedUpdated: ((Speed) -> Void)?
+    public static var uploadSpeedUpdated: ((SFSpeedModel) -> Void)?
     
     // MARK: - Private Properties
     
@@ -44,9 +44,9 @@ public enum SFSpeedTest {
 
     /// Найти ближайший хост для тестирования
     /// - Parameter completion: Колбэк, сообщающий что хост найден
-    public static func findHost(completion: @escaping (SpeedTestHost) -> Void) {
+    public static func findHost(completion: @escaping (SFSpeedTestHostModel) -> Void) {
         isTesting = true
-        SpeedTestCustomService.shared.findBestHostForTest { host in
+        SFSpeedTestCustomService.shared.findBestHostForTest { host in
             isTesting = false
             hostUpdated?(host)
             completion(host)
@@ -59,7 +59,7 @@ public enum SFSpeedTest {
     /// - Parameter completion: Колбэк, сообщающий результаты теста
     public static func checkPing(completion: @escaping (Int) -> Void) {
         isTesting = true
-        SpeedTestCustomService.shared.makePingTest { ping in
+        SFSpeedTestCustomService.shared.makePingTest { ping in
             DispatchQueue.main.async {
                 isTesting = false
                 pingUpdated?(ping);
@@ -72,9 +72,9 @@ public enum SFSpeedTest {
 
     /// Проверить скорость загрузки
     /// - Parameter completion: Колбэк, сообщающий результаты теста
-    public static func checkDownloadSpeed(completion: @escaping (Speed?) -> Void) {
+    public static func checkDownloadSpeed(completion: @escaping (SFSpeedModel?) -> Void) {
         isTesting = true
-        SpeedTestCustomService.shared.makeDownloadTestWithHost(currentSpeed: nil) { avgSpeed in
+        SFSpeedTestCustomService.shared.makeDownloadTestWithHost(currentSpeed: nil) { avgSpeed in
             if avgSpeed.speedInMbps < filterLimitSpeed {
                 downloadSpeedUpdated?(avgSpeed)
             }
@@ -89,9 +89,9 @@ public enum SFSpeedTest {
     
     /// Проверить скорость выгрузки
     /// - Parameter completion: Колбэк, сообщающий результаты теста
-    public static func checkUploadSpeed(completion: @escaping (Speed?) -> Void) {
+    public static func checkUploadSpeed(completion: @escaping (SFSpeedModel?) -> Void) {
         isTesting = true
-        SpeedTestCustomService.shared.makeUploadTestWithHost(currentSpeed: nil) { avgSpeed in
+        SFSpeedTestCustomService.shared.makeUploadTestWithHost(currentSpeed: nil) { avgSpeed in
             if avgSpeed.speedInMbps < filterLimitSpeed {
                 uploadSpeedUpdated?(avgSpeed)
             }
@@ -106,10 +106,10 @@ public enum SFSpeedTest {
 
     /// Подготовка r повторному тестированию, сброс мусорных данных с предыдущего тестирования
     public static func resetData() {
-        SpeedTestCustomService.shared.resetData()
+        SFSpeedTestCustomService.shared.resetData()
     }
     
     public static func stop() {
-        SpeedTestCustomService.shared.stop()
+        SFSpeedTestCustomService.shared.stop()
     }
 }

@@ -4,9 +4,9 @@
 
 import UIKit
 
-class SecretContactDiffibleDataSource: UITableViewDiffableDataSource<String, SFContact> {
+class SecretContactDiffibleDataSource: UITableViewDiffableDataSource<String, SFContactModel> {
     
-    var lastDeletedItem: SFContact? {
+    var lastDeletedItem: SFContactModel? {
         didSet {
             SFNotificationSystem.send(event: .custom(name: "secretContactDeleted"))
         }

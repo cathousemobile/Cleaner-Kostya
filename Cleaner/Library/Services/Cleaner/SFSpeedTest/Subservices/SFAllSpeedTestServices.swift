@@ -1,26 +1,26 @@
 import Foundation
 
-public enum SpeedTestError: Error {
+public enum SFSpeedTestError: Error {
     case networkError
     case hostNotFound
 }
 
-public final class SpeedTest {
-    private let hostService: HostsProviderService
-    private let pingService: HostPingService
-    private let downloadService = CustomHostDownloadService()
-    private let uploadService = CustomHostUploadService()
+public final class SFAllSpeedTestServices {
+    private let hostService: SFSpeedHostProtocol
+    private let pingService: SFPingServiceProtocol
+    private let downloadService = SFSpeedTestDownloadService()
+    private let uploadService = SFSpeedTestUploadService()
 
-    public required init(hosts: HostsProviderService, ping: HostPingService) {
+    public required init(hosts: SFSpeedHostProtocol, ping: SFPingServiceProtocol) {
         self.hostService = hosts
         self.pingService = ping
     }
 
     public convenience init() {
-        self.init(hosts: SpeedTestService(), ping: DefaultHostPingService())
+        self.init(hosts: SFSpeedTestHost(), ping: SFSpeedTestPingService())
     }
 
-    public func findHosts(timeout: TimeInterval, closure: @escaping (Result<[SpeedTestHost], SpeedTestError>) -> ()) {
+    public func findHosts(timeout: TimeInterval, closure: @escaping (Result<[SFSpeedTestHostModel], SFSpeedTestError>) -> ()) {
         hostService.getHosts(timeout: timeout) { result in
             switch result {
             case .success(let hosts):
@@ -35,7 +35,7 @@ public final class SpeedTest {
         }
     }
 
-    public func findBestHost(from max: Int, timeout: TimeInterval, closure: @escaping (Result<(SpeedTestHost, Int), SpeedTestError>) -> ()) {
+    public func findBestHost(from max: Int, timeout: TimeInterval, closure: @escaping (Result<(SFSpeedTestHostModel, Int), SFSpeedTestError>) -> ()) {
         hostService.getHosts(max: max, timeout: timeout) { [weak self] result in
             guard let strongSelf = self else { return }
             switch result {
@@ -53,7 +53,7 @@ public final class SpeedTest {
         }
     }
 
-    public func ping(host: SpeedTestHost, timeout: TimeInterval, closure: @escaping (Result<Int, SpeedTestError>) -> ()) {
+    public func ping(host: SFSpeedTestHostModel, timeout: TimeInterval, closure: @escaping (Result<Int, SFSpeedTestError>) -> ()) {
         pingService.ping(url: host.url, timeout: timeout) { result in
             DispatchQueue.main.async {
                 switch result {
@@ -66,7 +66,7 @@ public final class SpeedTest {
         }
     }
 
-    public func runDownloadTest(for host: URL, size: Int, timeout: TimeInterval, current: @escaping (Speed) -> (), final: @escaping (Result<Speed, NetworkError>) -> ()) {
+    public func runDownloadTest(for host: URL, size: Int, timeout: TimeInterval, current: @escaping (SFSpeedModel) -> (), final: @escaping (Result<SFSpeedModel, SFSpeedTestNetworkError>) -> ()) {
         downloadService.test(host,
                              fileSize: size,
                              timeout: timeout,
@@ -77,7 +77,7 @@ public final class SpeedTest {
                             })
     }
 
-    public func runUploadTest(for host: URL, size: Int, timeout: TimeInterval, current: @escaping (Speed) -> (), final: @escaping (Result<Speed, NetworkError>) -> ()) {
+    public func runUploadTest(for host: URL, size: Int, timeout: TimeInterval, current: @escaping (SFSpeedModel) -> (), final: @escaping (Result<SFSpeedModel, SFSpeedTestNetworkError>) -> ()) {
         uploadService.test(host,
                            fileSize: size,
                            timeout: timeout,
@@ -88,9 +88,9 @@ public final class SpeedTest {
                         })
     }
 
-    private func pingAllHosts(hosts: [SpeedTestHost], timeout: TimeInterval, closure: @escaping ([(host: SpeedTestHost, ping: Int)]) -> ()) {
+    private func pingAllHosts(hosts: [SFSpeedTestHostModel], timeout: TimeInterval, closure: @escaping ([(host: SFSpeedTestHostModel, ping: Int)]) -> ()) {
         let group = DispatchGroup()
-        var pings = [(SpeedTestHost, Int)]()
+        var pings = [(SFSpeedTestHostModel, Int)]()
         hosts.forEach { host in
             group.enter()
             pingService.ping(url: (URL(string: "http://\(host.host)" )!), timeout: timeout, closure: { result in
@@ -109,7 +109,7 @@ public final class SpeedTest {
         }
     }
 
-    private func findBestPings(from pings: [(host: SpeedTestHost, ping: Int)]) -> Result<(SpeedTestHost, Int), SpeedTestError> {
+    private func findBestPings(from pings: [(host: SFSpeedTestHostModel, ping: Int)]) -> Result<(SFSpeedTestHostModel, Int), SFSpeedTestError> {
         let best = pings.min(by: { (left, right) in
             left.ping < right.ping
         })

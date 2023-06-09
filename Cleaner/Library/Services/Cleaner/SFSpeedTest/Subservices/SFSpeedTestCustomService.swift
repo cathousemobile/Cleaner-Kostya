@@ -1,14 +1,14 @@
 import Foundation
 import UIKit
 
-internal class SpeedTestCustomService {
-    static let shared = SpeedTestCustomService()
+internal class SFSpeedTestCustomService {
+    static let shared = SFSpeedTestCustomService()
 
-    private var speedTest = SpeedTest()
-    private var hostDownloadService = CustomHostDownloadService()
-    private var hostUploadService = CustomHostUploadService()
+    private var speedTest = SFAllSpeedTestServices()
+    private var hostDownloadService = SFSpeedTestDownloadService()
+    private var hostUploadService = SFSpeedTestUploadService()
 
-    private var chosenHost: SpeedTestHost?
+    private var chosenHost: SFSpeedTestHostModel?
     private var isTesting: Bool = false
 
 
@@ -16,9 +16,9 @@ internal class SpeedTestCustomService {
 
     /// resets all host and services
     func resetData() {
-        speedTest = SpeedTest()
-        hostDownloadService = CustomHostDownloadService()
-        hostUploadService = CustomHostUploadService()
+        speedTest = SFAllSpeedTestServices()
+        hostDownloadService = SFSpeedTestDownloadService()
+        hostUploadService = SFSpeedTestUploadService()
         chosenHost = nil
     }
     
@@ -28,7 +28,7 @@ internal class SpeedTestCustomService {
     }
     
     /// finds best hosts nearby and compares them by ping, returns host with it's info
-    func findBestHostForTest(bestHost: @escaping (_ host: SpeedTestHost)-> (),
+    func findBestHostForTest(bestHost: @escaping (_ host: SFSpeedTestHostModel)-> (),
                              error: @escaping (_ error: String) -> ()){
         if isTesting == false {
             isTesting = true
@@ -64,14 +64,14 @@ internal class SpeedTestCustomService {
         }
     }
     /// download speed test, returns speed in result and get closure for update current and average speeds
-    func makeDownloadTestWithHost(currentSpeed: ((Speed) -> Void)? = nil,
-                                  avgSpeed: ((Speed) -> Void)? = nil,
-                                  testResult: @escaping (_ speedTestResult: (Speed?, SpeedTestCustomState)) -> Void){
+    func makeDownloadTestWithHost(currentSpeed: ((SFSpeedModel) -> Void)? = nil,
+                                  avgSpeed: ((SFSpeedModel) -> Void)? = nil,
+                                  testResult: @escaping (_ speedTestResult: (SFSpeedModel?, SpeedTestCustomState)) -> Void){
         guard let chosenHost = chosenHost else {
             testResult((nil, .isTesting))
             return
         }
-        var avgSpeedRecord: Speed?
+        var avgSpeedRecord: SFSpeedModel?
         hostDownloadService.test(chosenHost.url,
                                  fileSize: 100000000,
                                  timeout: 30)
@@ -89,9 +89,9 @@ internal class SpeedTestCustomService {
         }
     }
     /// upload speed test, returns speed in result and get closure for update current and average speeds
-    func makeUploadTestWithHost(currentSpeed: ((Speed) -> Void)? = nil,
-                                avgSpeed: ((Speed) -> Void)? = nil,
-                                testResult: @escaping (_ speedTestResult: (Speed?, SpeedTestCustomState)) -> Void){
+    func makeUploadTestWithHost(currentSpeed: ((SFSpeedModel) -> Void)? = nil,
+                                avgSpeed: ((SFSpeedModel) -> Void)? = nil,
+                                testResult: @escaping (_ speedTestResult: (SFSpeedModel?, SpeedTestCustomState)) -> Void){
         guard let chosenHost = chosenHost else { return }
         hostUploadService.test(chosenHost.url, fileSize: 100000000, timeout: 30)
         { (current, avg) in
@@ -107,7 +107,7 @@ internal class SpeedTestCustomService {
         }
     }
     /// finds best host
-    private func getBestHost(bestHost: @escaping (_ bestHost: (SpeedTestHost, Int)) -> (),
+    private func getBestHost(bestHost: @escaping (_ bestHost: (SFSpeedTestHostModel, Int)) -> (),
                              failure: @escaping (_ errorMessage: String) -> ()){
         speedTest.findBestHost(from: 30, timeout: 3) { (result) in
             switch result {

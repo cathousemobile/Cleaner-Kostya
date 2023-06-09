@@ -9,7 +9,7 @@ import PhoneNumberKit
 
 
 /// Конткт из записной книги
-struct SFContact: Hashable {
+struct SFContactModel: Hashable {
     /// Полное имя контакта (имя, фамилия, отвечтво и тд)
     let name: String?
     

@@ -59,14 +59,14 @@ class SFContactStorage: NSObject {
     
     /// Получить контакты из секретной папки
     /// - Returns: Контакты
-    func getAll() -> [SFContact] {
+    func getAll() -> [SFContactModel] {
         contacts.map { .init(cnContact: $0, phoneKit: phoneNumberKit) }
     }
     
     /// Сохранить контакт в секретном хранилище
     /// - Parameter contact: контакт, который нужно сохранить
     /// - Returns: Результат сохранения. `false` - если не удалось найти контакт в системе `CNContact` или в `CNContactStore`; `true` - сохранение прошло успешно
-    func save(_ newContact: SFContact) -> Bool {
+    func save(_ newContact: SFContactModel) -> Bool {
         guard let contactToSave = temporaryContacts.first(where: { $0.identifier == newContact.cnContactID }) ??
                 (try? contactStore.unifiedContact(withIdentifier: newContact.cnContactID, keysToFetch: keysToFetch)) else{
             return false
@@ -83,7 +83,7 @@ class SFContactStorage: NSObject {
     /// Сохранить контакты в секретном хранилище
     /// - Parameter contacts: контакты, которые нужно сохранить
     /// - Returns: Результат сохранения. `false` - если не удалось найти 1 больше контактов в системе `CNContact` или в `CNContactStore`(при этом часть контактов могла успешно сохраниться) ; `true` - сохранение прошло успешно
-    func save(_ newContacts: [SFContact]) -> Bool {
+    func save(_ newContacts: [SFContactModel]) -> Bool {
         let contactsToSave = newContacts.compactMap { contact -> CNContact? in
             guard let contactToSave = temporaryContacts.first(where: { $0.identifier == contact.cnContactID }) ??
                     (try? contactStore.unifiedContact(withIdentifier: contact.cnContactID, keysToFetch: keysToFetch)) else{
@@ -104,7 +104,7 @@ class SFContactStorage: NSObject {
     /// Удалить контакт из секретного  хранилища
     /// - Parameter contactForDeliting: контакт, который нужно удалить
     /// - Returns: Результат удаления. `false` - если не удалось найти контакт в хранилище; `true` - удаление прошло успешно
-    func delete(_ contactForDeliting: SFContact) -> Bool {
+    func delete(_ contactForDeliting: SFContactModel) -> Bool {
         var existingContacts = contacts
         let contactsToDelete = existingContacts.filter({ $0.identifier == contactForDeliting.cnContactID })
         existingContacts.removeAll(where: { $0.identifier == contactForDeliting.cnContactID })
@@ -117,7 +117,7 @@ class SFContactStorage: NSObject {
     /// Удалить контакты из секретного  хранилища
     /// - Parameter contactsForDeliting: контакты, который нужно удалить
     /// - Returns: Результат удаления. `false` - если не удалось найти 1 или больше контактов в хранилище (при этом часть контактов могла успешно удалиться); `true` - удаление прошло успешно
-    func delete(_ contactsForDeliting: [SFContact]) -> Bool {
+    func delete(_ contactsForDeliting: [SFContactModel]) -> Bool {
         var existingContacts = contacts
         let idsForDeliting = contactsForDeliting.map(\.cnContactID)
         let contactsToDelete = existingContacts.filter({ idsForDeliting.contains($0.identifier) })
@@ -167,7 +167,7 @@ class SFContactStorage: NSObject {
     ///   - contact: Контакт, для которого создаем контроллер
     ///   - didCompleteCallback: Колбэк завершения (нужен что б закрыть контроллер)
     /// - Returns: `nil`, если не удалось найти контакт в секретной папке, объект CNContactViewController, если проблем не возникло
-    func getNativeContactController(for contact: SFContact, didCompleteCallback: SFVoidCallback? = nil) -> CNContactViewController?  {
+    func getNativeContactController(for contact: SFContactModel, didCompleteCallback: SFVoidCallback? = nil) -> CNContactViewController?  {
         guard let storedContact = contacts.first(where: { $0.identifier == contact.cnContactID }) else {
             return nil
         }
@@ -200,7 +200,7 @@ class SFContactStorage: NSObject {
 extension SFContactStorage: CNContactViewControllerDelegate {
     func contactViewController(_ viewController: CNContactViewController, didCompleteWith contact: CNContact?) {
         
-        let sfContact: SFContact?
+        let sfContact: SFContactModel?
         
         if let contact = contact {
             temporaryContacts.append(contact)
@@ -230,7 +230,7 @@ extension SFContactStorage: CNContactPickerDelegate {
     }
     
     func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
-        let sfContact: SFContact = .init(cnContact: contact, phoneKit: phoneNumberKit)
+        let sfContact: SFContactModel = .init(cnContact: contact, phoneKit: phoneNumberKit)
         temporaryContacts.append(contact)
         contactPickerVCCallbacks[picker]?(sfContact)
     }

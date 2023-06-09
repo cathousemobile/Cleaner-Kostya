@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Speed: CustomStringConvertible {
+public struct SFSpeedModel: CustomStringConvertible {
     private static let bitsInBytes: Double = 8
     private static let upUnit: Double = 1000
 
@@ -22,23 +22,23 @@ public struct Speed: CustomStringConvertible {
     public var speedInMbps: Double {
         switch units {
         case .Kbps:
-            return value / Speed.upUnit
+            return value / SFSpeedModel.upUnit
         case .Mbps:
             return value
         case .Gbps:
-            return value * Speed.upUnit
+            return value * SFSpeedModel.upUnit
         }
     }
 
-    public var pretty: Speed {
+    public var pretty: SFSpeedModel {
         return [Units.Kbps, .Mbps, .Gbps]
             .filter { units in
                 units.rawValue >= self.units.rawValue
             }.reduce(self) { (result, nextUnits) in
-                guard result.value > Speed.upUnit else {
+                guard result.value > SFSpeedModel.upUnit else {
                     return result
                 }
-                return Speed(value: result.value / Speed.upUnit, units: nextUnits)
+                return SFSpeedModel(value: result.value / SFSpeedModel.upUnit, units: nextUnits)
             }
     }
 
@@ -47,9 +47,9 @@ public struct Speed: CustomStringConvertible {
     }
 }
 
-public extension Speed {
+public extension SFSpeedModel {
     init(bytes: Int64, seconds: TimeInterval) {
-        let speedInB = Double(bytes) * Speed.bitsInBytes / seconds
+        let speedInB = Double(bytes) * SFSpeedModel.bitsInBytes / seconds
         self.value = speedInB
         self.units = .Kbps
     }

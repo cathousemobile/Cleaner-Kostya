@@ -7,5 +7,5 @@ import Foundation
 
 
 typealias SFVoidCallback = () -> Void
-typealias SFContactCallback = (SFContact?) -> Void
+typealias SFContactCallback = (SFContactModel?) -> Void
 

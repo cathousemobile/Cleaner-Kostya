@@ -1,18 +1,18 @@
 import Foundation
 
-class CustomHostDownloadService: NSObject, SpeedService {
+class SFSpeedTestDownloadService: NSObject, SFSpeedServiceProtocol {
     private var responseDate: Date?
     private var latestDate: Date?
-    private var current: ((Speed, Speed) -> ())!
-    private var final: ((Result<Speed, NetworkError>) -> ())!
+    private var current: ((SFSpeedModel, SFSpeedModel) -> ())!
+    private var final: ((Result<SFSpeedModel, SFSpeedTestNetworkError>) -> ())!
     private var session: URLSession?
     private var task: URLSessionDownloadTask?
     private var isStoped = false
 
-    func test(_ url: URL, fileSize: Int, timeout: TimeInterval, current: @escaping (Speed, Speed) -> (), final: @escaping (Result<Speed, NetworkError>) -> ()) {
+    func test(_ url: URL, fileSize: Int, timeout: TimeInterval, current: @escaping (SFSpeedModel, SFSpeedModel) -> (), final: @escaping (Result<SFSpeedModel, SFSpeedTestNetworkError>) -> ()) {
         self.current = current
         self.final = final
-        let resultURL = HostURLFormatter(speedTestURL: url).downloadURL(size: fileSize)
+        let resultURL = SFSpeedTestURLFormatter(speedTestURL: url).downloadURL(size: fileSize)
         session = URLSession(configuration: sessionConfiguration(timeout: timeout), delegate: self, delegateQueue: OperationQueue())
         task = session?.downloadTask(with: resultURL)
         task?.resume()
@@ -23,7 +23,7 @@ class CustomHostDownloadService: NSObject, SpeedService {
     }
 }
 
-extension CustomHostDownloadService: URLSessionDownloadDelegate {
+extension SFSpeedTestDownloadService: URLSessionDownloadDelegate {
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         let result = calculate(bytes: downloadTask.countOfBytesReceived, seconds: Date().timeIntervalSince(self.responseDate!))
         DispatchQueue.main.async {
@@ -33,7 +33,7 @@ extension CustomHostDownloadService: URLSessionDownloadDelegate {
 
     func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
         DispatchQueue.main.async {
-            self.final(.failure(NetworkError.requestFailed))
+            self.final(.failure(SFSpeedTestNetworkError.requestFailed))
         }
     }
 
@@ -45,7 +45,7 @@ extension CustomHostDownloadService: URLSessionDownloadDelegate {
             }
         } else {
             DispatchQueue.main.async {
-                self.final(.failure(NetworkError.requestFailed))
+                self.final(.failure(SFSpeedTestNetworkError.requestFailed))
             }
         }
     }

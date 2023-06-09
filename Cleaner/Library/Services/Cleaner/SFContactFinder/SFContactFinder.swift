@@ -87,34 +87,34 @@ class SFContactFinder: NSObject {
     }
     
     /// Получить все контакты из телефонной книги
-    func getAll() throws -> [SFContact]  {
+    func getAll() throws -> [SFContactModel]  {
         let error = checkErrorsForOperations()
         if let error = error { throw error }
         
-        let data = allContacts.compactMap { SFContact(cnContact: $0, phoneKit: phoneNumberKit) }
+        let data = allContacts.compactMap { SFContactModel(cnContact: $0, phoneKit: phoneNumberKit) }
         return data
     }
     
     /// Получить контакты, которые совпадают по имени и номеру
     /// - Returns: Сгруппированные по дубликатам массивы
-    func getFullDuplicates() throws -> [[SFContact]]  {
+    func getFullDuplicates() throws -> [[SFContactModel]]  {
         let error = checkErrorsForOperations()
         if let error = error { throw error }
         
-        let data = fullDuplicates.map { $0.compactMap { SFContact(cnContact: $0, phoneKit: phoneNumberKit) } }
+        let data = fullDuplicates.map { $0.compactMap { SFContactModel(cnContact: $0, phoneKit: phoneNumberKit) } }
         return data
     }
     
     /// Получить контакты, которые совпадают по имени
     /// - Returns: Сгруппированные по дубликатам массивы, ключом массива является объедененный контакт для этой группы
-    func getNameDuplicates() throws -> [SFContact: [SFContact]] {
+    func getNameDuplicates() throws -> [SFContactModel: [SFContactModel]] {
         let error = checkErrorsForOperations()
         if let error = error { throw error }
         
-        var data: [SFContact:[SFContact]] = [:]
+        var data: [SFContactModel:[SFContactModel]] = [:]
         duplicatesByName.forEach {
-            let merged = SFContact(cnContact: $0.key, phoneKit: phoneNumberKit)
-            let contacts = $0.value.compactMap { SFContact(cnContact: $0, phoneKit: phoneNumberKit) }
+            let merged = SFContactModel(cnContact: $0.key, phoneKit: phoneNumberKit)
+            let contacts = $0.value.compactMap { SFContactModel(cnContact: $0, phoneKit: phoneNumberKit) }
             data[merged] = contacts
         }
         return data
@@ -122,14 +122,14 @@ class SFContactFinder: NSObject {
     
     /// Получить контакты, которые совпадают по номеру
     /// - Returns: Сгруппированные по дубликатам массивы, ключом массива является объедененный контакт для этой группы
-    func getPhoneDuplicates() throws -> [SFContact:[SFContact]]  {
+    func getPhoneDuplicates() throws -> [SFContactModel:[SFContactModel]]  {
         let error = checkErrorsForOperations()
         if let error = error { throw error }
         
-        var data: [SFContact:[SFContact]] = [:]
+        var data: [SFContactModel:[SFContactModel]] = [:]
         duplicatesByPhone.forEach {
-            let merged = SFContact(cnContact: $0.key, phoneKit: phoneNumberKit)
-            let contacts = $0.value.compactMap { SFContact(cnContact: $0, phoneKit: phoneNumberKit) }
+            let merged = SFContactModel(cnContact: $0.key, phoneKit: phoneNumberKit)
+            let contacts = $0.value.compactMap { SFContactModel(cnContact: $0, phoneKit: phoneNumberKit) }
             data[merged] = contacts
         }
         
@@ -137,27 +137,27 @@ class SFContactFinder: NSObject {
     }
     
     /// Получить все контакты без имени
-    func getWithoutName() throws -> [SFContact]  {
+    func getWithoutName() throws -> [SFContactModel]  {
         let error = checkErrorsForOperations()
         if let error = error { throw error }
         
-        let data = withoutName.compactMap { SFContact(cnContact: $0, phoneKit: phoneNumberKit) }
+        let data = withoutName.compactMap { SFContactModel(cnContact: $0, phoneKit: phoneNumberKit) }
         return data
     }
     
     /// Получить все контакты без номера телефона
-    func getWithoutPhone() throws -> [SFContact]  {
+    func getWithoutPhone() throws -> [SFContactModel]  {
         let error = checkErrorsForOperations()
         if let error = error { throw error }
         
-        let data = withoutPhone.compactMap { SFContact(cnContact: $0, phoneKit: phoneNumberKit) }
+        let data = withoutPhone.compactMap { SFContactModel(cnContact: $0, phoneKit: phoneNumberKit) }
         return data
     }
     
     /// Удалить контакты
     /// - Parameter contacts: контакты, которые хоите удалить
     /// - Returns: Ошибка, если в процессе удаления возникла проблема; `nil`, если удаление прошло успешно
-    func deleteContacts(_ contacts: [SFContact]) throws {
+    func deleteContacts(_ contacts: [SFContactModel]) throws {
         let error = checkErrorsForOperations()
         if let error = error { throw error }
         
@@ -224,14 +224,14 @@ class SFContactFinder: NSObject {
     }
     
     ///  Получить объект CNContact, может пригодиться для отображения нативного контроллера
-    func getCNContact(for contact: SFContact) -> CNMutableContact? {
+    func getCNContact(for contact: SFContactModel) -> CNMutableContact? {
         return (try? contactStore.unifiedContact(withIdentifier: contact.cnContactID, keysToFetch: keysToFetch))?.mutableCopy() as? CNMutableContact
     }
     
     
     /// Для правильной работы метода необходимо сперва получить контакты из `getNameDuplicates` или `getPhoneDuplicates`. Метод сохранит объедененный контакт и удалит остальные, из которых состоял объедененный
     /// - Parameter contact: контакт, который является ключом масссива полученного при помощи `getNameDuplicates` или `getPhoneDuplicates`
-    func saveMergeContactAndDeleteOthers(_ contact: SFContact) throws {
+    func saveMergeContactAndDeleteOthers(_ contact: SFContactModel) throws {
         let error = checkErrorsForOperations()
         if let error = error { throw error }
         
@@ -264,7 +264,7 @@ class SFContactFinder: NSObject {
     
     /// Для правильной работы метода необходимо сперва получить контакты из `getNameDuplicates` или `getPhoneDuplicates`. Метод сохранит объедененный контакт и удалит остальные, из которых состоял объедененный
     /// - Parameter contacts: массив из контактов, которые являются ключом масссива полученного при помощи `getNameDuplicates` или `getPhoneDuplicates`
-    func saveMergeContactsAndDeleteOthers(_ contacts: [SFContact]) throws {
+    func saveMergeContactsAndDeleteOthers(_ contacts: [SFContactModel]) throws {
         let error = checkErrorsForOperations()
         if let error = error { throw error }
         let saveRequest = CNSaveRequest()
@@ -308,7 +308,7 @@ class SFContactFinder: NSObject {
     ///   - allowEditing: Можен ли пользователь изменять этот контакт (не работает для смерженных контактов)
     ///   - didCompleteCallback: Колбэк завершения (нужен что б закрыть контроллер)
     /// - Returns: Ошибка, если контакт найти не удалось, объект CNContactViewController, если проблем не возникло
-    func getNativeContactController(for contact: SFContact, allowEditing: Bool, didCompleteCallback: SFVoidCallback? = nil) throws -> CNContactViewController  {
+    func getNativeContactController(for contact: SFContactModel, allowEditing: Bool, didCompleteCallback: SFVoidCallback? = nil) throws -> CNContactViewController  {
         let storedContact = allContacts.first(where: { $0.identifier == contact.cnContactID })
         let generedContacts = (duplicatesByName.map { $0.key } + duplicatesByPhone.map { $0.key }).first(where: { $0.identifier == contact.cnContactID })
         
