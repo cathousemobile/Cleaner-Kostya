@@ -216,9 +216,6 @@
 		BB0DB5172A32079C0087F317 /* SFProductAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB4DF2A32079C0087F317 /* SFProductAnalytics.swift */; };
 		BB0DB5182A32079C0087F317 /* SFStoreFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB4E02A32079C0087F317 /* SFStoreFeedback.swift */; };
 		BB0DB5192A32079C0087F317 /* SFNotificationSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB4E12A32079C0087F317 /* SFNotificationSystem.swift */; };
-		BB0DB51A2A32079C0087F317 /* SFSystemInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB4E32A32079C0087F317 /* SFSystemInfo.swift */; };
-		BB0DB51B2A32079C0087F317 /* SFDeviceName.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB4E62A32079C0087F317 /* SFDeviceName.swift */; };
-		BB0DB51C2A32079C0087F317 /* SFDevicePPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB4E72A32079C0087F317 /* SFDevicePPI.swift */; };
 		BB0DB51D2A32079C0087F317 /* SFAccountStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB4E92A32079C0087F317 /* SFAccountStorage.swift */; };
 		BB0DB51E2A32079C0087F317 /* SFAccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB4EA2A32079C0087F317 /* SFAccountModel.swift */; };
 		BB0DB51F2A32079C0087F317 /* SFGalleryStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB4EC2A32079C0087F317 /* SFGalleryStorage.swift */; };
@@ -235,18 +232,21 @@
 		BB0DB5372A32079C0087F317 /* SFGalleryFinderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB5132A32079C0087F317 /* SFGalleryFinderError.swift */; };
 		BB0DB5382A32079C0087F317 /* SFContactStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB5152A32079C0087F317 /* SFContactStorage.swift */; };
 		BB0DB53A2A3207C30087F317 /* SFTypealias.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB5392A3207C30087F317 /* SFTypealias.swift */; };
-		BB0DB55C2A33755B0087F317 /* SFSpeedTestPingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB5522A33755B0087F317 /* SFSpeedTestPingService.swift */; };
-		BB0DB55D2A33755B0087F317 /* SFSpeedTestURLFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB5532A33755B0087F317 /* SFSpeedTestURLFormatter.swift */; };
-		BB0DB55E2A33755B0087F317 /* SFSpeedTestHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB5542A33755B0087F317 /* SFSpeedTestHost.swift */; };
-		BB0DB55F2A33755B0087F317 /* SFSpeedTestDownloadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB5552A33755B0087F317 /* SFSpeedTestDownloadService.swift */; };
-		BB0DB5602A33755B0087F317 /* SFAllSpeedTestServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB5562A33755B0087F317 /* SFAllSpeedTestServices.swift */; };
-		BB0DB5612A33755B0087F317 /* SFSpeedTestCustomService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB5572A33755B0087F317 /* SFSpeedTestCustomService.swift */; };
-		BB0DB5622A33755B0087F317 /* SFSpeedTestUploadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB5582A33755B0087F317 /* SFSpeedTestUploadService.swift */; };
-		BB0DB5632A33755B0087F317 /* SFSpeedTestProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB5592A33755B0087F317 /* SFSpeedTestProtocols.swift */; };
-		BB0DB5642A33755B0087F317 /* SFSpeedTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB55A2A33755B0087F317 /* SFSpeedTest.swift */; };
-		BB0DB5652A33755B0087F317 /* SFSpeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB55B2A33755B0087F317 /* SFSpeedModel.swift */; };
 		BB0DB5682A3375E10087F317 /* URLExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB5662A3375E10087F317 /* URLExtension.swift */; };
 		BB0DB5692A3375E10087F317 /* URLResponseExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB5672A3375E10087F317 /* URLResponseExtension.swift */; };
+		BB0DB6672A39B5ED0087F317 /* SFSpeedTestPingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB65B2A39B5ED0087F317 /* SFSpeedTestPingService.swift */; };
+		BB0DB6682A39B5ED0087F317 /* SFSpeedTestURLFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB65C2A39B5ED0087F317 /* SFSpeedTestURLFormatter.swift */; };
+		BB0DB6692A39B5ED0087F317 /* SFSpeedTestHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB65D2A39B5ED0087F317 /* SFSpeedTestHost.swift */; };
+		BB0DB66A2A39B5ED0087F317 /* SFSpeedTestDownloadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB65E2A39B5ED0087F317 /* SFSpeedTestDownloadService.swift */; };
+		BB0DB66B2A39B5ED0087F317 /* SFAllSpeedTestServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB65F2A39B5ED0087F317 /* SFAllSpeedTestServices.swift */; };
+		BB0DB66C2A39B5ED0087F317 /* SFSpeedTestCustomService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB6602A39B5ED0087F317 /* SFSpeedTestCustomService.swift */; };
+		BB0DB66D2A39B5ED0087F317 /* SFSpeedTestUploadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB6612A39B5ED0087F317 /* SFSpeedTestUploadService.swift */; };
+		BB0DB66E2A39B5ED0087F317 /* SFAllSpeedTestProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB6622A39B5ED0087F317 /* SFAllSpeedTestProtocols.swift */; };
+		BB0DB66F2A39B5ED0087F317 /* SFSpeedTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB6632A39B5ED0087F317 /* SFSpeedTest.swift */; };
+		BB0DB6702A39B5ED0087F317 /* SFSpeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB6642A39B5ED0087F317 /* SFSpeedModel.swift */; };
+		BB0DB6762A39B6360087F317 /* SFDeviceName.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB6732A39B6360087F317 /* SFDeviceName.swift */; };
+		BB0DB6772A39B6360087F317 /* SFDevicePPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB6742A39B6360087F317 /* SFDevicePPI.swift */; };
+		BB0DB6782A39B6360087F317 /* SFSystemInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0DB6752A39B6360087F317 /* SFSystemInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -450,9 +450,6 @@
 		BB0DB4DF2A32079C0087F317 /* SFProductAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFProductAnalytics.swift; sourceTree = "<group>"; };
 		BB0DB4E02A32079C0087F317 /* SFStoreFeedback.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFStoreFeedback.swift; sourceTree = "<group>"; };
 		BB0DB4E12A32079C0087F317 /* SFNotificationSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFNotificationSystem.swift; sourceTree = "<group>"; };
-		BB0DB4E32A32079C0087F317 /* SFSystemInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFSystemInfo.swift; sourceTree = "<group>"; };
-		BB0DB4E62A32079C0087F317 /* SFDeviceName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFDeviceName.swift; sourceTree = "<group>"; };
-		BB0DB4E72A32079C0087F317 /* SFDevicePPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFDevicePPI.swift; sourceTree = "<group>"; };
 		BB0DB4E92A32079C0087F317 /* SFAccountStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFAccountStorage.swift; sourceTree = "<group>"; };
 		BB0DB4EA2A32079C0087F317 /* SFAccountModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFAccountModel.swift; sourceTree = "<group>"; };
 		BB0DB4EC2A32079C0087F317 /* SFGalleryStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFGalleryStorage.swift; sourceTree = "<group>"; };
@@ -469,18 +466,21 @@
 		BB0DB5132A32079C0087F317 /* SFGalleryFinderError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFGalleryFinderError.swift; sourceTree = "<group>"; };
 		BB0DB5152A32079C0087F317 /* SFContactStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFContactStorage.swift; sourceTree = "<group>"; };
 		BB0DB5392A3207C30087F317 /* SFTypealias.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFTypealias.swift; sourceTree = "<group>"; };
-		BB0DB5522A33755B0087F317 /* SFSpeedTestPingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFSpeedTestPingService.swift; sourceTree = "<group>"; };
-		BB0DB5532A33755B0087F317 /* SFSpeedTestURLFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFSpeedTestURLFormatter.swift; sourceTree = "<group>"; };
-		BB0DB5542A33755B0087F317 /* SFSpeedTestHost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFSpeedTestHost.swift; sourceTree = "<group>"; };
-		BB0DB5552A33755B0087F317 /* SFSpeedTestDownloadService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFSpeedTestDownloadService.swift; sourceTree = "<group>"; };
-		BB0DB5562A33755B0087F317 /* SFAllSpeedTestServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFAllSpeedTestServices.swift; sourceTree = "<group>"; };
-		BB0DB5572A33755B0087F317 /* SFSpeedTestCustomService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFSpeedTestCustomService.swift; sourceTree = "<group>"; };
-		BB0DB5582A33755B0087F317 /* SFSpeedTestUploadService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFSpeedTestUploadService.swift; sourceTree = "<group>"; };
-		BB0DB5592A33755B0087F317 /* SFSpeedTestProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFSpeedTestProtocols.swift; sourceTree = "<group>"; };
-		BB0DB55A2A33755B0087F317 /* SFSpeedTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFSpeedTest.swift; sourceTree = "<group>"; };
-		BB0DB55B2A33755B0087F317 /* SFSpeedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFSpeedModel.swift; sourceTree = "<group>"; };
 		BB0DB5662A3375E10087F317 /* URLExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLExtension.swift; sourceTree = "<group>"; };
 		BB0DB5672A3375E10087F317 /* URLResponseExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLResponseExtension.swift; sourceTree = "<group>"; };
+		BB0DB65B2A39B5ED0087F317 /* SFSpeedTestPingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFSpeedTestPingService.swift; sourceTree = "<group>"; };
+		BB0DB65C2A39B5ED0087F317 /* SFSpeedTestURLFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFSpeedTestURLFormatter.swift; sourceTree = "<group>"; };
+		BB0DB65D2A39B5ED0087F317 /* SFSpeedTestHost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFSpeedTestHost.swift; sourceTree = "<group>"; };
+		BB0DB65E2A39B5ED0087F317 /* SFSpeedTestDownloadService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFSpeedTestDownloadService.swift; sourceTree = "<group>"; };
+		BB0DB65F2A39B5ED0087F317 /* SFAllSpeedTestServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFAllSpeedTestServices.swift; sourceTree = "<group>"; };
+		BB0DB6602A39B5ED0087F317 /* SFSpeedTestCustomService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFSpeedTestCustomService.swift; sourceTree = "<group>"; };
+		BB0DB6612A39B5ED0087F317 /* SFSpeedTestUploadService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFSpeedTestUploadService.swift; sourceTree = "<group>"; };
+		BB0DB6622A39B5ED0087F317 /* SFAllSpeedTestProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFAllSpeedTestProtocols.swift; sourceTree = "<group>"; };
+		BB0DB6632A39B5ED0087F317 /* SFSpeedTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFSpeedTest.swift; sourceTree = "<group>"; };
+		BB0DB6642A39B5ED0087F317 /* SFSpeedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFSpeedModel.swift; sourceTree = "<group>"; };
+		BB0DB6732A39B6360087F317 /* SFDeviceName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFDeviceName.swift; sourceTree = "<group>"; };
+		BB0DB6742A39B6360087F317 /* SFDevicePPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFDevicePPI.swift; sourceTree = "<group>"; };
+		BB0DB6752A39B6360087F317 /* SFSystemInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFSystemInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1422,26 +1422,17 @@
 		BB0DB4E22A32079C0087F317 /* Cleaner */ = {
 			isa = PBXGroup;
 			children = (
+				BB0DB6712A39B6360087F317 /* SFSystemInfo */,
+				BB0DB6592A39B5ED0087F317 /* SFSpeedTest */,
 				BB0DB4EB2A32079C0087F317 /* SFGalleryStorage */,
 				BB0DB5142A32079C0087F317 /* SFContactStorage */,
 				BB0DB4E82A32079C0087F317 /* SFAccountStorage */,
 				BB0DB50C2A32079C0087F317 /* SFPasswordGenerator */,
-				BB0DB5502A33755B0087F317 /* SFSpeedTest */,
 				BB0DB5062A32079C0087F317 /* SFContactFinder */,
 				BB0DB50F2A32079C0087F317 /* SFGalleryFinder */,
-				BB0DB4E42A32079C0087F317 /* SFSystemInfo */,
 				BB0DB5052A32079C0087F317 /* SFByteFormatter.swift */,
 			);
 			path = Cleaner;
-			sourceTree = "<group>";
-		};
-		BB0DB4E42A32079C0087F317 /* SFSystemInfo */ = {
-			isa = PBXGroup;
-			children = (
-				BB0DB53B2A320B910087F317 /* SFSystemInfoSubservices */,
-				BB0DB4E32A32079C0087F317 /* SFSystemInfo.swift */,
-			);
-			path = SFSystemInfo;
 			sourceTree = "<group>";
 		};
 		BB0DB4E82A32079C0087F317 /* SFAccountStorage */ = {
@@ -1508,38 +1499,47 @@
 			path = SFContactStorage;
 			sourceTree = "<group>";
 		};
-		BB0DB53B2A320B910087F317 /* SFSystemInfoSubservices */ = {
+		BB0DB6592A39B5ED0087F317 /* SFSpeedTest */ = {
 			isa = PBXGroup;
 			children = (
-				BB0DB4E62A32079C0087F317 /* SFDeviceName.swift */,
-				BB0DB4E72A32079C0087F317 /* SFDevicePPI.swift */,
-			);
-			path = SFSystemInfoSubservices;
-			sourceTree = "<group>";
-		};
-		BB0DB5502A33755B0087F317 /* SFSpeedTest */ = {
-			isa = PBXGroup;
-			children = (
-				BB0DB5512A33755B0087F317 /* SFSpeedTestSubservices */,
-				BB0DB55A2A33755B0087F317 /* SFSpeedTest.swift */,
-				BB0DB55B2A33755B0087F317 /* SFSpeedModel.swift */,
+				BB0DB65A2A39B5ED0087F317 /* SFSpeedTestSubservices */,
+				BB0DB6632A39B5ED0087F317 /* SFSpeedTest.swift */,
+				BB0DB6642A39B5ED0087F317 /* SFSpeedModel.swift */,
 			);
 			path = SFSpeedTest;
 			sourceTree = "<group>";
 		};
-		BB0DB5512A33755B0087F317 /* SFSpeedTestSubservices */ = {
+		BB0DB65A2A39B5ED0087F317 /* SFSpeedTestSubservices */ = {
 			isa = PBXGroup;
 			children = (
-				BB0DB5522A33755B0087F317 /* SFSpeedTestPingService.swift */,
-				BB0DB5532A33755B0087F317 /* SFSpeedTestURLFormatter.swift */,
-				BB0DB5542A33755B0087F317 /* SFSpeedTestHost.swift */,
-				BB0DB5552A33755B0087F317 /* SFSpeedTestDownloadService.swift */,
-				BB0DB5562A33755B0087F317 /* SFAllSpeedTestServices.swift */,
-				BB0DB5572A33755B0087F317 /* SFSpeedTestCustomService.swift */,
-				BB0DB5582A33755B0087F317 /* SFSpeedTestUploadService.swift */,
-				BB0DB5592A33755B0087F317 /* SFSpeedTestProtocols.swift */,
+				BB0DB65B2A39B5ED0087F317 /* SFSpeedTestPingService.swift */,
+				BB0DB65C2A39B5ED0087F317 /* SFSpeedTestURLFormatter.swift */,
+				BB0DB65D2A39B5ED0087F317 /* SFSpeedTestHost.swift */,
+				BB0DB65E2A39B5ED0087F317 /* SFSpeedTestDownloadService.swift */,
+				BB0DB65F2A39B5ED0087F317 /* SFAllSpeedTestServices.swift */,
+				BB0DB6622A39B5ED0087F317 /* SFAllSpeedTestProtocols.swift */,
+				BB0DB6602A39B5ED0087F317 /* SFSpeedTestCustomService.swift */,
+				BB0DB6612A39B5ED0087F317 /* SFSpeedTestUploadService.swift */,
 			);
 			path = SFSpeedTestSubservices;
+			sourceTree = "<group>";
+		};
+		BB0DB6712A39B6360087F317 /* SFSystemInfo */ = {
+			isa = PBXGroup;
+			children = (
+				BB0DB6722A39B6360087F317 /* SFSystemInfoSubservices */,
+				BB0DB6752A39B6360087F317 /* SFSystemInfo.swift */,
+			);
+			path = SFSystemInfo;
+			sourceTree = "<group>";
+		};
+		BB0DB6722A39B6360087F317 /* SFSystemInfoSubservices */ = {
+			isa = PBXGroup;
+			children = (
+				BB0DB6732A39B6360087F317 /* SFDeviceName.swift */,
+				BB0DB6742A39B6360087F317 /* SFDevicePPI.swift */,
+			);
+			path = SFSystemInfoSubservices;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1656,14 +1656,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB0DB55E2A33755B0087F317 /* SFSpeedTestHost.swift in Sources */,
 				8498153529B9C929007F8206 /* SettingsModel.swift in Sources */,
 				BB0DB4D82A3207850087F317 /* UIFontExtension.swift in Sources */,
 				84B1765429D5E62800885758 /* UCollectionView+Extension.swift in Sources */,
 				BB0DB52F2A32079C0087F317 /* SFContactFinder.swift in Sources */,
+				BB0DB66F2A39B5ED0087F317 /* SFSpeedTest.swift in Sources */,
 				BB0DB5692A3375E10087F317 /* URLResponseExtension.swift in Sources */,
 				844697C529B200F300A5490C /* UIView+Extension.swift in Sources */,
 				8446980029B21BBF00A5490C /* OnboardingThirdAnimaticView.swift in Sources */,
+				BB0DB6782A39B6360087F317 /* SFSystemInfo.swift in Sources */,
 				BB0DB5172A32079C0087F317 /* SFProductAnalytics.swift in Sources */,
 				BB0DB4D12A3207850087F317 /* UIViewControllerExtension.swift in Sources */,
 				8498153A29B9D7FD007F8206 /* SettingsCellView.swift in Sources */,
@@ -1671,10 +1672,9 @@
 				BB0DB4C62A3207850087F317 /* CollectionExtension.swift in Sources */,
 				84D210D029C9C43100CCCEA0 /* PaywallView.swift in Sources */,
 				84D210CE29C9C41200CCCEA0 /* PaywallViewController.swift in Sources */,
-				BB0DB51B2A32079C0087F317 /* SFDeviceName.swift in Sources */,
 				84A9A1FA29E968920034C7F5 /* PasswordsViewController.swift in Sources */,
+				BB0DB66A2A39B5ED0087F317 /* SFSpeedTestDownloadService.swift in Sources */,
 				84A9A21E29ED4E550034C7F5 /* AccountDataModel.swift in Sources */,
-				BB0DB55D2A33755B0087F317 /* SFSpeedTestURLFormatter.swift in Sources */,
 				84D210C729C877DA00CCCEA0 /* ContactCleanerTableMergeCell.swift in Sources */,
 				84A9A1F529E80E5A0034C7F5 /* SecretFolderTitleView.swift in Sources */,
 				84D210D529C9E4E600CCCEA0 /* PaywallFeaturesStackViewCell.swift in Sources */,
@@ -1683,11 +1683,11 @@
 				84B1764929D2F53200885758 /* GalleryDefaultCollectionCell.swift in Sources */,
 				8446981A29B6040900A5490C /* MainSystemInfoView.swift in Sources */,
 				BB0DB4D32A3207850087F317 /* UIViewExtension.swift in Sources */,
-				BB0DB5612A33755B0087F317 /* SFSpeedTestCustomService.swift in Sources */,
 				84A9A22629ED6F7E0034C7F5 /* SecretGalleryViewController.swift in Sources */,
 				BB0DB51F2A32079C0087F317 /* SFGalleryStorage.swift in Sources */,
 				84D210DD29CB028E00CCCEA0 /* PaywallViewTypeModel.swift in Sources */,
 				84A9A1EC29E80A9A0034C7F5 /* SecretFolderOptionsModel.swift in Sources */,
+				BB0DB66C2A39B5ED0087F317 /* SFSpeedTestCustomService.swift in Sources */,
 				844697C929B2016900A5490C /* SizeCalculator.swift in Sources */,
 				849815B229BF47D6007F8206 /* SystemInfoOSModel.swift in Sources */,
 				84D210DB29CAFF6100CCCEA0 /* PaywallRectOfferView.swift in Sources */,
@@ -1698,7 +1698,6 @@
 				BB0DB52E2A32079C0087F317 /* SFByteFormatter.swift in Sources */,
 				BB0DB51E2A32079C0087F317 /* SFAccountModel.swift in Sources */,
 				847D081D29DEBCBB00B5C5D8 /* MergeContactsTableViewDiffibleDataSource.swift in Sources */,
-				BB0DB5602A33755B0087F317 /* SFAllSpeedTestServices.swift in Sources */,
 				BB0DB4C32A3207850087F317 /* CNContactExtension.swift in Sources */,
 				844697D529B203C300A5490C /* OnboardingView.swift in Sources */,
 				84315A9729C07ECE006A2F0D /* SmartCleaningView.swift in Sources */,
@@ -1709,24 +1708,26 @@
 				8498159229BB7F0D007F8206 /* NetworkViewController.swift in Sources */,
 				8446980D29B5EB4E00A5490C /* FadePushAnimator.swift in Sources */,
 				8498159829BB7F95007F8206 /* BatteryView.swift in Sources */,
-				BB0DB5632A33755B0087F317 /* SFSpeedTestProtocols.swift in Sources */,
 				8426DE6E29E458EF00515D29 /* AppKit.swift in Sources */,
 				BB0DB5162A32079C0087F317 /* SFPurchaseManager.swift in Sources */,
 				8446979129B0A7B000A5490C /* Image.swift in Sources */,
 				84315A9A29C07F12006A2F0D /* SmartCleaningCell.swift in Sources */,
 				84A9A20D29E98B9D0034C7F5 /* GeneratePasswordView.swift in Sources */,
+				BB0DB66B2A39B5ED0087F317 /* SFAllSpeedTestServices.swift in Sources */,
 				84A9A21C29EAF03B0034C7F5 /* GeneratePasswordAttributeView.swift in Sources */,
 				BB0DB4D62A3207850087F317 /* UICollectionViewExtension.swift in Sources */,
-				BB0DB55F2A33755B0087F317 /* SFSpeedTestDownloadService.swift in Sources */,
 				8446980229B21CC600A5490C /* OnboardingFourthAnimaticView.swift in Sources */,
 				84315AA029C087B8006A2F0D /* SmartCleaningCellSubtitleView.swift in Sources */,
 				8446980B29B5E99600A5490C /* RootViewController.swift in Sources */,
 				BB0DB4D02A3207850087F317 /* UIColorExtension.swift in Sources */,
+				BB0DB6672A39B5ED0087F317 /* SFSpeedTestPingService.swift in Sources */,
 				8498159629BB7F8A007F8206 /* BatteryViewController.swift in Sources */,
-				BB0DB5652A33755B0087F317 /* SFSpeedModel.swift in Sources */,
 				84A42C5D29B754DE00407D2B /* ContactCleanerView.swift in Sources */,
+				BB0DB6692A39B5ED0087F317 /* SFSpeedTestHost.swift in Sources */,
 				84A42C5729B7543D00407D2B /* SystemInfoViewController.swift in Sources */,
+				BB0DB6682A39B5ED0087F317 /* SFSpeedTestURLFormatter.swift in Sources */,
 				84D210BD29C4921500CCCEA0 /* HeaderWithTagsView.swift in Sources */,
+				BB0DB66D2A39B5ED0087F317 /* SFSpeedTestUploadService.swift in Sources */,
 				BB0DB5382A32079C0087F317 /* SFContactStorage.swift in Sources */,
 				BB0DB5362A32079C0087F317 /* SFGalleryFinderType.swift in Sources */,
 				BB0DB4DA2A3207850087F317 /* UIImageExtension.swift in Sources */,
@@ -1735,6 +1736,7 @@
 				BB0DB4CA2A3207850087F317 /* StringExtension.swift in Sources */,
 				84D210C929C8824200CCCEA0 /* ContactCleanerContactNameAndPhoneView.swift in Sources */,
 				8498158829BB7DC0007F8206 /* ScreenTestView.swift in Sources */,
+				BB0DB66E2A39B5ED0087F317 /* SFAllSpeedTestProtocols.swift in Sources */,
 				BB0DB4CF2A3207850087F317 /* UIAlertControllerExtension.swift in Sources */,
 				8426DE7229E5748000515D29 /* TimeInterval+Extension.swift in Sources */,
 				84A42C4729B737EC00407D2B /* MainOptionsCell.swift in Sources */,
@@ -1749,16 +1751,15 @@
 				8498153C29B9DA42007F8206 /* SettingsNotificationCellView.swift in Sources */,
 				BB0DB4D72A3207850087F317 /* UITabBarControllerExtension.swift in Sources */,
 				844697C029B1FED600A5490C /* Blocks.swift in Sources */,
+				BB0DB6772A39B6360087F317 /* SFDevicePPI.swift in Sources */,
 				84A9A22F29ED74020034C7F5 /* SecretContactsViewController.swift in Sources */,
 				84D210E229CB0B0E00CCCEA0 /* PaywallOvalOfferView.swift in Sources */,
 				84B1765029D5A8C900885758 /* GalleryCleanerBestPhotoView.swift in Sources */,
 				8498158429BB7D4D007F8206 /* DeviceView.swift in Sources */,
 				8498156E29BA0456007F8206 /* SpeedTestProgressView.swift in Sources */,
 				84D210D329C9E4AA00CCCEA0 /* PaywallFeaturesStackView.swift in Sources */,
-				BB0DB51A2A32079C0087F317 /* SFSystemInfo.swift in Sources */,
-				BB0DB5642A33755B0087F317 /* SFSpeedTest.swift in Sources */,
-				BB0DB55C2A33755B0087F317 /* SFSpeedTestPingService.swift in Sources */,
 				8498159C29BB7FED007F8206 /* OperationSystemView.swift in Sources */,
+				BB0DB6762A39B6360087F317 /* SFDeviceName.swift in Sources */,
 				844697A729B0B31200A5490C /* Files.swift in Sources */,
 				84A9A20B29E98B910034C7F5 /* GeneratePasswordViewController.swift in Sources */,
 				849815B629BF50E4007F8206 /* SystemInfoScreenTestModel.swift in Sources */,
@@ -1773,7 +1774,6 @@
 				8498158229BB7D3F007F8206 /* DeviceViewController.swift in Sources */,
 				84A9A24529EE9CD50034C7F5 /* AccountCellView.swift in Sources */,
 				8498157629BB75B7007F8206 /* UIImage+Extension.swift in Sources */,
-				BB0DB5622A33755B0087F317 /* SFSpeedTestUploadService.swift in Sources */,
 				8446981229B5F3E000A5490C /* LocalStorage.swift in Sources */,
 				84D210E029CB08E800CCCEA0 /* PaywallOffersStackView.swift in Sources */,
 				BB0DB4CB2A3207850087F317 /* UserDefaultsExtension.swift in Sources */,
@@ -1800,7 +1800,6 @@
 				849815AA29BF38C7007F8206 /* SystemInfoMemoryModel.swift in Sources */,
 				844697BD29B1FDCA00A5490C /* CustomButtonView.swift in Sources */,
 				84A9A20129E97BB50034C7F5 /* PasswordConfigurationModel.swift in Sources */,
-				BB0DB51C2A32079C0087F317 /* SFDevicePPI.swift in Sources */,
 				8498156329B9E1ED007F8206 /* Waiter.swift in Sources */,
 				84A9A20729E988AA0034C7F5 /* CreateAccountView.swift in Sources */,
 				8446979529B0A82100A5490C /* Generated.swift in Sources */,
@@ -1858,6 +1857,7 @@
 				84A9A22129ED58910034C7F5 /* AccountDetailViewController.swift in Sources */,
 				8498156A29B9E7C0007F8206 /* SpeedTestSpeedView.swift in Sources */,
 				849815A529BF28A7007F8206 /* SystemInfoDetailStackView.swift in Sources */,
+				BB0DB6702A39B5ED0087F317 /* SFSpeedModel.swift in Sources */,
 				84A9A23129ED745A0034C7F5 /* SecretContactView.swift in Sources */,
 				BB0DB4CD2A3207850087F317 /* UIEdgeInsetsExtension.swift in Sources */,
 				BB0DB5322A32079C0087F317 /* SFContactFinderError.swift in Sources */,
