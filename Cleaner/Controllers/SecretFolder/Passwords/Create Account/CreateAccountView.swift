@@ -30,7 +30,7 @@ final class CreateAccountView: UIView {
     
     // MARK: - Lifecycle
     
-    init(frame: CGRect = .zero, passwordData: SFPasswordModel) {
+    init(frame: CGRect = .zero, passwordData: AuthenticatorType) {
         super.init(frame: frame)
         self.passwordInfoView.setPasswordData(passwordData)
         configureAppearance()

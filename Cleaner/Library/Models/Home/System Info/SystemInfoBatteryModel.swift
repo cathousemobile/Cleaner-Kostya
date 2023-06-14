@@ -24,11 +24,11 @@ enum SystemInfoBatteryModel: String, CaseIterable {
     var infoText: String {
         switch self {
         case .status:
-            return SFSystemInfo.Device.isCharging ? Text.charging : Text.unplugged
+            return PlatformInfo.Device.isCharging ? Text.charging : Text.unplugged
         case .level:
-            return "\(SFSystemInfo.Device.chargePercent)%"
+            return "\(PlatformInfo.Device.chargePercent)%"
         case .power:
-            return SFSystemInfo.Device.isLowPowerModeEnabled ? Generated.Text.Common.on : Generated.Text.Common.off
+            return PlatformInfo.Device.isLowPowerModeEnabled ? Generated.Text.Common.on : Generated.Text.Common.off
         }
     }
     

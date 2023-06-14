@@ -67,7 +67,7 @@ extension ContactCleanerTableMergeCell {
         mergeButton.setAction(action)
     }
     
-    func addContactsToMergeList(_ contacts: [SFContactModel]) {
+    func addContactsToMergeList(_ contacts: [ContactReplicaScannerViewType]) {
         
         contacts.forEach {
             let mergeContact = ContactCleanerContactNameAndPhoneView()

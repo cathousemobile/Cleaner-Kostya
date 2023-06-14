@@ -28,11 +28,11 @@ final class SecretContactsViewController: UIViewController {
     
     private var simpleDataSource: SecretContactDiffibleDataSource!
     
-    private var simpleContactsArray = [SFContactModel]() {
+    private var simpleContactsArray = [ContactReplicaScannerViewType]() {
         didSet { checkData() }
     }
     
-    private var simpleContactSearchArray = [SFContactModel]() {
+    private var simpleContactSearchArray = [ContactReplicaScannerViewType]() {
         didSet {
             if oldValue != simpleContactSearchArray { initDataAndSnap() }
         }
@@ -72,7 +72,7 @@ extension SecretContactsViewController {
     
     func checkAccess(_ successCompletion: @escaping EmptyBlock) {
         
-        SFContactFinder.shared.requestAccess {
+        ContactReplicaScanner.shared.requestAccess {
             successCompletion()
         } needShowDeniedAlert: { [weak self] in
             guard let self = self else { return }
@@ -220,9 +220,9 @@ extension SecretContactsViewController {
     
     func initSnapshot() {
         
-        var snapshot = NSDiffableDataSourceSnapshot<String, SFContactModel>()
+        var snapshot = NSDiffableDataSourceSnapshot<String, ContactReplicaScannerViewType>()
         
-        var dataArray = [SFContactModel]()
+        var dataArray = [ContactReplicaScannerViewType]()
         
         if isSearching {
             dataArray = simpleContactSearchArray
@@ -257,7 +257,7 @@ private extension SecretContactsViewController {
     func fetchMedia() {
         
         dispatchGroup.enter()
-        simpleContactsArray = SFContactStorage.shared.getAll()
+        simpleContactsArray = ContactManager.shared.getAll()
         dispatchGroup.leave()
         
         initDataAndSnap()
@@ -268,12 +268,12 @@ private extension SecretContactsViewController {
     
     func initNotifications() {
         
-        SFNotificationSystem.observe(event: .contactStorageUpdated) { [weak self] in
+        NotificationRelay.observe(event: .contactStorageUpdated) { [weak self] in
             guard let self = self else { return }
             self.fetchMedia()
         }
         
-        SFNotificationSystem.observe(event: .custom(name: "secretContactDeleted")) { [weak self] in
+        NotificationRelay.observe(event: .custom(name: "secretContactDeleted")) { [weak self] in
             guard let self = self else { return }
             self.simpleContactsArray = self.simpleDataSource.snapshot().itemIdentifiers
         }
@@ -288,9 +288,9 @@ private extension SecretContactsViewController {
     
     //MARK: - Contacts Actions
     
-    func simpleCellAction(_ contact: SFContactModel) {
+    func simpleCellAction(_ contact: ContactReplicaScannerViewType) {
         
-        if let contactVC = SFContactStorage.shared.getNativeContactController(for: contact) {
+        if let contactVC = ContactManager.shared.getNativeContactController(for: contact) {
             self.navigationController?.pushViewController(contactVC, animated: true)
         } else {
             SPAlert.present(title: "Error", preset: .error)
@@ -312,7 +312,7 @@ private extension SecretContactsViewController {
             
             var snap = self.simpleDataSource.snapshot()
             
-            if SFContactStorage.shared.delete(snap.itemIdentifiers) {
+            if ContactManager.shared.delete(snap.itemIdentifiers) {
                 
                 snap.deleteAllItems()
                 
@@ -342,7 +342,7 @@ private extension SecretContactsViewController {
             
             guard let self = self else { return }
             
-            let pickContactVC = SFContactStorage.shared.chooseFromNotebookController { newContact in
+            let pickContactVC = ContactManager.shared.chooseFromNotebookController { newContact in
                 self.saveContact(newContact)
             }
             
@@ -354,7 +354,7 @@ private extension SecretContactsViewController {
             
             guard let self = self else { return }
             
-            self.cnVC = SFContactStorage.shared.createContactController() { contactToSave in
+            self.cnVC = ContactManager.shared.createContactController() { contactToSave in
                 guard let contactToSave = contactToSave else { return }
                 self.saveContact(contactToSave)
                 self.cnVC.dismiss(animated: true)
@@ -373,9 +373,9 @@ private extension SecretContactsViewController {
         
     }
     
-    func saveContact(_ contactToSave: SFContactModel?) {
+    func saveContact(_ contactToSave: ContactReplicaScannerViewType?) {
         if let contactToSave = contactToSave {
-            if SFContactStorage.shared.save(contactToSave) {
+            if ContactManager.shared.save(contactToSave) {
                 SPAlert.present(title: Generated.Text.Common.save, preset: .done)
             } else {
                 SPAlert.present(title: "Error", preset: .error)

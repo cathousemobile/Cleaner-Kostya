@@ -43,7 +43,7 @@ final class SpeedTestViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        SFSpeedTest.stop()
+        RapidTester.stop()
     }
     
 }
@@ -57,18 +57,18 @@ private extension SpeedTestViewController {
         contentView.changeProgressStyle(.download)
         contentView.playAnimation()
         
-        SFSpeedTest.downloadSpeedUpdated = { [weak self] speed in
+        RapidTester.downloadSpeedUpdated = { [weak self] speed in
             guard let self = self else {
-                SFSpeedTest.resetData()
+                RapidTester.resetData()
                 return
             }
             self.contentView.setDownloadSpeed(String(format: "%.1f", speed.speedInMbps))
             self.contentView.updateCurrentSpeed(String(format: "%.1f", speed.speedInMbps))
         }
         
-        SFSpeedTest.uploadSpeedUpdated = { [weak self] speed in
+        RapidTester.uploadSpeedUpdated = { [weak self] speed in
             guard let self = self else {
-                SFSpeedTest.resetData()
+                RapidTester.resetData()
                 return
             }
             self.contentView.setUploadSpeed(String(format: "%.1f", speed.speedInMbps))
@@ -77,7 +77,7 @@ private extension SpeedTestViewController {
         
         contentView.speedTestButtonShouldBeEnabled(false)
         
-        SFSpeedTest.startFullTest(pauseBetweenTest: {
+        RapidTester.startFullTest(pauseBetweenTest: {
             self.contentView.changeProgressStyle(.upload)
             self.contentView.playAnimation()
         }, completion: { [weak self] in
@@ -107,7 +107,7 @@ private extension SpeedTestViewController {
     }
     
     func checkIsPremium() {
-        contentView.speedTestButtonShouldBeLocked(!SFPurchaseManager.shared.isUserPremium)
+        contentView.speedTestButtonShouldBeLocked(!CommerceManager.shared.isUserPremium)
     }
     
 }
@@ -126,7 +126,7 @@ private extension SpeedTestViewController {
         
         contentView.setSpeedTestButonAction { [weak self] in
             guard let self = self else { return }
-            SFPurchaseManager.shared.isUserPremium ? self.startSpeedTest() : self.routeToPaywall()
+            CommerceManager.shared.isUserPremium ? self.startSpeedTest() : self.routeToPaywall()
         }
         
     }

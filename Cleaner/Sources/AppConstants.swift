@@ -25,25 +25,10 @@ enum AppConstants {
     /// Название приложения
     static var appName = "App Name"
 
-    /// Секретный ключ приложения
-    static var hashSecret = "Ba8IvHSZ7D"
-    
-    /// Baundle приложения
-    static var bundle: String { "parusa.net.application" }
 
     /// ID Приложения
-    static var appID = "1635335229"
-    static var appsFlyerKey = "DWopqcnMAtXEKCfgesjrhm"
+    static var appID = "6449972613"
+    static var appsFlyerKey = "cvFB6nfCf9V3TcJ57WnPuX"
     static var apphudKey: String { "app_NxAkpYEsc7P23CZLfRKifgjH2xGBBk" }
-
-    static var appURL: URL {
-        URL(string: "https://apps.apple.com/app/id\(appID)")!
-    }
-
-    /// Ссылка на отзыв о приложении
-    static var review: URL {
-        return URL(string: "itms-apps://itunes.apple.com/app/id\(appID)?action=write-review")!
-    }
-    
 }
 

@@ -26,9 +26,9 @@ enum SystemInfoDisplayModel {
         var infoText: String {
             switch self {
             case .screenSize:
-                return String(format: "%.1f", SFSystemInfo.Screen.screenInch) + " inch"
+                return String(format: "%.1f", PlatformInfo.Screen.screenInch) + " inch"
             case .pixelDensity:
-                return String(format: "%.0f", SFSystemInfo.Screen.ppi) + " PPI"
+                return String(format: "%.0f", PlatformInfo.Screen.ppi) + " PPI"
             }
         }
         
@@ -51,9 +51,9 @@ enum SystemInfoDisplayModel {
         var infoText: String {
             switch self {
             case .vertical:
-                return String(format: "%.0f", SFSystemInfo.Screen.vertivalPixel) + " Pixels"
+                return String(format: "%.0f", PlatformInfo.Screen.vertivalPixel) + " Pixels"
             case .horizontal:
-                return String(format: "%.0f", SFSystemInfo.Screen.horizontalPixel) + " Pixels"
+                return String(format: "%.0f", PlatformInfo.Screen.horizontalPixel) + " Pixels"
             }
         }
         

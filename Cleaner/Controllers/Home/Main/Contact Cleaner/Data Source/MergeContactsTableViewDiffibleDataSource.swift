@@ -4,6 +4,6 @@
 
 import UIKit
 
-class MergeContactsTableViewDiffibleDataSource: UITableViewDiffableDataSource<String, [SFContactModel]> {
+class MergeContactsTableViewDiffibleDataSource: UITableViewDiffableDataSource<String, [ContactReplicaScannerViewType]> {
     
 }

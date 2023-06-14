@@ -18,7 +18,6 @@ final class PaywallViewController: UIViewController {
     
     private let paywallType: PaywallViewTypeModel
     
-    private let networkGroup = DispatchGroup()
     
     private lazy var fetchedProducts = [String]()
     private lazy var currentOfferId = AppConstants.Subscriptions.oneWeek.rawValue
@@ -43,7 +42,10 @@ final class PaywallViewController: UIViewController {
         super.viewDidLoad()
         fetchProducts()
         setupActions()
-        contentView.purchseButtonIsEnabled(false)
+        
+        NotificationRelay.observe(event: .didFetchProducts) { [weak self] in
+            self?.fetchProducts()
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -58,56 +60,53 @@ final class PaywallViewController: UIViewController {
 private extension PaywallViewController {
     
     func fetchProducts() {
+        guard CommerceManager.shared.products.count > 0 else {
+            purchaseInProgress(true)
+            return
+        }
         
-        networkGroup.enter()
-        fetchedProducts = SFPurchaseManager.shared.getIdsFor(paywallID: paywallType.rawValue)
+        fetchedProducts = CommerceManager.shared.getIdsFor(paywallID: paywallType.rawValue)
         if fetchedProducts.count < paywallType.defaultsOffers.count {
             fetchedProducts = paywallType.defaultsOffers
         }
-        networkGroup.leave()
+       
+        guard self.fetchedProducts.count > 0 else { return }
         
-        networkGroup.notify(queue: .main) { [weak self] in
-            guard let self = self else { return }
-            guard self.fetchedProducts.count > 0 else { return }
+        let fetchedOffers = self.fetchedProducts.compactMap { id -> PaywallOfferModel in
             
-            let fetchedOffers = self.fetchedProducts.compactMap { id -> PaywallOfferModel in
-                
-                let period = SFPurchaseManager.shared.subscribtionPeriodFor(productWithID: id)
-                let price = SFPurchaseManager.shared.priceFor(productWithID: id)
-                let isSelected = id == self.currentOfferId
-                let pricePerPeriod = self.paywallType == .rect ? price + "\n" + Generated.Text.Paywall.per + period : price + Generated.Text.Paywall.per + period
-                let offer = PaywallOfferModel(id: id, period: period, price: price, pricePerPeriod: pricePerPeriod, isSelected: isSelected)
-                return offer
-                
-            }
-            
-            if fetchedOffers.count > 0 {
-                
-                switch self.paywallType {
-                    
-                case .oval, .rect:
-                    guard let offers = self.contentView.getAllOffers() else { return }
-                    
-                    for (index, offerView) in offers.enumerated() {
-                        offerView.isSelected = fetchedOffers[index].isSelected
-                        offerView.setPeriod(fetchedOffers[index].period)
-                        offerView.setPrice(fetchedOffers[index].price)
-                        offerView.id = fetchedOffers[index].id
-                        offerView.setPricePerPeriod(fetchedOffers[index].pricePerPeriod)
-                        self.setActionsForOffer(offerView)
-                    }
-                    
-                    self.contentView.purchseButtonIsEnabled(true)
-                    
-                case .none:
-                    guard let offerId = fetchedOffers.first?.id else { return }
-                    self.contentView.purchseButtonIsEnabled(true)
-                    self.currentOfferId = offerId
-                }
-                
-            }
+            let period = CommerceManager.shared.subscribtionPeriodFor(productWithID: id)
+            let price = CommerceManager.shared.priceFor(productWithID: id)
+            let isSelected = id == self.currentOfferId
+            let pricePerPeriod = self.paywallType == .rect ? price + "\n" + Generated.Text.Paywall.per + period : price + Generated.Text.Paywall.per + period
+            let offer = PaywallOfferModel(id: id, period: period, price: price, pricePerPeriod: pricePerPeriod, isSelected: isSelected)
+            return offer
             
         }
+        
+        if fetchedOffers.count > 0 {
+            
+            switch self.paywallType {
+                
+            case .oval, .rect:
+                guard let offers = self.contentView.getAllOffers() else { return }
+                
+                for (index, offerView) in offers.enumerated() {
+                    offerView.isSelected = fetchedOffers[index].isSelected
+                    offerView.setPeriod(fetchedOffers[index].period)
+                    offerView.setPrice(fetchedOffers[index].price)
+                    offerView.id = fetchedOffers[index].id
+                    offerView.setPricePerPeriod(fetchedOffers[index].pricePerPeriod)
+                    self.setActionsForOffer(offerView)
+                }
+                
+            case .none:
+                guard let offerId = fetchedOffers.first?.id else { return }
+                self.currentOfferId = offerId
+            }
+            
+            purchaseInProgress(false)
+        }
+        
         
     }
     
@@ -126,9 +125,9 @@ private extension PaywallViewController {
     
     func checkTrial() {
         
-        let price = SFPurchaseManager.shared.priceFor(productWithID: currentOfferId)
-        let period = SFPurchaseManager.shared.subscribtionPeriodFor(productWithID: currentOfferId)
-        let trial = SFPurchaseManager.shared.trialPeriodFor(productWithID: currentOfferId)
+        let price = CommerceManager.shared.priceFor(productWithID: currentOfferId)
+        let period = CommerceManager.shared.subscribtionPeriodFor(productWithID: currentOfferId)
+        let trial = CommerceManager.shared.trialPeriodFor(productWithID: currentOfferId)
         
         if let trial = trial {
             contentView.setPurchaseButtonTitle(Generated.Text.Common.continue + " " + Generated.Text.Paywall.trial(trial, price, period))
@@ -162,7 +161,7 @@ private extension PaywallViewController {
             
             self.purchaseInProgress(true)
             
-            SFPurchaseManager.shared.restorePurchases { isCompleted in
+            CommerceManager.shared.restorePurchases { isCompleted in
                 if isCompleted {
                     self.purchaseInProgress(false)
                     SPAlert.present(title: "", preset: .done) {
@@ -186,7 +185,7 @@ private extension PaywallViewController {
             
             self.purchaseInProgress(true)
             
-            SFPurchaseManager.shared.purchaseProduct(id: self.currentOfferId, paywallID: self.paywallType.rawValue) {
+            CommerceManager.shared.purchaseProduct(id: self.currentOfferId, paywallID: self.paywallType.rawValue) {
                 
                 self.purchaseInProgress(false)
                 SPAlert.present(title: "", preset: .done) {

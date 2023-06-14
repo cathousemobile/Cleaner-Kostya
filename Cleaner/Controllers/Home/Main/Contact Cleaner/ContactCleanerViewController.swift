@@ -57,17 +57,17 @@ final class ContactCleanerViewController: UIViewController {
     private var simpleDataSource: SimpleContactsTableViewDiffibleDataSource!
     private var mergeDataSource: MergeContactsTableViewDiffibleDataSource!
     
-    private var simpleContactsArray = [[SFContactModel]]()
+    private var simpleContactsArray = [[ContactReplicaScannerViewType]]()
     
-    private var currentMergeContactsDictionary = [SFContactModel : [SFContactModel]]()
+    private var currentMergeContactsDictionary = [ContactReplicaScannerViewType : [ContactReplicaScannerViewType]]()
     
-    private var simpleContactSearchArray = [[SFContactModel]]() {
+    private var simpleContactSearchArray = [[ContactReplicaScannerViewType]]() {
         didSet {
             if oldValue != simpleContactSearchArray { initDataAndSnap() }
         }
     }
     
-    private var mergeContactsSearchDictionary = [SFContactModel : [SFContactModel]]() {
+    private var mergeContactsSearchDictionary = [ContactReplicaScannerViewType : [ContactReplicaScannerViewType]]() {
         didSet {
             if oldValue != mergeContactsSearchDictionary { initDataAndSnap() }
         }
@@ -108,7 +108,7 @@ extension ContactCleanerViewController {
     
     func checkAccess() {
         
-        SFContactFinder.shared.requestAccess { [weak self] in
+        ContactReplicaScanner.shared.requestAccess { [weak self] in
             guard let self = self else { return }
             self.dataArrayType = .allContacts
             self.wasCheked = true
@@ -281,9 +281,9 @@ extension ContactCleanerViewController {
             
         case .simple:
             
-            var snapshot = NSDiffableDataSourceSnapshot<String, SFContactModel>()
+            var snapshot = NSDiffableDataSourceSnapshot<String, ContactReplicaScannerViewType>()
             
-            var dataArray = [SFContactModel]()
+            var dataArray = [ContactReplicaScannerViewType]()
             
             if isSearching {
                 dataArray = simpleContactSearchArray.reduce([], +)
@@ -309,9 +309,9 @@ extension ContactCleanerViewController {
             
         case .merge:
             
-            var snapshot = NSDiffableDataSourceSnapshot<String, [SFContactModel]>()
+            var snapshot = NSDiffableDataSourceSnapshot<String, [ContactReplicaScannerViewType]>()
             
-            var dataArray = [[SFContactModel]]()
+            var dataArray = [[ContactReplicaScannerViewType]]()
             
             if isSearching {
                 for (key, value) in mergeContactsSearchDictionary {
@@ -365,7 +365,7 @@ private extension ContactCleanerViewController {
     
     func fetchMedia() {
         
-        if SFContactFinder.shared.inProcess { return }
+        if ContactReplicaScanner.shared.inProcess { return }
         
         guard let dataArrayType = dataArrayType else { return }
 
@@ -374,24 +374,24 @@ private extension ContactCleanerViewController {
         switch dataArrayType {
             
         case .allContacts:
-            fetchAllContacts(SFContactFinder.shared.getAll)
+            fetchAllContacts(ContactReplicaScanner.shared.getAll)
         case .allDuplicates:
-            fetchDuplicateContent(SFContactFinder.shared.getFullDuplicates)
+            fetchDuplicateContent(ContactReplicaScanner.shared.getFullDuplicates)
         case .mergeNames:
-            fetchMergeContent(SFContactFinder.shared.getNameDuplicates)
+            fetchMergeContent(ContactReplicaScanner.shared.getNameDuplicates)
         case .mergePhones:
-            fetchMergeContent(SFContactFinder.shared.getPhoneDuplicates)
+            fetchMergeContent(ContactReplicaScanner.shared.getPhoneDuplicates)
         case .noName:
-            fetchAllContacts(SFContactFinder.shared.getWithoutName)
+            fetchAllContacts(ContactReplicaScanner.shared.getWithoutName)
         case .noPhones:
-            fetchAllContacts(SFContactFinder.shared.getWithoutPhone)
+            fetchAllContacts(ContactReplicaScanner.shared.getWithoutPhone)
         }
         
         dispatchGroup.leave()
         
     }
     
-    func fetchAllContacts(_ fetchFunc: () throws -> [SFContactModel]) {
+    func fetchAllContacts(_ fetchFunc: () throws -> [ContactReplicaScannerViewType]) {
         
         do {
             
@@ -416,7 +416,7 @@ private extension ContactCleanerViewController {
         
     }
     
-    func fetchDuplicateContent(_ fetchFunc: () throws -> [[SFContactModel]]) {
+    func fetchDuplicateContent(_ fetchFunc: () throws -> [[ContactReplicaScannerViewType]]) {
         
         do {
             
@@ -439,7 +439,7 @@ private extension ContactCleanerViewController {
         
     }
     
-    func fetchMergeContent(_ fetchFunc: () throws -> [SFContactModel : [SFContactModel]]) {
+    func fetchMergeContent(_ fetchFunc: () throws -> [ContactReplicaScannerViewType : [ContactReplicaScannerViewType]]) {
         
         do {
             
@@ -466,7 +466,7 @@ private extension ContactCleanerViewController {
     
     func initNotifications() {
         
-        SFNotificationSystem.observe(event: .contactFinderUpdated) { [weak self] in
+        NotificationRelay.observe(event: .contactFinderUpdated) { [weak self] in
             guard let self = self else { return }
             self.fetchMedia()
         }
@@ -502,10 +502,10 @@ private extension ContactCleanerViewController {
     
     //MARK: - Contacts Actions
     
-    func simpleCellAction(_ contact: SFContactModel) {
+    func simpleCellAction(_ contact: ContactReplicaScannerViewType) {
         
         do {
-            let contactVC = try SFContactFinder.shared.getNativeContactController(for: contact, allowEditing: false)
+            let contactVC = try ContactReplicaScanner.shared.getNativeContactController(for: contact, allowEditing: false)
             self.navigationController?.pushViewController(contactVC, animated: true)
         } catch {
             return
@@ -513,19 +513,19 @@ private extension ContactCleanerViewController {
         
     }
     
-    func mergeCellAction(_ contacts: [SFContactModel]) {
+    func mergeCellAction(_ contacts: [ContactReplicaScannerViewType]) {
         guard let contact = contacts.first else { return }
         
-        if SFContactFinder.shared.inProcess {
+        if ContactReplicaScanner.shared.inProcess {
             SPAlert.present(message: Generated.Text.Common.inProcess, haptic: .warning)
             return
         }
         
         do {
             if dataArrayType == .allDuplicates {
-                try SFContactFinder.shared.deleteContacts(contacts.filter({ $0 != contact }))
+                try ContactReplicaScanner.shared.deleteContacts(contacts.filter({ $0 != contact }))
             } else {
-                try SFContactFinder.shared.saveMergeContactAndDeleteOthers(contact)
+                try ContactReplicaScanner.shared.saveMergeContactAndDeleteOthers(contact)
             }
             var snap = self.mergeDataSource.snapshot()
             snap.deleteItems([contacts])
@@ -541,7 +541,7 @@ private extension ContactCleanerViewController {
     
     @objc func clearAllAction() {
         
-        if SFContactFinder.shared.inProcess {
+        if ContactReplicaScanner.shared.inProcess {
             SPAlert.present(message: Generated.Text.Common.inProcess, haptic: .warning)
             return
         }
@@ -577,7 +577,7 @@ private extension ContactCleanerViewController {
             
             guard let self = self else { return }
             
-            if !SFPurchaseManager.shared.isUserPremium {
+            if !CommerceManager.shared.isUserPremium {
                 self.routeToPaywall()
                 return
             }
@@ -588,7 +588,7 @@ private extension ContactCleanerViewController {
                 do {
                     var snap = self.simpleDataSource.snapshot()
                     
-                    try SFContactFinder.shared.deleteContacts(snap.itemIdentifiers)
+                    try ContactReplicaScanner.shared.deleteContacts(snap.itemIdentifiers)
                     
                     snap.deleteAllItems()
                     
@@ -596,7 +596,7 @@ private extension ContactCleanerViewController {
                     self.simpleDataSource.apply(snap)
                     
                     SPAlert.present(title: alertStringData[2], preset: .done)
-                    SFNotificationSystem.send(event: .custom(name: "contactDeleted"))
+                    NotificationRelay.send(event: .custom(name: "contactDeleted"))
                     
                 } catch {
                     SPAlert.present(title: error.localizedDescription, preset: .error)
@@ -610,9 +610,9 @@ private extension ContactCleanerViewController {
                     let contactsToMergeArray = snap.itemIdentifiers.compactMap({$0.first})
                     
                     if self.dataArrayType == .allDuplicates {
-                        try SFContactFinder.shared.deleteContacts(snap.itemIdentifiers.reduce([], +).filter({ !contactsToMergeArray.contains($0) }))
+                        try ContactReplicaScanner.shared.deleteContacts(snap.itemIdentifiers.reduce([], +).filter({ !contactsToMergeArray.contains($0) }))
                     } else {
-                        try SFContactFinder.shared.saveMergeContactsAndDeleteOthers(contactsToMergeArray)
+                        try ContactReplicaScanner.shared.saveMergeContactsAndDeleteOthers(contactsToMergeArray)
                     }
 
                     snap.deleteAllItems()
@@ -621,7 +621,7 @@ private extension ContactCleanerViewController {
                     self.mergeDataSource.apply(snap)
 
                     SPAlert.present(title: alertStringData[2], preset: .done)
-                    SFNotificationSystem.send(event: .custom(name: "contactDeleted"))
+                    NotificationRelay.send(event: .custom(name: "contactDeleted"))
 
                 } catch {
                     SPAlert.present(title: error.localizedDescription, preset: .error)
@@ -676,7 +676,7 @@ private extension ContactCleanerViewController {
     
     func tagAction(_ tableCellType: TableCellType, _ dataArrayType: ContactsArrayType, _ tagName: String) {
         
-        if SFContactFinder.shared.inProcess {
+        if ContactReplicaScanner.shared.inProcess {
             SPAlert.present(message: Generated.Text.Common.inProcess, haptic: .warning)
             return
         }

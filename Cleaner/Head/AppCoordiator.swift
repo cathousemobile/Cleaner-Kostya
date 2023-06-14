@@ -167,7 +167,7 @@ extension AppCoordiator {
             return PaywallViewController(paywallType: type)
         }
         
-        let paywalls = SFPurchaseManager.shared.paywalls.filter {
+        let paywalls = CommerceManager.shared.paywalls.filter {
             ($0.value.json?["isVisible"] as? Bool) == true
         }
         

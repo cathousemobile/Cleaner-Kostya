@@ -22,7 +22,7 @@ enum SystemInfoNetworkModel: String, CaseIterable {
         }
     }
     
-    func infoText(_ networkInfo: SFSystemInfo.Network.Info?) -> String {
+    func infoText(_ networkInfo: PlatformInfo.Network.Info?) -> String {
         
         switch self {
         case .ipAdress:

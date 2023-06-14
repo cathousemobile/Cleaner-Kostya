@@ -28,7 +28,7 @@ final class SecretGalleryViewController: UIViewController {
     
     private var dataSource: SecretGalleryDiffibleDataSource!
     
-    private var currentContentArray: [SFGalleryStorageAsset] = [SFGalleryStorageAsset]() {
+    private var currentContentArray: [GalleryHandlerAsset] = [GalleryHandlerAsset]() {
         didSet {
             initDataSource()
             initSnapshot()
@@ -87,7 +87,7 @@ extension SecretGalleryViewController {
     }
     
     func checkAccess() {
-        SFGalleryFinder.shared.requestAccess(fullAccessGranted: fullAccess, limitedAccessGranted: limitedAccess, needShowDeniedAlert: deniedAccess)
+        MatchedImageFinder.shared.requestAccess(fullAccessGranted: fullAccess, limitedAccessGranted: limitedAccess, needShowDeniedAlert: deniedAccess)
     }
     
     func initGallery() {
@@ -222,7 +222,7 @@ extension SecretGalleryViewController {
     
     func initSnapshot() {
         
-        var snapshot = NSDiffableDataSourceSnapshot<Int, SFGalleryStorageAsset>()
+        var snapshot = NSDiffableDataSourceSnapshot<Int, GalleryHandlerAsset>()
         
         snapshot.appendSections([0])
         
@@ -244,7 +244,7 @@ private extension SecretGalleryViewController {
     
     func fetchMedia() {
         updateDispatchGroup.enter()
-        currentContentArray = SFGalleryStorage.shared.getAll().removedDuplicates()
+        currentContentArray = GalleryHandler.shared.getAll().removedDuplicates()
     }
     
     // MARK: - NavigationBar Handlers
@@ -291,9 +291,9 @@ private extension SecretGalleryViewController {
     
     func addMediaToSecretFolder() {
         
-       imagePickerVC = SFGalleryStorage.shared.chooseFromGalleryController(allowMultiplySelection: true) { [weak self] vc, assets in
+       imagePickerVC = GalleryHandler.shared.chooseFromGalleryController(allowMultiplySelection: true) { [weak self] vc, assets in
            guard let self = self else { return }
-           SFGalleryStorage.shared.save(assets)
+           GalleryHandler.shared.save(assets)
            self.imagePickerVC.dismiss(animated: true)
         }
         
@@ -303,8 +303,8 @@ private extension SecretGalleryViewController {
     
     // MARK: - Delete Handler
     
-    func deleteMediaFromSecretFolder(_ assetsArray: [SFGalleryStorageAsset]) {
-        if SFGalleryStorage.shared.delete(assetsArray) {
+    func deleteMediaFromSecretFolder(_ assetsArray: [GalleryHandlerAsset]) {
+        if GalleryHandler.shared.delete(assetsArray) {
             dataSource.removeSelectedItems()
             SPAlert.present(title: Generated.Text.Common.deleted, preset: .done)
         } else {
@@ -356,7 +356,7 @@ private extension SecretGalleryViewController {
     
     func subscribeToNotifications() {
         
-        SFNotificationSystem.observe(event: .galleryStorageUpdated) { [weak self] in
+        NotificationRelay.observe(event: .galleryStorageUpdated) { [weak self] in
             guard let self = self else { return }
             
             self.fetchMedia()

@@ -5,13 +5,13 @@
 import UIKit
 import Photos
 
-final class SecretGalleryDiffibleDataSource: UICollectionViewDiffableDataSource<Int, SFGalleryStorageAsset> {
+final class SecretGalleryDiffibleDataSource: UICollectionViewDiffableDataSource<Int, GalleryHandlerAsset> {
     
     // MARK: - Public Properties
     
     var contentView: SecretGalleryView? = nil
     
-    var selectedItemsSet = Set<SFGalleryStorageAsset>()
+    var selectedItemsSet = Set<GalleryHandlerAsset>()
     
 }
 

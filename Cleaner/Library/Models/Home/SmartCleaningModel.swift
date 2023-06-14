@@ -17,17 +17,17 @@ enum SmartCleaningModel: String, CaseIterable {
     func deleteContent() {
         switch self {
         case .screenshots:
-            SFGalleryFinder.shared.smartDeleting(types: [.allScreenshots])
+            MatchedImageFinder.shared.smartDeleting(types: [.allScreenshots])
 
         case .similarPhotos:
-            SFGalleryFinder.shared.smartDeleting(types: [.photoDuplicates])
+            MatchedImageFinder.shared.smartDeleting(types: [.photoDuplicates])
 
         case .similarVideos:
-            SFGalleryFinder.shared.smartDeleting(types: [.videoDuplicates])
+            MatchedImageFinder.shared.smartDeleting(types: [.videoDuplicates])
 
         case .duplicateContacts:
             do {
-                try SFContactFinder.shared.smartDeleting(type: .fullDuplicates)
+                try ContactReplicaScanner.shared.smartDeleting(type: .fullDuplicates)
             } catch {
                 SPAlert.present(message: "Error", haptic: .error)
             }
@@ -89,9 +89,9 @@ enum SmartCleaningModel: String, CaseIterable {
         switch self {
             
         case .screenshots, .similarPhotos, .similarVideos:
-            return SFGalleryFinder.shared.checkAccess()
+            return MatchedImageFinder.shared.checkAccess()
         case .duplicateContacts:
-            return SFContactFinder.shared.checkAccess()
+            return ContactReplicaScanner.shared.checkAccess()
         }
         
     }
@@ -101,13 +101,13 @@ enum SmartCleaningModel: String, CaseIterable {
         switch self {
         
         case .screenshots:
-            return SFByteFormatter(bytes: SFGalleryFinder.shared.getSizeOf(.allScreenshots)).prettyFormat().formatted
+            return BinaryFormatter(bytes: MatchedImageFinder.shared.getSizeOf(.allScreenshots)).prettyFormat().formatted
         case .similarPhotos:
-            return SFByteFormatter(bytes: SFGalleryFinder.shared.getSizeOf(.photoDuplicates)).prettyFormat().formatted
+            return BinaryFormatter(bytes: MatchedImageFinder.shared.getSizeOf(.photoDuplicates)).prettyFormat().formatted
         case .similarVideos:
-            return SFByteFormatter(bytes: SFGalleryFinder.shared.getSizeOf(.videoDuplicates)).prettyFormat().formatted
+            return BinaryFormatter(bytes: MatchedImageFinder.shared.getSizeOf(.videoDuplicates)).prettyFormat().formatted
         case .duplicateContacts:
-            return SFByteFormatter(bytes: SFContactFinder.shared.getSizeOf(.fullDuplicates)).prettyFormat().formatted
+            return BinaryFormatter(bytes: ContactReplicaScanner.shared.getSizeOf(.fullDuplicates)).prettyFormat().formatted
             
         }
 

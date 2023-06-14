@@ -131,9 +131,12 @@ private extension OnboardingViewController {
             Task {
                 if #available(iOS 14, *) {
                     let _ = await ATTrackingManager.requestTrackingAuthorization()
+                    contentView.setupDataWithAnimation(data, animationDirection: .fromRight)
+                    contentView.setStep(contentView.getSlideStep() + 1)
+                } else {
+                    contentView.setupDataWithAnimation(data, animationDirection: .fromRight)
+                    contentView.setStep(contentView.getSlideStep() + 1)
                 }
-                contentView.setupDataWithAnimation(data, animationDirection: .fromRight)
-                contentView.setStep(contentView.getSlideStep() + 1)
             }
         }
     }

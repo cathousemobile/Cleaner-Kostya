@@ -69,7 +69,7 @@ final class SmartCleaningViewController: UIViewController {
 private extension SmartCleaningViewController {
     
     func checkContactsSize() {
-        if !SFContactFinder.shared.inProcess {
+        if !ContactReplicaScanner.shared.inProcess {
             allSizeMethods()
             contentView.hideSpinViewInContactCell(true)
         } else {
@@ -78,7 +78,7 @@ private extension SmartCleaningViewController {
     }
     
     func checkGallerySize() {
-        if !SFGalleryFinder.shared.inProcess {
+        if !MatchedImageFinder.shared.inProcess {
             allSizeMethods()
             contentView.hideSpinViewInAllGalleryCells(true)
         } else {
@@ -96,7 +96,7 @@ private extension SmartCleaningViewController {
     }
     
     func setDeviceName() {
-        contentView.setDeviceName(SFSystemInfo.Device.deviceName ?? "Unknown")
+        contentView.setDeviceName(PlatformInfo.Device.deviceName ?? "Unknown")
     }
     
     func checkCalculating() {
@@ -108,7 +108,7 @@ private extension SmartCleaningViewController {
     }
     
     func checkIsPremium() {
-        contentView.changeCleaningButtonState(!SFPurchaseManager.shared.isUserPremium)
+        contentView.changeCleaningButtonState(!CommerceManager.shared.isUserPremium)
     }
     
 }
@@ -125,7 +125,7 @@ private extension SmartCleaningViewController {
     
     func subscribeToNotifications() {
         
-        SFNotificationSystem.observe(event: .contactFinderUpdated) { [weak self] in
+        NotificationRelay.observe(event: .contactFinderUpdated) { [weak self] in
             guard let self = self else { return }
             
             if self.contactsDeletingInProcess {
@@ -149,7 +149,7 @@ private extension SmartCleaningViewController {
             
         }
         
-        SFNotificationSystem.observe(event: .galleryFinderUpdated) { [weak self] in
+        NotificationRelay.observe(event: .galleryFinderUpdated) { [weak self] in
             guard let self = self else { return }
             
             if self.galleryDeletingInProcess {
@@ -189,7 +189,7 @@ private extension SmartCleaningViewController {
         contentView.setCleaningButtonAction { [weak self] in
             guard let self = self else { return }
             
-            if !SFPurchaseManager.shared.isUserPremium {
+            if !CommerceManager.shared.isUserPremium {
                 self.routeToPaywall()
                 return
             }
@@ -202,7 +202,7 @@ private extension SmartCleaningViewController {
     
     func deleteContent() {
         
-        if SFContactFinder.shared.inProcess || SFGalleryFinder.shared.inProcess {
+        if ContactReplicaScanner.shared.inProcess || MatchedImageFinder.shared.inProcess {
             SPAlert.present(message: Generated.Text.Common.inProcess, haptic: .warning)
             return
         }

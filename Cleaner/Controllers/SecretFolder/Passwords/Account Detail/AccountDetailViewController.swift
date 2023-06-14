@@ -23,7 +23,7 @@ final class AccountDetailViewController: UIViewController {
         }
     }
     
-    private let accountData: SFAccountModel
+    private let accountData: ProfileStorageType
     
     private var link: String
     private var account: String
@@ -33,7 +33,7 @@ final class AccountDetailViewController: UIViewController {
     
     // MARK: - Life cycle
     
-    init(accountData: SFAccountModel) {
+    init(accountData: ProfileStorageType) {
         self.accountData = accountData
         self.password = accountData.passwordInfo.passwod
         self.link = accountData.link ?? ""
@@ -80,8 +80,8 @@ private extension AccountDetailViewController {
         
         let deleteAction = UIAlertAction(title: Generated.Text.Common.delete, style: .destructive) { [weak self] _ in
             guard let self = self else { return }
-            if SFAccountStorage.shared.delete(self.accountData) {
-                SFNotificationSystem.send(event: .accountStorageUpdated)
+            if ProfileStorage.shared.delete(self.accountData) {
+                NotificationRelay.send(event: .accountStorageUpdated)
                 SPAlert.present(title: Generated.Text.MyPasswords.acccountDeleted, preset: .done)
                 self.dismiss(animated: true)
             } else {
@@ -125,9 +125,9 @@ private extension AccountDetailViewController {
     }
     
     @objc func saveAction() {
-        if SFAccountStorage.shared.delete(accountData) {
-            let newAccountModel = SFAccountModel(link: link, title: account, login: login, passwordInfo: accountData.passwordInfo)
-            SFAccountStorage.shared.save(newAccountModel)
+        if ProfileStorage.shared.delete(accountData) {
+            let newAccountModel = ProfileStorageType(link: link, title: account, login: login, passwordInfo: accountData.passwordInfo)
+            ProfileStorage.shared.save(newAccountModel)
             SPAlert.present(title: Generated.Text.MyPasswords.acccountChanged, preset: .done)
             self.dismiss(animated: true)
         } else {
@@ -149,7 +149,7 @@ private extension AccountDetailViewController {
     
     func subscribeToNotifications() {
         
-        SFNotificationSystem.observe(event: .custom(name: "someTextFieldDidEndEditing")) { [weak self] in
+        NotificationRelay.observe(event: .custom(name: "someTextFieldDidEndEditing")) { [weak self] in
             guard let self = self else { return }
             
             if !self.contentView.getChangedFields().isEmpty {

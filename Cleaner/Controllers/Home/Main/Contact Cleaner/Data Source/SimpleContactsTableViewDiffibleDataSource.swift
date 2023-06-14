@@ -4,11 +4,11 @@
 
 import UIKit
 
-class SimpleContactsTableViewDiffibleDataSource: UITableViewDiffableDataSource<String, SFContactModel> {
+class SimpleContactsTableViewDiffibleDataSource: UITableViewDiffableDataSource<String, ContactReplicaScannerViewType> {
     
-    var lastDeletedItem: SFContactModel? {
+    var lastDeletedItem: ContactReplicaScannerViewType? {
         didSet {
-            SFNotificationSystem.send(event: .custom(name: "contactDeleted"))
+            NotificationRelay.send(event: .custom(name: "contactDeleted"))
         }
     }
     
@@ -35,7 +35,7 @@ class SimpleContactsTableViewDiffibleDataSource: UITableViewDiffableDataSource<S
         if let id = self.itemIdentifier(for: indexPath) {
             
             do {
-                try SFContactFinder.shared.deleteContacts([id])
+                try ContactReplicaScanner.shared.deleteContacts([id])
                 var snap = self.snapshot()
                 snap.deleteWithSections([id])
                 self.apply(snap)

@@ -16,7 +16,7 @@ final class CreateAccountCellView: BaseView {
     
     private var isChanged = false {
         didSet {
-            SFNotificationSystem.send(event: .custom(name: "someTextFieldDidEndEditing"))
+            NotificationRelay.send(event: .custom(name: "someTextFieldDidEndEditing"))
         }
     }
     

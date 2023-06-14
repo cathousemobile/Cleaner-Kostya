@@ -50,7 +50,7 @@ final class AccountCellView: UIView {
 
 extension AccountCellView {
     
-    func setAccountData(_ data: SFAccountModel) {
+    func setAccountData(_ data: ProfileStorageType) {
         DispatchQueue.main.async {
             self.accountLink.text = data.link
             self.accountPassword.text = data.passwordInfo.passwod

@@ -30,7 +30,7 @@ final class AccountDetailView: UIView {
     
     // MARK: - Lifecycle
     
-    init(frame: CGRect = .zero, accountData: SFAccountModel) {
+    init(frame: CGRect = .zero, accountData: ProfileStorageType) {
         super.init(frame: frame)
         linkCell.setTextfieldText(accountData.link ?? "")
         accountCell.setTextfieldText(accountData.title ?? "")

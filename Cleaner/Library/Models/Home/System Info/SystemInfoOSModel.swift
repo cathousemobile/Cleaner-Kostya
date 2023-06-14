@@ -28,7 +28,7 @@ enum SystemInfoOSModel {
             case .os:
                 return "iOS"
             case .version:
-                return SFSystemInfo.Device.osVersion ?? "Unknown"
+                return PlatformInfo.Device.osVersion ?? "Unknown"
             }
         }
         
@@ -48,7 +48,7 @@ enum SystemInfoOSModel {
         var infoText: String {
             switch self {
             case .activeTime:
-                return SFSystemInfo.Device.systemUptime.stringFromTimeInterval()
+                return PlatformInfo.Device.systemUptime.stringFromTimeInterval()
             }
         }
         

@@ -4,11 +4,11 @@
 
 import UIKit
 
-class SecretContactDiffibleDataSource: UITableViewDiffableDataSource<String, SFContactModel> {
+class SecretContactDiffibleDataSource: UITableViewDiffableDataSource<String, ContactReplicaScannerViewType> {
     
-    var lastDeletedItem: SFContactModel? {
+    var lastDeletedItem: ContactReplicaScannerViewType? {
         didSet {
-            SFNotificationSystem.send(event: .custom(name: "secretContactDeleted"))
+            NotificationRelay.send(event: .custom(name: "secretContactDeleted"))
         }
     }
     
@@ -32,7 +32,7 @@ class SecretContactDiffibleDataSource: UITableViewDiffableDataSource<String, SFC
         
         guard editingStyle == .delete else { return }
         
-        if let id = self.itemIdentifier(for: indexPath), SFContactStorage.shared.delete(id) {
+        if let id = self.itemIdentifier(for: indexPath), ContactManager.shared.delete(id) {
             var snap = self.snapshot()
             snap.deleteWithSections([id])
             self.apply(snap)

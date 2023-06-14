@@ -30,7 +30,7 @@ public enum LocaleStorage {
         set {
             if newValue != secretIsAuthenticated {
                 UserDefaults.standard.setValue(newValue, forKey: Router.secretIsAuthenticated)
-                SFNotificationSystem.send(event: .custom(name: "secretAuthenticatedDidChange"))
+                NotificationRelay.send(event: .custom(name: "secretAuthenticatedDidChange"))
             }
         }
 

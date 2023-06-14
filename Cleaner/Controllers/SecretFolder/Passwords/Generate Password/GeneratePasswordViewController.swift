@@ -18,7 +18,7 @@ final class GeneratePasswordViewController: UIViewController {
     
     // MARK: - Private Proporties
     
-    private var generatedPasswordModel: SFPasswordModel?
+    private var generatedPasswordModel: AuthenticatorType?
     
     private var passwordDidGenerate: Bool = false {
         didSet {
@@ -169,7 +169,7 @@ private extension GeneratePasswordViewController {
         if passwordAttributes.allSatisfy({!$0}) {
             SPAlert.present(title: Generated.Text.MyPasswords.chooseAttribute, preset: .error)
         } else {
-            generatedPasswordModel = SFPasswordGenerator.shared.generatePassword(includeNumbers: passwordAttributes[0], includeLetters: passwordAttributes[1], includeSymbols: passwordAttributes[2], length: passwordLenth)
+            generatedPasswordModel = Authenticator.shared.generatePassword(includeNumbers: passwordAttributes[0], includeLetters: passwordAttributes[1], includeSymbols: passwordAttributes[2], length: passwordLenth)
             
             guard let generatedPasswordModel = generatedPasswordModel else { return }
             

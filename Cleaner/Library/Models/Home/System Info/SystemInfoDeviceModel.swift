@@ -32,11 +32,11 @@ enum SystemInfoDeviceModel {
         var infoText: String {
             switch self {
             case .device:
-                return SFSystemInfo.Device.deviceName ?? "No info"
+                return PlatformInfo.Device.deviceName ?? "No info"
             case .deviceID:
-                return SFSystemInfo.Device.deviceID ?? "No info"
+                return PlatformInfo.Device.deviceID ?? "No info"
             case .os:
-                return SFSystemInfo.Device.osVersion ?? "No info"
+                return PlatformInfo.Device.osVersion ?? "No info"
             }
         }
         
@@ -68,13 +68,13 @@ enum SystemInfoDeviceModel {
         var infoText: String {
             switch self {
             case .model:
-                return SFSystemInfo.Device.deviceName ?? "No info"
+                return PlatformInfo.Device.deviceName ?? "No info"
             case .ios:
-                return SFSystemInfo.Device.osVersion ?? "No info"
+                return PlatformInfo.Device.osVersion ?? "No info"
             case .display:
-                return String(format: "%.1f", SFSystemInfo.Screen.screenInch) + " inch"
+                return String(format: "%.1f", PlatformInfo.Screen.screenInch) + " inch"
             case .battery:
-                return "\(SFSystemInfo.Device.chargePercent)%"
+                return "\(PlatformInfo.Device.chargePercent)%"
             }
         }
         

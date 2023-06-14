@@ -15,11 +15,11 @@ final class CreateAccountViewController: UIViewController {
     
     // MARK: - Private Proporties
     
-    let passwordData: SFPasswordModel
+    let passwordData: AuthenticatorType
     
     // MARK: - Life cycle
     
-    init(passwordData: SFPasswordModel) {
+    init(passwordData: AuthenticatorType) {
         self.passwordData = passwordData
         self.contentView = CreateAccountView(passwordData: passwordData)
         super.init(nibName: nil, bundle: nil)
@@ -68,7 +68,7 @@ private extension CreateAccountViewController {
         contentView.setCreateAccountAction { [weak self] in
             guard let self = self else { return }
             let accountDataModel = self.contentView.getAccountData()
-            SFAccountStorage.shared.save(SFAccountModel(link: accountDataModel.link, title: accountDataModel.account, login: accountDataModel.login, passwordInfo: self.passwordData))
+            ProfileStorage.shared.save(ProfileStorageType(link: accountDataModel.link, title: accountDataModel.account, login: accountDataModel.login, passwordInfo: self.passwordData))
             SPAlert.present(title: "Account Created", preset: .done)
             self.dismiss(animated: true)
         }

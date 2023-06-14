@@ -59,7 +59,7 @@ private extension NetworkViewController {
     
     func initStacks() {
         
-        SFSystemInfo.Network.get { [weak self] networkInfo in
+        PlatformInfo.Network.get { [weak self] networkInfo in
             guard let self = self else { return }
             
             DispatchQueue.main.async {

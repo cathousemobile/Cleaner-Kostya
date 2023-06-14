@@ -112,7 +112,7 @@ extension GalleryCleanerViewController {
         
         wasChecked = true
         
-        if SFGalleryFinder.shared.inProcess {
+        if MatchedImageFinder.shared.inProcess {
             DispatchQueue.main.async {
                 SPAlert.present(message: Generated.Text.Common.inProcess, haptic: .warning)
             }
@@ -135,7 +135,7 @@ extension GalleryCleanerViewController {
     }
     
     func checkAccess() {
-        SFGalleryFinder.shared.requestAccess(fullAccessGranted: fullAccess, limitedAccessGranted: limitedAccess, needShowDeniedAlert: deniedAccess)
+        MatchedImageFinder.shared.requestAccess(fullAccessGranted: fullAccess, limitedAccessGranted: limitedAccess, needShowDeniedAlert: deniedAccess)
     }
     
     func initGallery() {
@@ -322,7 +322,7 @@ extension GalleryCleanerViewController {
                 cell.phAsset = itemIdentifier
                 
                 DispatchQueue.main.async {
-                    SFGalleryFinder.shared.fetchImage(for: itemIdentifier) { cell.setImage($0) }
+                    MatchedImageFinder.shared.fetchImage(for: itemIdentifier) { cell.setImage($0) }
                 }
                 
                 cell.setTapAction { [weak self] in
@@ -356,7 +356,7 @@ extension GalleryCleanerViewController {
                 cell.setLongPressAction { [weak self] in
                     guard let self = self else { return }
                     
-                    SFGalleryFinder.shared.fetchVideoURLAsset(for: itemIdentifier) { avAsset in
+                    MatchedImageFinder.shared.fetchVideoURLAsset(for: itemIdentifier) { avAsset in
                         if let avAsset = avAsset {
                             self.avAsset = avAsset
                         } else {
@@ -384,7 +384,7 @@ extension GalleryCleanerViewController {
                 cell.phAsset = itemIdentifier
                 
                 DispatchQueue.main.async {
-                    SFGalleryFinder.shared.fetchImage(for: itemIdentifier) { cell.setImage($0) }
+                    MatchedImageFinder.shared.fetchImage(for: itemIdentifier) { cell.setImage($0) }
                 }
                 
                 cell.setTapAction { [weak self] in
@@ -427,7 +427,7 @@ extension GalleryCleanerViewController {
                 cell.setLongPressAction { [weak self] in
                     guard let self = self else { return }
                     
-                    SFGalleryFinder.shared.fetchVideoURLAsset(for: itemIdentifier) { avAsset in
+                    MatchedImageFinder.shared.fetchVideoURLAsset(for: itemIdentifier) { avAsset in
                         if let avAsset = avAsset {
                             self.avAsset = avAsset
                         } else {
@@ -529,23 +529,23 @@ private extension GalleryCleanerViewController {
     
     func fetchMedia() {
         
-        if SFGalleryFinder.shared.inProcess { return }
+        if MatchedImageFinder.shared.inProcess { return }
         
         dispatchGroup.enter()
         
         switch dataArrayType {
             
         case .allContent:
-            fetchGridContent(SFGalleryFinder.shared.getAll)
+            fetchGridContent(MatchedImageFinder.shared.getAll)
             
         case .screenshots:
-            fetchGridContent(SFGalleryFinder.shared.getScreenshots)
+            fetchGridContent(MatchedImageFinder.shared.getScreenshots)
             
         case .similarPhotos:
-            fetchDuplicateContent(SFGalleryFinder.shared.getPhotoDuplicates)
+            fetchDuplicateContent(MatchedImageFinder.shared.getPhotoDuplicates)
             
         case .similarVideos:
-            fetchDuplicateContent(SFGalleryFinder.shared.getVideoDuplicates)
+            fetchDuplicateContent(MatchedImageFinder.shared.getVideoDuplicates)
             
         }
         
@@ -628,7 +628,7 @@ private extension GalleryCleanerViewController {
     
     func headerTagAction(for dataArrayType: ArrayType, with identifier: String) {
         
-        if SFGalleryFinder.shared.inProcess {
+        if MatchedImageFinder.shared.inProcess {
             SPAlert.present(message: Generated.Text.Common.inProcess, haptic: .warning)
             return
         }
@@ -657,7 +657,7 @@ private extension GalleryCleanerViewController {
     
     @objc func selectAction() {
         
-        if SFGalleryFinder.shared.inProcess {
+        if MatchedImageFinder.shared.inProcess {
             SPAlert.present(message: Generated.Text.Common.inProcess, haptic: .warning)
             return
         }
@@ -679,7 +679,7 @@ private extension GalleryCleanerViewController {
     
     @objc func clearAllAction() {
         
-        if SFGalleryFinder.shared.inProcess {
+        if MatchedImageFinder.shared.inProcess {
             SPAlert.present(message: Generated.Text.Common.inProcess, haptic: .warning)
             return
         }
@@ -690,7 +690,7 @@ private extension GalleryCleanerViewController {
             
             guard let self = self else { return }
             
-            if !SFPurchaseManager.shared.isUserPremium, self.dataArrayType == .screenshots || self.dataArrayType == .similarPhotos || self.dataArrayType == .similarVideos {
+            if !CommerceManager.shared.isUserPremium, self.dataArrayType == .screenshots || self.dataArrayType == .similarPhotos || self.dataArrayType == .similarVideos {
                 self.routeToPaywall()
                 return
             }
@@ -731,7 +731,7 @@ private extension GalleryCleanerViewController {
     
     func subscribeToNotifications() {
         
-        SFNotificationSystem.observe(event: .galleryFinderUpdated) { [weak self] in
+        NotificationRelay.observe(event: .galleryFinderUpdated) { [weak self] in
             guard let self = self else { return }
             
             if self.isDeliting {

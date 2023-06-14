@@ -65,13 +65,13 @@ final class MainViewController: UIViewController {
 private extension MainViewController {
     
     func checkContactsSize() {
-        if !SFContactFinder.shared.inProcess {
+        if !ContactReplicaScanner.shared.inProcess {
             allSizeMethods()
         }
     }
     
     func checkGallerySize() {
-        if !SFGalleryFinder.shared.inProcess {
+        if !MatchedImageFinder.shared.inProcess {
             allSizeMethods()
         }
     }
@@ -86,7 +86,7 @@ private extension MainViewController {
     }
     
     func setDeviceName() {
-        contentView.setDeviceName(SFSystemInfo.Device.deviceName ?? "Unknown")
+        contentView.setDeviceName(PlatformInfo.Device.deviceName ?? "Unknown")
     }
     
     func checkCalculating() {
@@ -108,12 +108,12 @@ private extension MainViewController {
     
     func subscribeToNotifications() {
         
-        SFNotificationSystem.observe(event: .contactFinderUpdated) { [weak self] in
+        NotificationRelay.observe(event: .contactFinderUpdated) { [weak self] in
             guard let self = self else { return }
             self.checkContactsSize()
         }
         
-        SFNotificationSystem.observe(event: .galleryFinderUpdated) { [weak self] in
+        NotificationRelay.observe(event: .galleryFinderUpdated) { [weak self] in
             guard let self = self else { return }
             self.checkGallerySize()
         }

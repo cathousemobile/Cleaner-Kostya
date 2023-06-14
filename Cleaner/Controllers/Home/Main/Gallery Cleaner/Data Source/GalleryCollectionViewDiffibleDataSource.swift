@@ -130,7 +130,7 @@ extension GalleryCollectionViewDiffibleDataSource {
             
             if !deletedItems.isEmpty {
                 
-                SFGalleryFinder.shared.deleteAssets(deletedItems) { [weak self] error in
+                MatchedImageFinder.shared.deleteAssets(deletedItems) { [weak self] error in
                     
                     guard let self = self else { return }
                     guard error == nil else { return }
@@ -146,7 +146,7 @@ extension GalleryCollectionViewDiffibleDataSource {
             
         } else {
             
-            SFGalleryFinder.shared.deleteAssets(snapshot.itemIdentifiers) { [weak self] error in
+            MatchedImageFinder.shared.deleteAssets(snapshot.itemIdentifiers) { [weak self] error in
                 
                 guard let self = self else { return }
                 guard error == nil else { return }

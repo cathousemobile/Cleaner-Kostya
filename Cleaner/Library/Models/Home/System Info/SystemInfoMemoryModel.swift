@@ -26,9 +26,9 @@ enum SystemInfoMemoryModel {
         var infoText: String {
             switch self {
             case .available:
-                return SFByteFormatter(bytes: SFSystemInfo.Device.freeSpace ?? 0).prettyFormat().formatted
+                return BinaryFormatter(bytes: PlatformInfo.Device.freeSpace ?? 0).prettyFormat().formatted
             case .total:
-                return SFByteFormatter(bytes: SFSystemInfo.Device.totalSpace ?? 0).prettyFormat().formatted
+                return BinaryFormatter(bytes: PlatformInfo.Device.totalSpace ?? 0).prettyFormat().formatted
             }
         }
         
@@ -51,9 +51,9 @@ enum SystemInfoMemoryModel {
         var infoText: String {
             switch self {
             case .available:
-                return SFByteFormatter(bytes: SFSystemInfo.Device.freeRAM ?? 0).prettyFormat().formatted
+                return BinaryFormatter(bytes: PlatformInfo.Device.freeRAM ?? 0).prettyFormat().formatted
             case .total:
-                return SFByteFormatter(bytes: SFSystemInfo.Device.totalRAM).prettyFormat().formatted
+                return BinaryFormatter(bytes: PlatformInfo.Device.totalRAM).prettyFormat().formatted
             }
         }
         

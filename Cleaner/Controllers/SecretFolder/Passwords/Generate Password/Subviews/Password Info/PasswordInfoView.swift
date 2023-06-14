@@ -51,7 +51,7 @@ final class PasswordInfoView: UIView {
 
 extension PasswordInfoView {
     
-    func setPasswordData(_ passwordData: SFPasswordModel) {
+    func setPasswordData(_ passwordData: AuthenticatorType) {
         DispatchQueue.main.async {
             self.passwordLabel.text = passwordData.passwod
             self.passwordLevelIcon.image = passwordData.secureLevel.icon

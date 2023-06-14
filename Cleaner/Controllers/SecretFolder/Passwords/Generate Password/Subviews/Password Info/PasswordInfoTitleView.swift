@@ -47,7 +47,7 @@ final class PasswordInfoTitleView: UIView {
 
 extension PasswordInfoTitleView {
     
-    func setPasswordData(_ passwordData: SFPasswordModel) {
+    func setPasswordData(_ passwordData: AuthenticatorType) {
         DispatchQueue.main.async {
             TransitionHelper.with(self.titleLabel)
             self.titleLabel.isHidden = true

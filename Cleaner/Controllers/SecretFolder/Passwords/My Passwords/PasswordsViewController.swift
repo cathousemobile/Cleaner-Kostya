@@ -54,7 +54,7 @@ private extension PasswordsViewController {
     
     func initAccounts() {
         
-        let accountViewsArray = SFAccountStorage.shared.getAll().compactMap { accountModel -> AccountCellView in
+        let accountViewsArray = ProfileStorage.shared.getAll().compactMap { accountModel -> AccountCellView in
             
             let accountCellView = AccountCellView()
             accountCellView.setAccountData(accountModel)
@@ -69,7 +69,7 @@ private extension PasswordsViewController {
                 self.routeToDetail(accountModel)
             }
             
-            if accountModel == SFAccountStorage.shared.getAll().last {
+            if accountModel == ProfileStorage.shared.getAll().last {
                 accountCellView.hideDivider(true)
             }
             
@@ -82,8 +82,8 @@ private extension PasswordsViewController {
     }
     
     func checkAccountsCount() {
-        contentView.hideEmptyTitle(!SFAccountStorage.shared.getAll().isEmpty)
-        hideRightButton(SFAccountStorage.shared.getAll().isEmpty)
+        contentView.hideEmptyTitle(!ProfileStorage.shared.getAll().isEmpty)
+        hideRightButton(ProfileStorage.shared.getAll().isEmpty)
     }
     
     @objc func cleanAllAction() {
@@ -92,7 +92,7 @@ private extension PasswordsViewController {
         
         let deleteAction = UIAlertAction(title: Generated.Text.Common.delete, style: .destructive) { _ in
             
-            if SFAccountStorage.shared.delete(SFAccountStorage.shared.getAll()) {
+            if ProfileStorage.shared.delete(ProfileStorage.shared.getAll()) {
                 SPAlert.present(title: Generated.Text.Common.deleted, preset: .done)
             } else {
                 SPAlert.present(title: "Error", preset: .error)
@@ -147,7 +147,7 @@ private extension PasswordsViewController {
     
     func subscribeToNotifications() {
         
-        SFNotificationSystem.observe(event: .accountStorageUpdated) { [weak self] in
+        NotificationRelay.observe(event: .accountStorageUpdated) { [weak self] in
             guard let self = self else { return }
             self.initAccounts()
             self.checkAccountsCount()
@@ -175,7 +175,7 @@ private extension PasswordsViewController {
         self.present(UINavigationController(rootViewController: generatePasswordVC), animated: true)
     }
     
-    func routeToDetail(_ accountModel: SFAccountModel) {
+    func routeToDetail(_ accountModel: ProfileStorageType) {
         let detailVC = AccountDetailViewController(accountData: accountModel)
         self.present(UINavigationController(rootViewController: detailVC), animated: true)
     }

@@ -1,11 +1,11 @@
 //
-//  SFPasswordModel+Extension.swift
+//  AuthenticatorType+Extension.swift
 //
 
 import AttributedString
 import UIKit
 
-extension SFPasswordModel.SecureLevel {
+extension AuthenticatorType.SecureLevel {
     
     var titleText: ASAttributedString {
         

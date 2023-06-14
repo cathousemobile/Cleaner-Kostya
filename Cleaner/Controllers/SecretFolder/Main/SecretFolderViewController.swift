@@ -107,7 +107,7 @@ private extension SecretFolderViewController {
     
     func subscribeToNotifications() {
         
-        SFNotificationSystem.observe(event: .custom(name: "secretAuthenticatedDidChange")) { [weak self] in
+        NotificationRelay.observe(event: .custom(name: "secretAuthenticatedDidChange")) { [weak self] in
             guard let self = self else { return }
             self.contentView.checkAuthentication()
         }
@@ -136,7 +136,7 @@ private extension SecretFolderViewController {
                 $0.setAction { [weak self] in
                     guard let self = self else { return }
                     
-                    if !SFPurchaseManager.shared.isUserPremium {
+                    if !CommerceManager.shared.isUserPremium {
                         self.routeToPaywall()
                         return
                     }

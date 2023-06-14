@@ -3,6 +3,9 @@
 //
 
 import UIKit
+import AppsFlyerLib
+import ApphudSDK
+import FacebookCore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -11,14 +14,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow()
-        AppManager.shared.start(application: application, window: window)
+        
+        application.registerForRemoteNotifications()
+        window?.rootViewController = AppCoordiator()
+        window?.makeKeyAndVisible()
+    
+        
+        ApplicationDelegate.shared.application(
+            application,
+            didFinishLaunchingWithOptions: launchOptions
+        )
+        
+        startAllServices()
+        launchMetrics()
+        
         configureNavBar()
+        
         return true
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
-        AppKit.shared.applicactionDidBecomeActive()
-        AppManager.shared.applicationDidBecomeActive(application)
+        AppsFlyerLib.shared().start()
+    }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        ApplicationDelegate.shared.application(
+            app,
+            open: url,
+            sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
+            annotation: options[UIApplication.OpenURLOptionsKey.annotation]
+        )
+    }
+    
+    func launchMetrics() {
+        CommerceManager.shared.start(apiKey: AppConstants.apphudKey)
+        
+        AppsFlyerLib.shared().appsFlyerDevKey = AppConstants.appsFlyerKey
+        AppsFlyerLib.shared().appleAppID = AppConstants.appID
+        AppsFlyerLib.shared().delegate = self
+        AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 60)
+    }
+    
+    func startAllServices() {
+        MatchedImageFinder.shared.start()
+        ContactReplicaScanner.shared.start()
     }
 
 }
@@ -26,11 +65,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //MARK: - Start Services
 
 extension AppDelegate {
-    
-    func startAllServices() {
-        SFGalleryFinder.shared.start()
-        SFContactFinder.shared.start()
-    }
     
 }
 
@@ -52,4 +86,14 @@ extension AppDelegate {
         UINavigationBar.appearance().tintColor = Generated.Color.buttonBackground
     }
     
+}
+
+extension AppDelegate: AppsFlyerLibDelegate {
+    public func onConversionDataSuccess(_ conversionInfo: [AnyHashable : Any]) {
+        Apphud.addAttribution(data: conversionInfo, from: .appsFlyer, identifer: AppsFlyerLib.shared().getAppsFlyerUID()) { _ in }
+    }
+
+    public func onConversionDataFail(_ error: Error) {
+        Apphud.addAttribution(data: ["error" : error.localizedDescription], from: .appsFlyer, identifer: AppsFlyerLib.shared().getAppsFlyerUID()) { _ in }
+    }
 }
