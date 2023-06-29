@@ -23,6 +23,10 @@
 		8426DE6A29E4416500515D29 /* Motions in Frameworks */ = {isa = PBXBuildFile; productRef = 8426DE6929E4416500515D29 /* Motions */; };
 		8426DE6C29E4524A00515D29 /* PaywallOfferModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8426DE6B29E4524A00515D29 /* PaywallOfferModel.swift */; };
 		8426DE7229E5748000515D29 /* TimeInterval+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8426DE7129E5748000515D29 /* TimeInterval+Extension.swift */; };
+		8431083D2A4D653E005348C8 /* paywallTrial.json in Resources */ = {isa = PBXBuildFile; fileRef = 8431083C2A4D653D005348C8 /* paywallTrial.json */; };
+		843108402A4D748E005348C8 /* PaywallTrialOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8431083F2A4D748E005348C8 /* PaywallTrialOfferView.swift */; };
+		843108432A4D7A0E005348C8 /* PaywallTrialSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843108422A4D7A0E005348C8 /* PaywallTrialSwitcherView.swift */; };
+		843108452A4D7CD3005348C8 /* PaywallTrialFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843108442A4D7CD3005348C8 /* PaywallTrialFooterView.swift */; };
 		84315A9529C07EAC006A2F0D /* SmartCleaningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84315A9429C07EAC006A2F0D /* SmartCleaningViewController.swift */; };
 		84315A9729C07ECE006A2F0D /* SmartCleaningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84315A9629C07ECE006A2F0D /* SmartCleaningView.swift */; };
 		84315A9A29C07F12006A2F0D /* SmartCleaningCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84315A9929C07F12006A2F0D /* SmartCleaningCell.swift */; };
@@ -263,6 +267,10 @@
 		8426DE6629E2F17100515D29 /* ContentSizeCalculatorHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentSizeCalculatorHelper.swift; sourceTree = "<group>"; };
 		8426DE6B29E4524A00515D29 /* PaywallOfferModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallOfferModel.swift; sourceTree = "<group>"; };
 		8426DE7129E5748000515D29 /* TimeInterval+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Extension.swift"; sourceTree = "<group>"; };
+		8431083C2A4D653D005348C8 /* paywallTrial.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = paywallTrial.json; sourceTree = "<group>"; };
+		8431083F2A4D748E005348C8 /* PaywallTrialOfferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallTrialOfferView.swift; sourceTree = "<group>"; };
+		843108422A4D7A0E005348C8 /* PaywallTrialSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallTrialSwitcherView.swift; sourceTree = "<group>"; };
+		843108442A4D7CD3005348C8 /* PaywallTrialFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallTrialFooterView.swift; sourceTree = "<group>"; };
 		84315A9429C07EAC006A2F0D /* SmartCleaningViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartCleaningViewController.swift; sourceTree = "<group>"; };
 		84315A9629C07ECE006A2F0D /* SmartCleaningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartCleaningView.swift; sourceTree = "<group>"; };
 		84315A9929C07F12006A2F0D /* SmartCleaningCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartCleaningCell.swift; sourceTree = "<group>"; };
@@ -533,6 +541,14 @@
 			path = GalleryHandler;
 			sourceTree = "<group>";
 		};
+		843108412A4D7911005348C8 /* Trial */ = {
+			isa = PBXGroup;
+			children = (
+				843108422A4D7A0E005348C8 /* PaywallTrialSwitcherView.swift */,
+			);
+			path = Trial;
+			sourceTree = "<group>";
+		};
 		84315A9329C07E6E006A2F0D /* Smart Cleaning */ = {
 			isa = PBXGroup;
 			children = (
@@ -739,6 +755,7 @@
 		844697DD29B20A2B00A5490C /* paywall animations */ = {
 			isa = PBXGroup;
 			children = (
+				8431083C2A4D653D005348C8 /* paywallTrial.json */,
 				844697DE29B20A2B00A5490C /* crown paywall.json */,
 				844697DF29B20A2B00A5490C /* Broom paywall.json */,
 			);
@@ -1342,6 +1359,8 @@
 		84D210D129C9E49700CCCEA0 /* Subviews */ = {
 			isa = PBXGroup;
 			children = (
+				843108442A4D7CD3005348C8 /* PaywallTrialFooterView.swift */,
+				843108412A4D7911005348C8 /* Trial */,
 				84D210D929CAFF4800CCCEA0 /* Offers */,
 				84D210D829C9E9DD00CCCEA0 /* Features */,
 			);
@@ -1364,6 +1383,7 @@
 				84D210DA29CAFF6100CCCEA0 /* PaywallRectOfferView.swift */,
 				84D210E129CB0B0E00CCCEA0 /* PaywallOvalOfferView.swift */,
 				84D210E329CB1B1B00CCCEA0 /* PaywallOfferView.swift */,
+				8431083F2A4D748E005348C8 /* PaywallTrialOfferView.swift */,
 			);
 			path = Offers;
 			sourceTree = "<group>";
@@ -1642,6 +1662,7 @@
 				844697A229B0AE4100A5490C /* generated-text-template.stencil in Resources */,
 				844697FA29B20A2B00A5490C /* speed test blue dark.json in Resources */,
 				844697A329B0AE4100A5490C /* swiftgen.yml in Resources */,
+				8431083D2A4D653E005348C8 /* paywallTrial.json in Resources */,
 				844697F129B20A2B00A5490C /* authentication light.json in Resources */,
 				844697F529B20A2B00A5490C /* stars onb 1.json in Resources */,
 				844697EF29B20A2B00A5490C /* Broom paywall.json in Resources */,
@@ -1675,6 +1696,7 @@
 				081D1C392F2D4123899641BF /* RapidTester.swift in Sources */,
 				BB0DB5692A3375E10087F317 /* URLResponseExtension.swift in Sources */,
 				844697C529B200F300A5490C /* UIView+Extension.swift in Sources */,
+				843108402A4D748E005348C8 /* PaywallTrialOfferView.swift in Sources */,
 				8446980029B21BBF00A5490C /* OnboardingThirdAnimaticView.swift in Sources */,
 				C0105E00C9F0405489DCC16A /* PlatformInfo.swift in Sources */,
 				A01191FD16A843D386C09EE5 /* StatisticalData.swift in Sources */,
@@ -1742,6 +1764,7 @@
 				BB0DB4CA2A3207850087F317 /* StringExtension.swift in Sources */,
 				84D210C929C8824200CCCEA0 /* ContactCleanerContactNameAndPhoneView.swift in Sources */,
 				8498158829BB7DC0007F8206 /* ScreenTestView.swift in Sources */,
+				843108432A4D7A0E005348C8 /* PaywallTrialSwitcherView.swift in Sources */,
 				BB0DB4CF2A3207850087F317 /* UIAlertControllerExtension.swift in Sources */,
 				8426DE7229E5748000515D29 /* TimeInterval+Extension.swift in Sources */,
 				84A42C4729B737EC00407D2B /* MainOptionsCell.swift in Sources */,
@@ -1838,6 +1861,7 @@
 				84A9A24729EEC2550034C7F5 /* SFPasswordModel+Extension.swift in Sources */,
 				84A42C5329B7540900407D2B /* ContactCleanerViewController.swift in Sources */,
 				84315A9C29C07FA3006A2F0D /* CustomRadioView.swift in Sources */,
+				843108452A4D7CD3005348C8 /* PaywallTrialFooterView.swift in Sources */,
 				8426DE6C29E4524A00515D29 /* PaywallOfferModel.swift in Sources */,
 				8446981729B5F8F500A5490C /* MainView.swift in Sources */,
 				849815B429BF49F5007F8206 /* SystemInfoSensorModel.swift in Sources */,
@@ -2017,9 +2041,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 96CRV24537;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Cleaner/Sources/Info.plist;
 				INFOPLIST_KEY_NSContactsUsageDescription = "We will use the contacts on your device to find duplicates";
@@ -2039,6 +2064,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = parusa.net.application;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2055,9 +2081,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 96CRV24537;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Cleaner/Sources/Info.plist;
 				INFOPLIST_KEY_NSContactsUsageDescription = "We will use the contacts on your device to find duplicates";
@@ -2077,6 +2104,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = parusa.net.application;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

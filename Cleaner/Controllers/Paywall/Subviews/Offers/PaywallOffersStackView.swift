@@ -55,19 +55,16 @@ extension PaywallOffersStackView {
     }
     
     func initOffers() {
+        
         switch paywallType {
             
         case .rect:
             stackView.axis = .horizontal
             stackView.distribution = .fillEqually
+            stackView.spacing = ThisSize.is12
             
             for _ in 0...2 {
                 let offerView = PaywallRectOfferView()
-                offerView.isSelected = Bool.random()
-                offerView.setAction {
-                    self.diselectAllOffers()
-                    offerView.isSelected.toggle()
-                }
                 stackView.addArrangedSubview(offerView)
             }
             
@@ -76,17 +73,22 @@ extension PaywallOffersStackView {
             
         case .oval:
             stackView.axis = .vertical
+            stackView.spacing = ThisSize.is12
             
             for _ in 0...2 {
                 let offerView = PaywallOvalOfferView()
-                offerView.isSelected = Bool.random()
-                offerView.setAction {
-                    self.diselectAllOffers()
-                    offerView.isSelected.toggle()
-                }
                 stackView.addArrangedSubview(offerView)
+                
             }
             
+        case .trialSwitch:
+            stackView.axis = .vertical
+            stackView.spacing = ThisSize.is16
+            
+            for _ in 0..<paywallType.defaultsOffers.count - 1 {
+                let offerView = PaywallTrialOfferView()
+                stackView.addArrangedSubview(offerView)
+            }
         }
         
     }
@@ -112,7 +114,7 @@ private extension PaywallOffersStackView {
     }
     
     func configureSubviews() {
-        stackView.spacing = ThisSize.is12
+        
     }
     
 }

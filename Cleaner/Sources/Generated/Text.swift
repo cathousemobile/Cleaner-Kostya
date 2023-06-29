@@ -252,6 +252,12 @@ extension Generated.Text {
             let text =  NSLocalizedString("paywall.trial", comment: "with %@ trial then %@/%@") 
             return String.localizedStringWithFormat(text, p1, p2, p3)
         }
+        static func trialDescription(_ p1: String) -> String {
+            let text =  NSLocalizedString("paywall.trialDescription", comment: " (%@ Trial)") 
+            return String.localizedStringWithFormat(text, p1)
+        }
+        static var trialDisabled: String { NSLocalizedString("paywall.trialDisabled", comment: "Free Trial Disabled") }
+        static var trialEnabled: String { NSLocalizedString("paywall.trialEnabled", comment: "Free Trial Enabled") }
     }
 
     enum Screen {

@@ -3,7 +3,7 @@ import UIKit
 
 public struct TransitionHelper {
     
-    static func with(_ view: UIView, options: UIView.AnimationOptions = .transitionCrossDissolve) {
+    static func with(_ view: UIView, options: UIView.AnimationOptions = .transitionCrossDissolve, duration: TimeInterval = 1) {
         UIView.transition(with: view,
                           duration: 1,
                           options: options,

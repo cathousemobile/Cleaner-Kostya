@@ -10,7 +10,9 @@ enum AppConstants {
         case oneMonth = "parusa.one.month"
         case oneWeek = "parusa.one.week"
         case sixMonth = "parusa.six.month"
-
+        case quarter = "parusa.quarter"
+        case oneWeekTrial = "parusa.one.week.trial"
+        
         static var all: Set<String> {
             Set(allCases.map { $0.rawValue })
         }

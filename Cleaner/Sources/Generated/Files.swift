@@ -25,6 +25,8 @@ internal enum Files {
     internal static let broomPaywall = File(name: "Broom paywall", ext: "json", relativePath: "", mimeType: "application/json")
     /// crown paywall.json
     internal static let crownPaywall = File(name: "crown paywall", ext: "json", relativePath: "", mimeType: "application/json")
+    /// paywallTrial.json
+    internal static let paywallTrial = File(name: "paywallTrial", ext: "json", relativePath: "", mimeType: "application/json")
   }
   /// secret folder animations/
   internal enum SecretFolderAnimations {

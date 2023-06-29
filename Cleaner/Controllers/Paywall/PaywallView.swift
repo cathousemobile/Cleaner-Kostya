@@ -26,6 +26,9 @@ final class PaywallView: UIView {
     private lazy var titleLabel = UILabel()
     private lazy var subtitleLabel = UILabel()
     
+    private lazy var trialFotterView = PaywallTrialFooterView()
+    private lazy var trialSwitcherView = PaywallTrialSwitcherView()
+    
     private lazy var animaticView = LottieAnimationView()
     
     private lazy var closeButton = CustomImageButton()
@@ -36,6 +39,9 @@ final class PaywallView: UIView {
     
     private lazy var scrollView = UIScrollView()
     private lazy var insideScrollView = UIView()
+    
+    private lazy var blurEffect = UIBlurEffect(style: traitCollection.userInterfaceStyle == .dark ? .dark : .light)
+    private lazy var blurView = UIVisualEffectView(effect: blurEffect)
     
     // MARK: - Lifecycle
     
@@ -70,6 +76,7 @@ extension PaywallView {
     
     func setPurchaseButtonTitle(_ text: String) {
         purchaseButton.setTitle(text: text)
+        TransitionHelper.with(purchaseButton)
     }
     
     func setPurchaseButtonAction(_ action: @escaping EmptyBlock) {
@@ -90,6 +97,16 @@ extension PaywallView {
     
     func setCloseButtonAction(_ action: @escaping EmptyBlock) {
         closeButton.setAction(action)
+    }
+    
+    // Trial Switcher Paywall
+    
+    func setTrialSwitcherAction(_ action: @escaping Block<Bool>) {
+        trialSwitcherView.setAction(action)
+    }
+    
+    func changeTrialSwitcherTitle(_ titleText: String) {
+        trialSwitcherView.changeTitle(titleText)
     }
     
 }
@@ -115,6 +132,7 @@ private extension PaywallView {
     func configureSubviews() {
         
         scrollView.showsVerticalScrollIndicator = false
+        scrollView.alwaysBounceVertical = true
         
         restoreButton.setTitle(text: Generated.Text.Common.restore)
         
@@ -134,6 +152,8 @@ private extension PaywallView {
             configureNoneSubviews()
         case .oval:
             configureOvalSubviews()
+        case .trialSwitch:
+            configureTrialSubviews()
         }
         
         purchaseButton.setTitle(text: Text.allTrial)
@@ -197,6 +217,17 @@ private extension PaywallView {
         
     }
     
+    func configureTrialSubviews() {
+        
+        animaticView.animation = LottieAnimation.filepath(Files.PaywallAnimations.paywallTrial.url.relativePath)
+        animaticView.contentMode = .scaleAspectFill
+        animaticView.loopMode = .loop
+        animaticView.play()
+        
+        titleLabel.text = Text.squareAndOvalTitle
+        
+    }
+    
 }
 
 
@@ -205,6 +236,7 @@ private extension PaywallView {
 private extension PaywallView {
     
     func addSubviewsBefore() {
+        
         insideScrollView.addSubviews([restoreButton, closeButton])
         scrollView.addSubview(insideScrollView)
         addSubviews([scrollView])
@@ -223,6 +255,12 @@ private extension PaywallView {
             insideScrollView.addSubviews([titleLabel, ovalTitleImageView, stackFeaturesView])
             addSubviews([stackOffersView!, purchaseButton, termsAndPrivacyView])
             
+        case .trialSwitch:
+            insideScrollView.addSubviews([titleLabel, stackFeaturesView])
+            trialFotterView.addSubviews([trialSwitcherView, stackOffersView!, purchaseButton, termsAndPrivacyView])
+            addSubview(trialFotterView)
+            insertSubview(animaticView, at: 0)
+            insertSubview(blurView, aboveSubview: animaticView)
         }
         
     }
@@ -252,10 +290,12 @@ private extension PaywallView {
         case .oval:
             configureOvalSubviewsConstaraints()
             
+        case .trialSwitch:
+            configureTrialSubviewsConstaraints()
         }
         
     }
-    
+        
     func configureRectSubviewsConstaraints() {
         
         animaticView.snp.makeConstraints { make in
@@ -397,6 +437,65 @@ private extension PaywallView {
             make.top.equalTo(purchaseButton.snp.bottom).offset(ThisSize.is12)
             make.centerX.equalToSuperview()
             make.bottom.equalTo(safeAreaLayoutGuide)
+        }
+        
+    }
+    
+    func configureTrialSubviewsConstaraints() {
+        
+        animaticView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(trialFotterView.snp.top).offset(ThisSize.is12)
+        }
+        
+        blurView.snp.makeConstraints { make in
+            make.edges.equalTo(animaticView)
+        }
+
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(closeButton.snp.bottom).offset(ThisSize.is12)
+            make.centerX.equalToSuperview()
+        }
+
+        stackFeaturesView.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(ThisSize.is28)
+            make.leading.trailing.equalToSuperview().inset(ThisSize.is24)
+            make.bottom.equalToSuperview()
+        }
+
+        insideScrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.width.equalTo(scrollView)
+        }
+
+        scrollView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(safeAreaLayoutGuide)
+            make.bottom.equalTo(trialFotterView.snp.top)
+        }
+        
+        trialFotterView.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        trialSwitcherView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview().inset(ThisSize.is16)
+        }
+
+        stackOffersView!.snp.makeConstraints { make in
+            make.top.equalTo(trialSwitcherView.snp.bottom).offset(ThisSize.is16)
+            make.leading.trailing.equalToSuperview().inset(ThisSize.is16)
+        }
+
+        purchaseButton.snp.makeConstraints { make in
+            make.top.equalTo(stackOffersView!.snp.bottom).offset(ThisSize.is28)
+            make.leading.trailing.equalToSuperview().inset(ThisSize.is16)
+        }
+
+        termsAndPrivacyView.snp.makeConstraints { make in
+            make.top.equalTo(purchaseButton.snp.bottom).offset(ThisSize.is12)
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(safeAreaLayoutGuide).offset(-ThisSize.is12/3)
         }
         
     }

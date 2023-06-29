@@ -342,7 +342,9 @@ private extension SmartCleaningViewController {
 private extension SmartCleaningViewController {
     
     func routeToPaywall() {
-        let paywallVC = AppCoordiator.shared.getPaywall()
+        #warning("hardcode paywall")
+        let paywallVC = PaywallViewController(paywallType: .trialSwitch)
+//        let paywallVC = AppCoordiator.shared.getPaywall()
         paywallVC.modalPresentationStyle = .fullScreen
         self.present(paywallVC, animated: true)
     }

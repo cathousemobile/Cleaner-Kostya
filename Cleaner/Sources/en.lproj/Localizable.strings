@@ -247,6 +247,9 @@ then just $3.99/week. Cancel anytime.";
 "paywall.trial" = "with %@ trial then %@/%@";
 "paywall.restoreError" = "Restore Error";
 "paywall.buyError" = "Buy Error";
+"paywall.trialEnabled" = "Free Trial Enabled";
+"paywall.trialDisabled" = "Free Trial Disabled";
+"paywall.trialDescription" = " (%@ Trial)";
 
 // MARK: - Gallery Cleaner
 

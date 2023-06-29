@@ -8,6 +8,8 @@ import SPAlert
 
 final class PaywallViewController: UIViewController {
     
+    typealias subs = AppConstants.Subscriptions
+    
     // MARK: - UI Elements
     
     private var contentView: PaywallView
@@ -20,6 +22,7 @@ final class PaywallViewController: UIViewController {
     
     
     private lazy var fetchedProducts = [String]()
+    private lazy var fetchedOffers = [PaywallOfferModel]()
     private lazy var currentOfferId = AppConstants.Subscriptions.oneWeek.rawValue
     
     // MARK: - Life cycle
@@ -60,6 +63,7 @@ final class PaywallViewController: UIViewController {
 private extension PaywallViewController {
     
     func fetchProducts() {
+        
         guard CommerceManager.shared.products.count > 0 else {
             purchaseInProgress(true)
             return
@@ -72,7 +76,7 @@ private extension PaywallViewController {
        
         guard self.fetchedProducts.count > 0 else { return }
         
-        let fetchedOffers = self.fetchedProducts.compactMap { id -> PaywallOfferModel in
+        fetchedOffers = self.fetchedProducts.compactMap { id -> PaywallOfferModel in
             
             let period = CommerceManager.shared.subscribtionPeriodFor(productWithID: id)
             let price = CommerceManager.shared.priceFor(productWithID: id)
@@ -102,9 +106,30 @@ private extension PaywallViewController {
             case .none:
                 guard let offerId = fetchedOffers.first?.id else { return }
                 self.currentOfferId = offerId
+                
+            case .trialSwitch:
+                
+                guard let offers = self.contentView.getAllOffers() else { return }
+                
+                for (index, offerView) in offers.enumerated() {
+                    offerView.isSelected = fetchedOffers[index].isSelected
+                    
+                    if let trial = CommerceManager.shared.trialPeriodFor(productWithID: fetchedOffers[index].id) {
+                        offerView.setPeriod(fetchedOffers[index].period.uppercased() + Generated.Text.Paywall.trialDescription(trial))
+                    } else {
+                        offerView.setPeriod(fetchedOffers[index].period.uppercased())
+                    }
+                    
+                    offerView.setPrice(fetchedOffers[index].price)
+                    offerView.id = fetchedOffers[index].id
+                    offerView.setPricePerPeriod(fetchedOffers[index].pricePerPeriod)
+                    self.setActionsForOffer(offerView)
+                }
+                
             }
             
             purchaseInProgress(false)
+            
         }
         
         
@@ -140,6 +165,33 @@ private extension PaywallViewController {
     func purchaseInProgress(_ inProgress: Bool) {
         self.contentView.purchaseInProgress(inProgress)
         self.contentView.purchseButtonIsEnabled(!inProgress)
+    }
+    
+    private func trialSwitcherAction(_ isActive: Bool) {
+        
+        contentView.changeTrialSwitcherTitle(isActive ? Generated.Text.Paywall.trialEnabled : Generated.Text.Paywall.trialDisabled)
+        
+        guard let offerView = self.contentView.getAllOffers()?.first(where: { $0.id != AppConstants.Subscriptions.quarter.rawValue }) else { return }
+        
+        let subscription = isActive ? subs.oneWeekTrial.rawValue : subs.oneWeek.rawValue
+        
+        if let offerModel = fetchedOffers.first(where: { $0.id == subscription }) {
+            offerView.id = subscription
+            offerView.setPrice(offerModel.price)
+            offerView.setPricePerPeriod(offerModel.pricePerPeriod)
+            if let trial = CommerceManager.shared.trialPeriodFor(productWithID: offerModel.id) {
+                offerView.setPeriod(offerModel.period.uppercased() + Generated.Text.Paywall.trialDescription(trial))
+            } else {
+                offerView.setPeriod(offerModel.period.uppercased())
+            }
+            TransitionHelper.with(offerView)
+        }
+        
+        if offerView.isSelected {
+            currentOfferId = subscription
+            checkTrial()
+        }
+        
     }
     
 }
@@ -197,6 +249,11 @@ private extension PaywallViewController {
                 SPAlert.present(title: Generated.Text.Paywall.buyError, preset: .error)
             }
             
+        }
+        
+        contentView.setTrialSwitcherAction { [weak self] isActive in
+            guard let self = self else { return }
+            self.trialSwitcherAction(isActive)
         }
         
     }
