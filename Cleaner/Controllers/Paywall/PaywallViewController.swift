@@ -112,17 +112,28 @@ private extension PaywallViewController {
                 guard let offers = self.contentView.getAllOffers() else { return }
                 
                 for (index, offerView) in offers.enumerated() {
-                    offerView.isSelected = fetchedOffers[index].isSelected
                     
-                    if let trial = CommerceManager.shared.trialPeriodFor(productWithID: fetchedOffers[index].id) {
-                        offerView.setPeriod(fetchedOffers[index].period.uppercased() + Generated.Text.Paywall.trialDescription(trial))
+                    var currentOfferData: PaywallOfferModel
+                    
+                    if index == 0 {
+                        guard let offerData = fetchedOffers.first(where: { $0.id == AppConstants.Subscriptions.oneWeek.rawValue }) else { return }
+                        currentOfferData = offerData
                     } else {
-                        offerView.setPeriod(fetchedOffers[index].period.uppercased())
+                        guard let offerData = fetchedOffers.first(where: { $0.id == AppConstants.Subscriptions.quarter.rawValue }) else { return }
+                        currentOfferData = offerData
                     }
                     
-                    offerView.setPrice(fetchedOffers[index].price)
-                    offerView.id = fetchedOffers[index].id
-                    offerView.setPricePerPeriod(fetchedOffers[index].pricePerPeriod)
+                    offerView.isSelected = currentOfferData.isSelected
+                    
+                    if let trial = CommerceManager.shared.trialPeriodFor(productWithID: fetchedOffers[index].id) {
+                        offerView.setPeriod(currentOfferData.period.uppercased() + Generated.Text.Paywall.trialDescription(trial))
+                    } else {
+                        offerView.setPeriod(currentOfferData.period.uppercased())
+                    }
+                    
+                    offerView.setPrice(currentOfferData.price)
+                    offerView.id = currentOfferData.id
+                    offerView.setPricePerPeriod(currentOfferData.pricePerPeriod)
                     self.setActionsForOffer(offerView)
                 }
                 
